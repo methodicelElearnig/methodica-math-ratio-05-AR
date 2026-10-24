@@ -1,0 +1,283 @@
+'use strict';
+
+/* לומדה 720 — מתמטיקה יעד 1.5 | יחס | סיין 2
+   Shared engine: ../unit-js/ (loaded before this file). */
+
+const TOTAL_SCREENS = 5;
+
+const practiceProgress = {
+  questions: [
+    { number: 1, visited: false, state: 'not-answered', screen: 1 },
+    { number: 2, visited: false, state: 'not-answered', screen: 2 },
+    { number: 3, visited: false, state: 'not-answered', screen: 3 },
+    { number: 4, visited: false, state: 'not-answered', screen: 4 }
+  ]
+};
+
+Object.assign(SCQ_CFG, {
+  s3p2: {
+    xapi: ['003', 'q1'],
+    containerSel: '#s3-part-2',
+    correctId: 'b',
+    checkBtnId: 's3-p2-check',
+    feedboxId: 's3-p2-feedbox',
+    correctMsg: { title: 'صحيح‎!', body: 'معلوم أن <span dir="ltr">∢BAC=60°</span> .<br>مجموع زوايا المثلث هو <span dir="ltr">°180</span><br>لذلك فإن مجموع الزاويتين الأخريين في المثلث هو<br><span dir="ltr">180° − 60° = 120°</span><br>النسبة بين الزاويتين هي 5 : 3.<br>نحسب كل واحدة من الزاويتين: <br><span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · 120 = °هو 5</span><br><span dir="ltr"><span class="frac"><span class="frac-num">5</span><span class="frac-den">8</span></span> · 120 = °75</span><br>مقدار الزاويتين الأخريين في المثلث هو <span dir="">°45، °75</span>.' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'غير صحيح‎.', body: 'معلوم أن <span dir="ltr">∢BAC=60°</span> .<br>مجموع زوايا المثلث هو <span dir="ltr">°180</span><br>لذلك فإن مجموع الزاويتين الأخريين في المثلث هو<br><span dir="ltr">180° − 60° = 120°</span><br>النسبة بين الزاويتين هي 5 : 3.<br>نحسب كل واحدة من الزاويتين: <br><span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · 120 = °هو 5</span><br><span dir="ltr"><span class="frac"><span class="frac-num">5</span><span class="frac-den">8</span></span> · 120 = °75</span><br>مقدار الزاويتين الأخريين في المثلث هو <span dir="">°45، °75</span>.' }
+  },
+  s4p1: {
+    xapi: ['004', 'q1'],
+    containerSel: '#s4-part-1',
+    correctId: 'b',
+    checkBtnId: 's4-p1-check',
+    feedboxId: 's4-p1-feedbox',
+    correctMsg: { title: 'صحيح جدًا‎!', body: '<strong>شاركت عدن في عدد أكبر من السباقات - </strong>كلاهما حققا نفس عدد الانتصارات، لكن عدن احتاجت إلى 8 سباقات مقابل كل 3 انتصارات (مقابل 5 فقط لدى وسام)، ولذلك خاضت عددًا أكبر من السباقات بالمجمل‎.' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'أخطأتم، تعالوا نشرح‎:', body: '<strong>شاركت عدن في عدد أكبر من السباقات - </strong>كلاهما حققا نفس عدد الانتصارات، لكن عدن احتاجت إلى 8 سباقات مقابل كل 3 انتصارات (مقابل 5 فقط لدى وسام)، ولذلك خاضت عددًا أكبر من السباقات بالمجمل‎.' }
+  },
+  s4p2: {
+    xapi: ['004', 'q2'],
+    containerSel: '#s4-part-2',
+    correctId: 'a',
+    checkBtnId: 's4-p2-check',
+    feedboxId: 's4-p2-feedbox',
+    correctMsg: { title: 'صحيح جدًا‎!', body: 'فاز <strong>وسام</strong> <strong>في عدد أكبر من السباقات</strong> – يفوز وسام في 3 من أصل 5 سباقات (أكثر من نصف عدد سباقاته الإجمالي)، بينما تفوز عدن في 3 من أصل 8 (أقل من النصف)‎.' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'أخطأتم، تعالوا نشرح‎:', body: 'فاز <strong>وسام</strong> <strong>في عدد أكبر من السباقات</strong> – يفوز وسام في 3 من أصل 5 سباقات (أكثر من نصف عدد سباقاته الإجمالي)، بينما تفوز عدن في 3 من أصل 8 (أقل من النصف)‎.' }
+  }
+});
+
+function s3P2Select(id) { scqSelect('s3p2', id); }
+function s3P2Check() { scqCheck('s3p2'); }
+function s4P1Select(id) { scqSelect('s4p1', id); }
+function s4P1Check() { scqCheck('s4p1'); }
+function s4P2Select(id) { scqSelect('s4p2', id); }
+function s4P2Check() { scqCheck('s4p2'); }
+
+Object.assign(VIQ_CFG, {
+  s1: {
+    xapi: [['001', 'q1'], ['001', 'q2']],
+    inputs: ['s1-a', 's1-b'], correct: [21, 9], checkBtn: 's1-check', feedbox: 's1-feedbox', revealBtn: 's1-reveal-btn', nextScreen: 2,
+    correctMsg: { title: 'صحيح‎!', body: 'أ. النسبة بين عدد المحرّرين وعدد اللاعبين في القناة هي 7 : 3.<br>عدد أجزاء "الصحيح" هو: <span dir="">10 = 3 + 7</span>.<br>نحسب عدد اللاعبين: <span dir="ltr"><span class="frac"><span class="frac-num">7</span><span class="frac-den">10</span></span> · 30 = 21</span><br><br>ب. نحسب عدد المحررين: <span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">10</span></span> · 30 = 9</span>9' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'غير صحيح‎.', body: 'أ. النسبة بين عدد المحرّرين وعدد اللاعبين في القناة هي 7 : 3.<br>عدد أجزاء "الصحيح" هو: <span dir="">10 = 3 + 7</span>.<br>نحسب عدد اللاعبين: <span dir="ltr"><span class="frac"><span class="frac-num">7</span><span class="frac-den">10</span></span> · 30 = 21</span><br><br>ب. نحسب عدد المحررين: <span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">10</span></span> · 30 = 9</span>9' },
+    onDone: function () {
+      practiceProgress.questions[0].state = viqState.s1.outcome === 'success' ? 'correct' : 'incorrect';
+      syncPracticeProgressNav(document.getElementById('s1'));
+    }
+  },
+  s2: {
+    xapi: [['002', 'q1'], ['002', 'q1'], ['002', 'q2'], ['002', 'q2']],
+    inputs: ['s2-a-x', 's2-a-y', 's2-b-x', 's2-b-y'], correct: [5, 25, 25, 25], checkBtn: 's2-check', feedbox: 's2-feedbox', revealBtn: 's2-reveal-btn', nextScreen: 3,
+    correctMsg: { title: 'صحيح‎!', body: 'أ. النسبة بين عدد الأولاد وعدد البنات هي 5 : 1.<br>نحسب عدد الأولاد: <span dir="ltr"><span class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></span> · 30 = 5</span><br>نحسب عدد البنات: <span dir="ltr"><span class="frac"><span class="frac-num">5</span><span class="frac-den">6</span></span> · 30 = 25</span><br>إحداثيّا النقطة‎ A ‎هما (5,25).<br><br>ب. في نصف الساعة الثاني انضم أولاد فقط، والنسبة الجديدة هي 1 : 1. لم يتغير عدد البنات، ولذلك أصبح عدد الأولاد الجديد 25.<br>إحداثيّا النقطة B هما (25,25).' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'غير صحيح‎.', body: 'أ. النسبة بين عدد الأولاد وعدد البنات هي 5 : 1.<br>نحسب عدد الأولاد: <span dir="ltr"><span class="frac"><span class="frac-num">1</span><span class="frac-den">6</span></span> · 30 = 5</span><br>نحسب عدد البنات: <span dir="ltr"><span class="frac"><span class="frac-num">5</span><span class="frac-den">6</span></span> · 30 = 25</span><br>إحداثيّا النقطة‎ A ‎هما (5,25).<br><br>ب. في نصف الساعة الثاني انضم أولاد فقط، والنسبة الجديدة هي 1 : 1. لم يتغير عدد البنات، ولذلك أصبح عدد الأولاد الجديد 25.<br>إحداثيّا النقطة B هما (25,25).' },
+    onDone: function () {
+      practiceProgress.questions[1].state = viqState.s2.outcome === 'success' ? 'correct' : 'incorrect';
+      syncPracticeProgressNav(document.getElementById('s2'));
+    }
+  },
+  s4p3: {
+    xapi: [['004', 'q3'], ['004', 'q4']],
+    inputs: ['s4-p3-a', 's4-p3-b'], correct: [20, 32], checkBtn: 's4-p3-check', feedbox: 's4-p3-feedbox', revealBtn: 's4-p3-reveal-btn', nextScreen: null,
+    correctMsg: { title: 'صحيح‎!', body: 'ت. معطى أن وسام فاز بـ 12 سباقًا، وهي <span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> من عدد السباقات الإجمالي التي شارك فيها.<br>نرمز إلى إجمالي السباقات بـ x‎ ونبني المعادلة:<span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> · x = 12</span><br>نقسم على <span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> ونحصل على: <span dir="ltr">x = 20</span>.<br><strong>لذلك، شارك وسام في 20 سباقًا خلال الموسم.</strong><br>معطى أن عدن ووسام حققا نفس عدد الانتصارات، لذلك فازت عدن بـ 12 سباقًا، وهي <span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> من عدد السباقات الإجمالي التي شاركت فيها.<br>نرمز إلى عدد السباقات الإجمالي التي شاركت فيها عدن بـ x ونبني المعادلة:<br><span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · y = 12</span><br>نقس على <span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> ونحصل على: <span dir="ltr">y = 32</span>.<br><strong>لذلك، شاركت عدن في 32 سباقًا خلال الموسم‎.' },
+    wrongOnce: { title: 'غير دقيق.', body: 'حاولوا مرة أخرى.' },
+    wrongFinal: { title: 'غير صحيح‎.', body: 'ت. معطى أن وسام فاز بـ 12 سباقًا، وهي <span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> من عدد السباقات الإجمالي التي شارك فيها.<br>نرمز إلى إجمالي السباقات بـ x‎ ونبني المعادلة:<span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> · x = 12</span><br>نقسم على <span class="frac"><span class="frac-num">3</span><span class="frac-den">5</span></span> ونحصل على: <span dir="ltr">x = 20</span>.<br><strong>لذلك، شارك وسام في 20 سباقًا خلال الموسم.</strong><br>معطى أن عدن ووسام حققا نفس عدد الانتصارات، لذلك فازت عدن بـ 12 سباقًا، وهي <span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> من عدد السباقات الإجمالي التي شاركت فيها.<br>نرمز إلى عدد السباقات الإجمالي التي شاركت فيها عدن بـ x ونبني المعادلة:<br><span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · y = 12</span><br>نقس على <span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> ونحصل على: <span dir="ltr">y = 32</span>.<br><strong>لذلك، شاركت عدن في 32 سباقًا خلال الموسم‎.' },
+    onDone: function () { s4UpdateAggregate(); }
+  }
+});
+
+function s1OnInput() { viqOnInput('s1'); }
+function s1Check() { viqCheck('s1'); }
+function s2OnInput() { viqOnInput('s2'); }
+function s2Check() { viqCheck('s2'); }
+function s4P3OnInput() { viqOnInput('s4p3'); }
+function s4P3Check() { viqCheck('s4p3'); }
+
+/* מסך 1 — מסך מעבר, data-screen="0", id="s0". שקף 28. דמות-נלווית */
+const S0_AVATAR_ASSETS = {
+  'character-1': '../unit-assets/video/boy-avatar-work-out.mp4',
+  'character-2': '../unit-assets/video/yellow-avatar-work-out.mp4'
+};
+function resetScreenState0() {
+  resolveCharBubbleVideo('s0-avatar', S0_AVATAR_ASSETS);
+}
+
+/* =========================================================
+   מסכים 2/3 — ValueInputQuestion + פלייסהולדר-תמונה, data-screen 1/2,
+   id s1/s2. שאלה 1/2 מתוך 4.
+   ========================================================= */
+function resetScreenState1() {
+  setCurrentQuestion(practiceProgress, 0);
+  syncPracticeProgressNav(document.getElementById('s1'));
+}
+function resetScreenState2() {
+  setCurrentQuestion(practiceProgress, 1);
+  syncPracticeProgressNav(document.getElementById('s2'));
+}
+
+/* =========================================================
+   מסך 4 — מסך גלילה, שאלה 3 מתוך 4, data-screen="3", id="s3". שקפים
+   31-33: חלק 1 מידע בלבד, חלק 2 שאלה חד-ברירה, חלק 3 נכון/לא נכון
+   (3 טענות). ה"שאלה" הכוללת (question 3 בסרגל ההתקדמות) נפתרת רק
+   בסיום חלק 3 — 'incorrect' אם חלק 2 או חלק 3 דרשו גילוי-תשובה, אחרת
+   'correct'.
+   ========================================================= */
+
+const s3TfCorrect = { 1: 'true', 2: 'true', 3: 'false' };
+const s3TfState = { selected: { 1: null, 2: null, 3: null }, attempts: 0, outcome: null };
+
+function s3P3Select(row, val) {
+  if (s3TfState.outcome !== null) return;
+  s3TfState.selected[row] = val;
+  document.getElementById('s3-p3-r' + row + '-true').classList.remove('correct', 'wrong');
+  document.getElementById('s3-p3-r' + row + '-false').classList.remove('correct', 'wrong');
+  document.getElementById('s3-p3-r' + row + '-true').classList.toggle('selected', val === 'true');
+  document.getElementById('s3-p3-r' + row + '-false').classList.toggle('selected', val === 'false');
+  const allSelected = [1, 2, 3].every(function (r) { return s3TfState.selected[r] !== null; });
+  document.getElementById('s3-p3-check').disabled = !allSelected;
+  const fb = document.getElementById('s3-p3-feedbox');
+  if (fb) fb.classList.remove('visible');
+}
+
+function s3P3Lock(row) {
+  document.getElementById('s3-p3-r' + row + '-true').disabled = true;
+  document.getElementById('s3-p3-r' + row + '-false').disabled = true;
+}
+
+function s3P3Check() {
+  if (s3TfState.outcome !== null) return;
+  s3TfState.attempts++;
+  const fb = document.getElementById('s3-p3-feedbox');
+  const titleEl = fb.querySelector('.scq-fb-title-text');
+  const bodyEl = fb.querySelector('.scq-fb-body');
+  scqFbResetPosition('s3-p3-feedbox');
+  fb.classList.add('visible');
+
+  const allCorrect = [1, 2, 3].every(function (r) { return s3TfState.selected[r] === s3TfCorrect[r]; });
+  [1, 2, 3].forEach(function (r) {   /* item 003: q2..q4 are the three statements */
+    reportQ(['003', 'q' + (r + 1)], s3TfState.selected[r] === s3TfCorrect[r], allCorrect || s3TfState.attempts >= 2,
+      xapiAnswerText(document.getElementById('s3-p3-r' + r + '-' + s3TfState.selected[r])));
+  });
+  const explain = '1. ‎إذا أصبح مقدار الزاوية <span dir="ltr">∢BAC</span> هو °100، فإن مجموع الزاويتين الأخريين سيكون <span dir="ltr">°180 − °100 = °80</span>.<br>إذا كانت النسبة 3 : 5، فإن مقدار الزاوية الأصغر بينهما هو: <span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · 80 = °30</span>.<br><br>2. بما أن النسبة هي 3 : 5، لكي نحصل على زوايا صحيحة، يجب أن يكون مجموع الزاويتين الأخريين قابلًا للقسمة على 8 (8 = 3 + 5).<br><br>3. إذا كان مقدار الزاوية <span dir="ltr">∢BAC</span> هو °20، فإن مجموع الزاويتين الأخريين هو <span dir="">°160 = 20 - 180</span>. بما أن النسبة هي 5 : 3، نحصل على: <br><span dir="ltr"><span class="frac"><span class="frac-num">3</span><span class="frac-den">8</span></span> · 160 = °60</span> أو <span dir="ltr"><span class="frac"><span class="frac-num">5</span><span class="frac-den">8</span></span> · 160 = °100</span><br>وليس على زاوية قائمة (°90).';
+
+  if (allCorrect) {
+    [1, 2, 3].forEach(function (r) {
+      document.getElementById('s3-p3-r' + r + '-' + s3TfCorrect[r]).classList.add('correct');
+      s3P3Lock(r);
+    });
+    fb.classList.remove('is-wrong'); fb.classList.add('is-correct');
+    titleEl.textContent = 'صحيح‎!';
+    bodyEl.innerHTML = explain;
+    s3TfState.outcome = 'success';
+    s3P3Finish();
+  } else if (s3TfState.attempts < 2) {
+    [1, 2, 3].forEach(function (r) {
+      const correctVal = s3TfCorrect[r];
+      document.getElementById('s3-p3-r' + r + '-' + correctVal).classList.toggle('correct', s3TfState.selected[r] === correctVal);
+      document.getElementById('s3-p3-r' + r + '-' + (correctVal === 'true' ? 'false' : 'true')).classList.toggle('wrong', s3TfState.selected[r] !== correctVal);
+    });
+    fb.classList.remove('is-correct'); fb.classList.add('is-wrong');
+    titleEl.textContent = 'غير دقيق.';
+    bodyEl.textContent = 'افحصوا الادّعاءات الثلاثة مرة أخرى وحاولوا مجددًا‎.';
+    document.getElementById('s3-p3-check').disabled = true;
+  } else {
+    [1, 2, 3].forEach(function (r) {
+      const correctVal = s3TfCorrect[r];
+      document.getElementById('s3-p3-r' + r + '-' + correctVal).classList.add('correct');
+      if (s3TfState.selected[r] !== correctVal) {
+        document.getElementById('s3-p3-r' + r + '-' + s3TfState.selected[r]).classList.add('wrong');
+      }
+      s3P3Lock(r);
+    });
+    fb.classList.remove('is-correct'); fb.classList.add('is-wrong');
+    titleEl.textContent = 'غير صحيح‎.';
+    bodyEl.innerHTML = explain;
+    s3TfState.outcome = 'fail';
+    s3P3Finish();
+  }
+}
+
+function s3P3Finish() {
+  document.getElementById('s3-p3-check').disabled = true;
+  const anyFail = (scqState.s3p2 && scqState.s3p2.outcome === 'fail') || s3TfState.outcome === 'fail';
+  practiceProgress.questions[2].state = anyFail ? 'incorrect' : 'correct';
+  document.getElementById('s3-continue').disabled = false;
+  syncPracticeProgressNav(document.getElementById('s3'));
+}
+
+const S3_GESTURE = makeScrollGestureHint('s3-scroll-gesture', 's3-scroll-area');
+
+/* The check button after the true/false rows lines up with the rows' left edge. */
+function s3AlignTfCheckBtn() {
+  document.querySelectorAll('.tf-rows').forEach(function (rows) {
+    const checkBtn = rows.nextElementSibling;
+    if (!checkBtn || !checkBtn.classList.contains('s3-inline-btn')) return;
+    alignBtnToLeftmost(checkBtn, [rows], rows.parentElement);
+  });
+}
+
+function resetScreenState3() {
+  setCurrentQuestion(practiceProgress, 2);
+  syncPracticeProgressNav(document.getElementById('s3'));
+  S3_GESTURE.maybeShow();
+  requestAnimationFrame(function () { equalizeTfBtnWidths(); s3AlignTfCheckBtn(); });
+  requestAnimationFrame(equalizeScqOptWidths);
+}
+
+/* =========================================================
+   מסך 5 — מסך גלילה, שאלה 4 מתוך 4, data-screen="4", id="s4". שקפים
+   34-36: חלק 1+2 שאלה חד-ברירה בלי תמונה, חלק 3 שאלת-קלט כפולה.
+   ========================================================= */
+
+function s4UpdateAggregate() {
+  if (viqState.s4p3 && viqState.s4p3.outcome !== null) {
+    const anyFail = (scqState.s4p1 && scqState.s4p1.outcome === 'fail') ||
+                    (scqState.s4p2 && scqState.s4p2.outcome === 'fail') ||
+                    viqState.s4p3.outcome === 'fail';
+    practiceProgress.questions[3].state = anyFail ? 'incorrect' : 'correct';
+    document.getElementById('s4-continue').disabled = false;
+  }
+  syncPracticeProgressNav(document.getElementById('s4'));
+}
+
+const S4_GESTURE = makeScrollGestureHint('s4-scroll-gesture', 's4-scroll-area');
+
+
+function alignViqInlineCheckBtn() {
+  document.querySelectorAll('.viq-answers').forEach(function (group) {
+    const checkBtn = group.nextElementSibling;
+    if (!checkBtn || !checkBtn.classList.contains('s3-inline-btn')) return;
+    alignBtnToLeftmost(checkBtn, group.querySelectorAll('.viq-input, .viq-coord'), group.parentElement);
+  });
+}
+
+function resetScreenState4() {
+  setCurrentQuestion(practiceProgress, 3);
+  syncPracticeProgressNav(document.getElementById('s4'));
+  S4_GESTURE.maybeShow();
+  requestAnimationFrame(equalizeScqOptWidths);
+  requestAnimationFrame(alignViqInlineCheckBtn);
+}
+
+['s1-feedbox', 's2-feedbox'].forEach(scqFbMakeDraggable);
+
+/* ═══════════════ xAPI — this component's reporting seam ═══════════════
+   Ids come from ../metadata/methodica-math-ratio-05-02.json (checked on every load by 50-loader.js).
+   SCREEN_TO_SUBCONTENT: screen → [item suffix, page-in-item]; exactly TOTAL_SCREENS keys. */
+var XAPI_COMP_SLUG = 'methodica-math-ratio-05-02';
+var XAPI_COMP_ID   = XAPI_ID_PREFIX + XAPI_COMP_SLUG + '/';
+var XAPI_METADATA_FILE = '../metadata/methodica-math-ratio-05-02.json';
+var SCREEN_TO_SUBCONTENT = { 0: ['001', 1], 1: ['001', 2], 2: ['002', 1], 3: ['003', 1], 4: ['004', 1] };
+var XAPI_EVAL_ITEMS = { '001': 1, '002': 1, '003': 1, '004': 1 };   /* items with code-graded questions */
+/* Pass = 2 of the 4 questions fully right (s0: "צריך לענות נכון על 2 שאלות לפחות"). MOE monday
+   05.10.26: the screen said 3 while 2 of 4 already passed; head of team: "אכן צריך 2 מתוך 4"
+   (agreed with Maya) — the text moved to 2 and the code counts the learner's questions, not the
+   share of xAPI sub-answers (22-scoring.js). */
+var XAPI_STATION_PASS = { need: 2 };
+
+/* ═══════════════ Resume — this component's own answer variables (45-resume-part.js) ═══════════════ */
+function partCaptureVars() { return { s3Tf: s3TfState }; }
+function partApplyVars(v) {
+  if (v.s3Tf) { Object.assign(s3TfState.selected, v.s3Tf.selected); s3TfState.attempts = v.s3Tf.attempts; s3TfState.outcome = v.s3Tf.outcome; }
+}

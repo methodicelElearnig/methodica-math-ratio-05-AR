@@ -1,0 +1,552 @@
+/* לומדה 720 — מתמטיקה יעד 1.5 | יחס | סיין 3 */
+
+/* ---------- Subject theme tokens (Math) ----------
+   זהים לחלוטין לסיינים 1+2 — אותו יעד/נושא ("יחס"), אותה ערכת-צבע. */
+
+/* ---------- Fonts (עותק מקומי לסין זה, ב-assets/fonts — כל סין
+   עצמאי לחלוטין, לפי כלל העצמאות של הפרויקט) ---------- */
+
+/* ---------- Reset ---------- */
+
+/* ---------- Canvas & viewport scaling ---------- */
+
+/* transitions removed on purpose — Figma states change instantly;
+   entrance/reveal motion is added later, per-screen, by the
+   animation-system skill — not here */
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Bottom bar (74px, per Figma)
+   RTL אמיתי לאורך כל הבר: אין direction:ltr בשום מקום כאן. הסדר
+   הפיזי (bar-back מימין / bar-actions משמאל) מושג ע"י סדר ה-DOM
+   (bar-back ראשון = flex-start = ימין ב-RTL; bar-actions שני =
+   flex-end = שמאל), לא ע"י היפוך direction. בכל מסך, .bar-back
+   מופיע לפני .bar-actions ב-DOM. ════════════════════════════ */
+
+/* === Continue button (gradient pill) — Math gradient ===
+   SELF-QA-lomda.md §6: reference CSS, Math gradient per
+   720-design-guidelines/colors-and-gradients.md ("Math gradient"),
+   `to bottom` re-expressed as `180deg`. NOTE: this gradient's exact
+   first color-stop (#6F6AD5) has not been confirmed against an
+   actual Math-themed Figma frame — flagged as an open question since
+   סיין 1 (ARCHITECTURE.md § "ביקורת התאמה לפיגמה") — carried forward
+   as-is, not re-derived here. */
+
+/* === Back button (חזרה) — never shown on the first screen ===
+   border/text color = var(--subject-700), never var(--subject-500)
+   (הצבע המבולבל ביותר במשפחה הזו). */
+
+/* === Hint button (אפשר רמז?) — CSS ready, not instantiated on the
+   placeholder screen (no question exists yet). border/text =
+   var(--subject-700); icon class is .scq-hint-icon (26×24). */
+.btn-hint .scq-hint-icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 24px;
+  background-color: currentColor;
+  -webkit-mask: url('../unit-assets/img/icon-bulb-outline-white.svg') center / contain no-repeat;
+  mask: url('../unit-assets/img/icon-bulb-outline-white.svg') center / contain no-repeat;
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Report/Issue button (.flag-btn)
+   Lives outside all .screen divs, directly in #app. Visual only —
+   no click behavior defined yet (may connect to the LMS later).
+   Figma-verified position (fileKey eSbp4bKHgBky0rakDb8l9N,
+   nodeId 1045:13096, "Report Problem"): top:32/left:32.
+   ════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Image zoom (_global-components.md: "Image zoom")
+   Zoom button sits inside each image wrapper (position:relative,
+   no transform/filter/z-index on the wrapper itself); the modal
+   below is the ONE shared instance for the whole scene, outside all
+   .screen divs, directly in #app. Ready for use once a content
+   screen adds an image + .img-zoom-btn.
+   ════════════════════════════════════════════════════════ */
+
+.img-zoom-modal__panel {
+  position: relative;
+  width: 660px;
+  height: 660px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.img-zoom-modal__stage { position: relative; width: 100%; height: 100%; }
+.img-zoom-modal__stage .s3-img-frame { width: 100%; height: 100%; }
+.img-zoom-modal__stage .s3-img-frame img { width: 100%; height: 100%; object-fit: contain; }
+.img-zoom-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--subject-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.img-zoom-close__icon { width: 15px; height: 15px; color: var(--subject-500); }
+.img-zoom-close:hover .img-zoom-close__icon { color: #fff; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Feedback popup system (_global-components.md:
+   "Feedback popup system") — shared style/positioning/drag
+   behavior. CSS ready — no HTML instance yet (no question screen
+   exists in this scene). Question templates own their own feedback
+   TEXT and box id (id ends in "-feedbox", per this project's own
+   popup-id convention — see ARCHITECTURE.md), but must reuse this
+   same class contract: .scq-fb-box / .scq-fb-title / .scq-fb-title-text
+   / .scq-fb-body, toggled via .visible / .is-correct / .is-wrong.
+   Draggable from anywhere on the box (not just a title bar). NO close
+   button anywhere — see _global-components.md → "No manual close".
+   ════════════════════════════════════════════════════════ */
+.scq-fb-box {
+  /* מיקום/מידות לפי 720-templates skill → ValueInputQuestion.md
+     ("Figma-confirmed, current"). */
+  display: none;
+  position: absolute;
+  left: 16px;
+  bottom: 90px;
+  width: 426px;
+  max-width: calc(100% - 32px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 25;
+  cursor: grab;
+}
+.scq-fb-box.is-static {
+  position: static;
+  left: auto; right: auto; top: auto; bottom: auto;
+  width: 100%;
+  max-width: none;
+  cursor: default;
+}
+.scq-fb-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Hint overlay (_global-components.md — outside .screen,
+   direct child of #app, one instance per screen that needs it, e.g.
+   #s1-hint-overlay). CSS ready; no instance yet (no question exists).
+   Opened/closed per-screen via the native `hidden` property — this is
+   exactly the mechanism closeAllPopupsAndHints() in script.js relies on.
+   ════════════════════════════════════════════════════════ */
+.scq-hint-close {
+  align-self: center;
+  width: 196px;
+  padding: 16px 40px;
+  border-radius: 999px;
+  background: #fff;
+  color: #303030;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════
+   מסך 1 + מסך 5 — מסך מעבר (TransitionScreen), data-screen="0"/"4",
+   id="s0"/"s4". מועתק כפי-שהוא מסיין 2 (.s0-content/.s0-line-1/2/3/
+   .s0-avatar-wrap/.s0-avatar), משמש את שני המסכים (המחלקות גנריות,
+   לא קשורות למספר-מסך ספציפי). ════════════════════════════ */
+.s0-content {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  translate: -50% 0;
+  width: 900px;
+  max-width: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.s0-line-1 {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #303030;
+}
+.s0-line-2 {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #303030;
+}
+.s0-line-3 {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #303030;
+}
+.s0-avatar-wrap { margin-top: 24px; position: relative; display: flex; align-items: center; justify-content: center; }
+/* בועית-דיבור ליד הדמות — אותה טכניקה חזותית בדיוק כמו .transition-bubble
+   ב-methodica-math-ratio-05-06 (border/radius/חץ), רק ממוקמת יחסית
+   ל-.s0-avatar-wrap הממורכז כאן (לא ל-flex row צמוד כמו שם). */
+.s0-bubble {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 11px);
+  transform: translateY(-50%);
+  width: 220px;
+  background: #ffffff;
+  border: 1.5px solid var(--subject-500);
+  border-radius: 20px;
+  padding: 16px 20px;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+  line-height: 1.4;
+  direction: rtl;
+}
+.s0-bubble::before {
+  content: '';
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left: 7px solid var(--subject-500);
+}
+.s0-bubble::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left: 6px solid #ffffff;
+  z-index: 1;
+}
+.s0-avatar { width: 304px; aspect-ratio: 304 / 293; object-fit: cover; display: block; border-radius: 16px; }
+.bottom-bar-inner.s0-bar { justify-content: flex-end; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — SingleChoiceQuestion + MultipleChoiceQuestion (המרובה-
+   בחירה משתמשת באותה .scq-opt/.scq-radio חזותית בדיוק, רק role=
+   "checkbox"/"group" ב-HTML, לא ב-CSS — ראו script.js). מועתק כפי-שהוא
+   מסיין 2, בלי שום שינוי ערך.
+   ════════════════════════════════════════════════════════ */
+.scq-question {
+  direction: rtl;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.scq-img {
+  flex-shrink: 0;
+  width: 380px;
+  height: 380px;
+  box-sizing: border-box;
+}
+.scq-img-inner { position: relative; width: 100%; height: 100%; border: 1px solid rgba(174, 174, 174, 0.5); border-radius: 16px; overflow: hidden; box-sizing: border-box; }
+.scq-img-inner img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.scq-text-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.scq-qtext-body { display: flex; flex-direction: column; gap: 16px; }
+.scq-qbody { font-family: Calibri, Arial, sans-serif; font-size: 24px; font-weight: 400; color: #303030; text-align: right; line-height: 1.4; margin: 0; }
+
+.scq-answers { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; }
+.scq-opt-text {
+  flex: 1;
+  font-family: Calibri, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: #222;
+  text-align: right;
+}
+.scq-opt[role="checkbox"] .scq-radio { border-radius: 6px; }
+.scq-opt:focus-visible { outline: 3px solid var(--subject-500); outline-offset: 2px; }
+
+.s1-yn-group { display: flex; flex-direction: row; gap: 12px; }
+.s1-yn-opt { width: auto; min-width: 96px; justify-content: center; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — ValueInputQuestion inputs. מועתק כפי-שהוא מסיין 2.
+   ════════════════════════════════════════════════════════ */
+.viq-answers { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
+.viq-answer-row--coord { flex-wrap: wrap; }
+
+.viq-input {
+  width: 180px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  background-color: #fff;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+}
+.viq-input--sm { width: 92px; }
+.viq-input:not(:placeholder-shown):not(:focus) { border: 1px solid #ececec; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — TrueFalseQuestion rows. מועתק כפי-שהוא מסיין 2 (רק מספר-
+   השורות בפועל שונה בין מסכים — 4 במסך 2 של הסיין הזה, לפי תוכן
+   התסריט, לא ערך-CSS קבוע).
+   ════════════════════════════════════════════════════════ */
+.tf-rows { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+.tf-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid rgba(174, 174, 174, 0.5);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+.tf-row.correct { background: #edf8ed; border-color: #609e12; }
+.tf-row.wrong { background: #fff0f4; border-color: #b20010; }
+.tf-stmt { flex: 1; display: flex; flex-direction: row; gap: 8px; align-items: flex-start; }
+.tf-num { font-family: Calibri, Arial, sans-serif; font-size: 20px; font-weight: 700; color: #303030; flex-shrink: 0; }
+.tf-text { font-family: Calibri, Arial, sans-serif; font-size: 20px; font-weight: 400; color: #303030; text-align: right; }
+#s2 .tf-num, #s2 .tf-text { font-size: 24px; }
+#s2 .tf-btn { font-size: 22px; }
+.tf-btns { display: flex; flex-direction: row; gap: 8px; flex-shrink: 0; }
+.tf-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--subject-500);
+  background: #fff;
+  color: #222;
+  cursor: pointer;
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tf-btn.selected::after { background: var(--subject-500); }
+.tf-btn.correct { background: #EDF8ED; border: 1.5px solid #609e12; color: #222; }
+.tf-btn.wrong { background: #FFF0F4; border: 1.5px solid #b20010; color: #222; }
+.tf-btn::after {
+  content: '';
+  order: -1;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid var(--subject-500);
+  box-sizing: border-box;
+}
+.tf-btn.correct::after {
+  border-color: #609e12;
+  background: #609e12 url('../unit-assets/img/icon-check-white.svg') no-repeat center;
+  background-size: 12px 9px;
+}
+.tf-btn.wrong::after {
+  border-color: #b20010;
+  background: #b20010 url('../unit-assets/img/icon-x-white.svg') no-repeat center;
+  background-size: 10px 10px;
+}
+.tf-btn:disabled { cursor: default; }
+.tf-btn:focus-visible { outline: 3px solid var(--subject-500); outline-offset: 2px; }
+
+.s2-static-wrap {
+  position: absolute;
+  top: 139px; left: 40px; right: 16px; bottom: 74px;
+  padding-right: 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: ltr;
+}
+.s2-static-wrap::-webkit-scrollbar { width: 12px; }
+.s2-static-wrap::-webkit-scrollbar-track { background: rgba(201, 206, 216, 0.4); border-radius: 16px; }
+.s2-static-wrap::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.56); border-radius: 24px; }
+.scq-img--wide-diagram { width: 480px; height: 245px; }
+.scq-img-inner--diagram { border: 1px solid rgba(174, 174, 174, 0.5); border-radius: 16px; overflow: hidden; }
+
+/* ════════════════════════════════════════════════════════
+   מסך 2 (id="s1") — שאלה 1 מתוך 3, מסך גלילה. פלייסהולדר-יישומון קבוע
+   בצד שמאל (427×636px, לפי בקשה מפורשת — היישומון האינטראקטיבי עצמו
+   לא נבנה בשלב הזה, החלטת-מוצר; ראו ARCHITECTURE.md) + פאנל-גלילה
+   בצידו הימני (.s1-scroll-area, אותה טכניקת outer-ltr/inner-rtl
+   בדיוק כמו .s3-scroll-area/.scq-scroll-outer של סיין 2 — "הגלילה
+   תמיד בצד ימין", ללא יוצא-מן-הכלל).
+   ════════════════════════════════════════════════════════ */
+.s1-widget-placeholder {
+  position: absolute;
+  left: 0; top: 0;
+  width: 427px; height: 636px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 2px dashed var(--subject-350);
+  background: var(--subject-100);
+}
+.s1-widget-placeholder span {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--subject-700);
+  line-height: 1.5;
+}
+.s1-widget-wrap {
+  position: absolute;
+  left: 40px; top: 130px;
+  width: 530px; height: 506px;
+  z-index: 1;
+}
+.s1-widget-panel { position: relative; width: 100%; height: 100%; }
+.s1-widget-applet {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: none;
+  box-sizing: border-box;
+}
+.s1-widget-panel .img-zoom-btn { display: flex; }
+.s1-widget-panel .img-zoom-close { display: none; }
+.s1-widget-wrap.is-expanded {
+  position: absolute;
+  inset: 0;
+  width: auto; height: auto;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.78);
+}
+.s1-widget-wrap.is-expanded .s1-widget-panel {
+  width: 80%; height: 75%;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s1-widget-wrap.is-expanded .s1-widget-panel .img-zoom-btn { display: none; }
+.s1-widget-wrap.is-expanded .s1-widget-panel .img-zoom-close { display: flex; }
+.s1-scroll-area {
+  position: absolute;
+  top: 139px; left: 610px; right: 16px; bottom: 74px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: ltr;
+  cursor: grab;
+}
+.s1-scroll-area::-webkit-scrollbar { width: 12px; }
+.s1-scroll-area::-webkit-scrollbar-track { background: rgba(201, 206, 216, 0.4); border-radius: 16px; }
+.s1-scroll-area::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.56); border-radius: 24px; }
+.s1-scroll-inner { direction: rtl; width: 100%; }
+.s1-part { display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 20px; padding: 20px 0; box-sizing: border-box; }
+.s1-part[hidden] { display: none; }
+.s1-body { font-family: Calibri, Arial, sans-serif; font-size: 24px; font-weight: 400; color: #303030; text-align: right; line-height: 1.4; width: 100%; margin: 0; }
+
+/* פסקת-הקשר קבועה, מוצגת תמיד מעל החלקים (לא חוזרת בכל חלק) — משותפת
+   למסכי-גלילה 2/4/6 (id s1/s3/s5) בסיין הזה. זהה חזותית ל-.s4-context
+   של סיין 2, שם נקרא כך כי היה שייך למסך s4 שם בלבד; כאן משמש 3 מסכים
+   שונים ולכן קיבל שם גנרי. */
+.scroll-intro-text {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.5;
+  width: 100%;
+  margin: 0 0 12px;
+}
+
+/* ════════════════════════════════════════════════════════
+   מסך 4 (id="s3") ומסך 6 (id="s5") — מסכי-גלילה עם תמונה/ות קבועות
+   בצד שמאל. מועתק כפי-שהוא מסיין 2 (.s3-fixed-images/.s3-img-frame/
+   .s3-scroll-area/.s3-scroll-inner/.s3-part/.s3-body/.s3-inline-btn),
+   בלי שום שינוי ערך — משמש את **שני** המסכים (לא רק מסך אחד כמו
+   בסיין 2), כי שניהם חולקים את אותה פריסה בדיוק (תמונה קבועה 300px +
+   פאנל-גלילה מ-360px).
+   ════════════════════════════════════════════════════════ */
+.s3-fixed-images {
+  position: absolute;
+  top: 139px;
+  left: 40px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1;
+}
+.s3-fixed-images[hidden] { display: none; }
+#s3-fixed-images { width: 400px; }
+#s3-fixed-images .s3-img-frame { width: 400px; }
+.s3-img-frame { position: relative; width: 300px; border: 1px solid rgba(174, 174, 174, 0.5); border-radius: 16px; overflow: hidden; box-sizing: border-box; }
+.s3-img-frame--diagram { background: #fafafa; padding: 16px; box-sizing: border-box; }
+.s3-img-frame--diagram img { width: 100%; height: auto; }
+
+.s3-scroll-area {
+  position: absolute;
+  top: 139px;
+  left: 360px;
+  right: 16px;
+  bottom: 74px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: ltr;
+  cursor: grab;
+}
+#s3-scroll-area { left: 480px; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Gesture Hint (Cursor Scroll), SELF-QA-lomda.md §7. מועתק
+   כפי-שהוא מסיין 2 (ערכים/keyframes/מבנה זהים במדויק, צבעי Math).
+   מוצג פעם אחת בכניסה למסך, נעלם באירוע `scroll` אמיתי. שלושה מופעים
+   ממוקמים בסיין הזה: #s1-scroll-gesture (מעל .s1-scroll-area),
+   #s3-scroll-gesture (מעל .s3-scroll-area, מסך 4), #s5-scroll-gesture
+   (מעל .s3-scroll-area, מסך 6 — אותה מחלקת-שטח, קואורדינטות זהות).
+   ════════════════════════════════════════════════════════ */
+.gesture-hint-scroll-wrap {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+}
+#s2-scroll-gesture { top: 139px; left: 40px; right: 16px; bottom: 74px; }
+#s1-scroll-gesture { top: 139px; left: 610px; right: 16px; bottom: 74px; }
+#s3-scroll-gesture { top: 139px; left: 480px; right: 16px; bottom: 74px; }
+#s5-scroll-gesture { top: 139px; left: 360px; right: 16px; bottom: 74px; }
+
+/* שבר מוצג (2/7 וכו') */

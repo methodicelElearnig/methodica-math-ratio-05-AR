@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وحدة تعليمية 720 –– رياضيات الهدف 1.5 | النسبة | الفصل 6</title>
+<link rel="stylesheet" href="../unit-css/common.css?v=20261007a">
+<link rel="stylesheet" href="styles.css?v=20261007a">
+<link rel="stylesheet" href="../unit-css/25-report.css?v=20261007a">
+</head>
+<body>
+<!-- Boot cover (resume): hides the first screen until it is known which screen to draw.
+     A sibling of #app (not scaled). 50-loader.js / 40-resume.js dropBootCover() removes it on every
+     exit path; this inline net removes it after 800 ms, or — while a restore is in flight
+     (window.__resumeInFlight) — after at most 11 s. Copied from methodica-math-ratio-01. -->
+<div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+<script>
+(function () {
+  var t0 = Date.now();
+  function tick() {
+    var c = document.getElementById('boot-cover');
+    if (!c || !c.parentNode) return;
+    if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+    c.parentNode.removeChild(c);
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+<div id="app">
+
+  <!-- =========================================================
+       מסך 1 — מסך מעבר, דמות+בועית-דיבור, data-screen="0", id="s0".
+       שקף 62 בתסריט. מבנה מועתק 1:1 מ-methodica-math-ratio-01-04, מסך 1
+       (.transition-content/.transition-title-block/.transition-avatar-wrap/
+       .transition-bubble) — לפי הנחיית-הדוקס המפורשת. חלוקת הטקסט בין
+       ארבעת חלקי המבנה היא שיקול-דעת (המקור לא מחלק בעצמו) — ראו
+       ARCHITECTURE.md § "מסך 1" לתיעוד ההחלטה. הדמות בפועל: מערכת-הדמות-
+       הנלווית של הפרויקט הזה (character-1/character-2), לא המפלצת-הגנרית
+       שמופיעה במוקאפ הגולמי של ה-pptx.
+       ========================================================= -->
+  <section class="screen active" data-screen="0" id="s0">
+    <div class="transition-content">
+      <div class="transition-title-block">
+        <p class="transition-sub">كل الاحترام! انتهت مرحلة التمرين‎.</p>
+        <h2 class="transition-title">والآن يأتي السؤال الأكبر</h2>
+        <p class="transition-sub">السؤال مكون من 4 بنود. عليكم الإجابة بشكل صحيح عن 2 منها على الأقل.</p>
+      </div>
+      <div class="transition-avatar-wrap">
+        <video class="transition-avatar" id="s0-avatar" autoplay loop muted playsinline></video>
+        <div class="transition-bubble">إذا لم تنجحوا في الإجابة عن بعض الأسئلة، فمن المهم أن تفهموا ما الذي لا يزال غير واضح، وأن تتوجهوا إلى الدردشة أو إلى المعلّم للحصول على شرح إضافي.</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <!-- Never shown on the first screen -->
+        <div class="bar-back"><button class="btn-back" id="s0-back" onclick="backToPart('methodica-math-ratio-05-05')">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s0-continue" onclick="goTo(1)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 2 — תמונה ממלאת-מסך (family-home.jpg) עם תגית-מידע בפינה -->
+  <section class="screen" data-screen="1" id="s1">
+    <div class="s1-photo-wrap">
+      <div class="s1-photo-img-frame">
+        <img class="s1-photo-img" src="assets/images/family-home-opt.jpg" alt="عائلة أمام منزل سكني، في سياق تخطيط وبناء منزل جديد">
+      </div>
+      <div class="s1-info-banner info-banner-card">
+        <p class="info-banner-label">عليكم مساعدة الطاقم في الموقع على اتخاذ قرارات مبنية على المعطيات، استنادًا إلى الخرائط وأدوات القياس‎.</p>
+        <p class="info-banner-body">تريد عائلة سلمان بناء منزل أحلامها. <br>لتحقيق هذا الحلم، التقت العائلة مع سامر المهندس المعماري وطلبت منه مساعدتها في تصميمه‎.</p>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s1-back" onclick="goTo(0)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s1-continue" onclick="goTo(2)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 3 — מסך גלילה, "שאלת השיא" סעיפים א+ב בלבד, data-screen="2", -->
+  <section class="screen" data-screen="2" id="s2">
+    <nav class="progress-question" id="s2-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <div class="gesture-hint-scroll-wrap" id="s2-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <!-- דיאגרמת המגרש — קבועה וזהה לשני הסעיפים. -->
+    <div class="s3-fixed-images" id="s2-fixed-images">
+      <div class="s3-img-frame s3-img-frame--diagram">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/land-plot-diagram-opt.png" data-zoom-alt="رسم لقطعة أرض مستطيلة ABDE: A في الزاوية اليسرى السفلية، B في الزاوية اليمنى السفلية، E في الزاوية اليسرى العلوية، D على الجهة اليمنى، مع زاوية مقطوعة على شكل مربع‎ GHCD ‎في الزاوية اليمنى العلوية (طول كل ضلع 4 أمتار)؛ خط متقطع عمودي من النقطة T (على القاعدة AB) إلى النقطة R (على EG) يقسم قطعة الأرض إلى منطقة الحديقة على اليسار والمنطقة المخصصة للبناء على اليمين؛ طول‎ AB ‎هو 20 مترًا">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/land-plot-diagram-opt.png" alt="رسم لقطعة أرض مستطيلة ABDE: A في الزاوية اليسرى السفلية، B في الزاوية اليمنى السفلية، E في الزاوية اليسرى العلوية، D على الجهة اليمنى، مع زاوية مقطوعة على شكل مربع‎ GHCD ‎في الزاوية اليمنى العلوية (طول كل ضلع 4 أمتار)؛ خط متقطع عمودي من النقطة T (على القاعدة AB) إلى النقطة R (على EG) يقسم قطعة الأرض إلى منطقة الحديقة على اليسار والمنطقة المخصصة للبناء على اليمين؛ طول‎ AB ‎هو 20 مترًا">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s2-scroll-area">
+    <div class="s3-scroll-inner">
+
+      <!-- סעיף א (שאלה 1) -->
+      <div class="s3-part" id="s2-part-1">
+        <p class="s3-body">اقترح سامر تقسيم قطعة الأرض إلى منطقتين: <br>مساحة لبناء المنزل ومساحة للحديقة. يشير الشريط المتقطع في الرسم إلى خط الفصل بينهما.<br>معطى أن النسبة بين طول‎ AB ‎وطول‎ AE ‎هي 2 : 1‏‎.</p>
+        <p class="scq-qtext-em">أ. قبل أن يتمكن سامر من البدء في التخطيط، عليه معرفة مساحة قطعة الأرض كلها. احسبوا مساحة قطعة الأرض‎.</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">مساحة قطعة الأرض هي</span>
+            <input class="viq-input" id="s2-p1-input" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="مساحة قطعة الأرض، بالأمتار المربعة" oninput="s2P1OnInput()">
+            <span class="viq-answer-unit">متر مربع</span>
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s2-p1-hint-btn" onclick="s2P1HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s2-p1-check" disabled onclick="s2P1Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s2-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s2-p1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <!-- חלק 2 מתוך 5 — סעיף ב (שאלה 2) -->
+      <div class="s3-part" id="s2-part-2">
+        <p class="s3-body">بعد أن حسب مساحة قطعة الأرض، علّمَ سامر خط الفصل بين المنزل والحديقة.<br>معطى أن خط الفصل يقسم القطعة‎ AB ‎بنسبة <br>3 : 2‏‎.</p>
+        <p class="scq-qtext-em">ب. احسبوا المساحة المخصصة للحديقة‎.</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">مساحة الحديقة هي</span>
+            <input class="viq-input" id="s2-p2-input" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="مساحة الحديقة، بالأمتار المربعة" oninput="s2P2OnInput()">
+            <span class="viq-answer-unit">متر مربع</span>
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s2-p2-hint-btn" onclick="s2P2HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s2-p2-check" disabled onclick="s2P2Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s2-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s2-p2-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2p2')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    <div id="s2-p1-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">معطى طول القطعة AB. <br>جِدوا أولًا طول AE.</p>
+        <button class="scq-hint-close" type="button" onclick="s2P1HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+    <div id="s2-p2-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">احسبوا أولًا طول AT.</p>
+        <button class="scq-hint-close" type="button" onclick="s2P2HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s2-back" onclick="goTo(1)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s2-continue" disabled onclick="goTo(3)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 4 — תמונה ממלאת-מסך (engineers.jpg) עם תגית-מידע, data-screen="3", -->
+  <section class="screen" data-screen="3" id="s3">
+    <div class="s1-photo-wrap">
+      <div class="s1-photo-img-frame">
+        <img class="s1-photo-img" src="assets/images/engineers-opt.jpg" alt="طاقم مهندسين/مهندسين معماريين في الموقع، يفحص الخرائط وأدوات القياس">
+      </div>
+      <div class="s1-info-banner info-banner-card">
+        <p class="info-banner-label">عليكم مساعدة الطاقم في الموقع على اتخاذ قرارات مبنية على المعطيات، استنادًا إلى الخرائط وأدوات القياس‎.</p>
+        <p class="info-banner-body">عندما شاهد أفراد عائلة سلمان المخطط، قالوا إن المنزل يبدو لهم صغيرًا جدًا مقارنةً بالحديقة. طلبوا من سامر تصغير الحديقة بحيث تكون النسبة بين مساحة الحديقة ومساحة البناء 3 : 1‏‎.</p>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s3-back" onclick="goTo(2)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s3-continue" onclick="goTo(4)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 5 — מסך גלילה, "שאלת השיא" סעיפים ג+ד, data-screen="4", -->
+  <section class="screen" data-screen="4" id="s4">
+    <nav class="progress-question" id="s4-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <div class="gesture-hint-scroll-wrap" id="s4-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s3-fixed-images" id="s4-fixed-images">
+      <div class="s3-img-frame s3-img-frame--diagram">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/land-plot-diagram-opt.png" data-zoom-alt="رسم لقطعة أرض مستطيلة ABDE: A في الزاوية اليسرى السفلية، B في الزاوية اليمنى السفلية، E في الزاوية اليسرى العلوية، D على الجهة اليمنى، مع زاوية مقطوعة على شكل مربع‎ GHCD ‎في الزاوية اليمنى العلوية (طول كل ضلع 4 أمتار)؛ خط متقطع عمودي من النقطة T (على القاعدة AB) إلى النقطة R (على EG) يقسم قطعة الأرض إلى منطقة الحديقة على اليسار والمنطقة المخصصة للبناء على اليمين؛ طول‎ AB ‎هو 20 مترًا">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/land-plot-diagram-opt.png" alt="رسم لقطعة أرض مستطيلة ABDE: A في الزاوية اليسرى السفلية، B في الزاوية اليمنى السفلية، E في الزاوية اليسرى العلوية، D على الجهة اليمنى، مع زاوية مقطوعة على شكل مربع‎ GHCD ‎في الزاوية اليمنى العلوية (طول كل ضلع 4 أمتار)؛ خط متقطع عمودي من النقطة T (على القاعدة AB) إلى النقطة R (على EG) يقسم قطعة الأرض إلى منطقة الحديقة على اليسار والمنطقة المخصصة للبناء على اليمين؛ طول‎ AB ‎هو 20 مترًا">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s4-scroll-area">
+    <div class="s3-scroll-inner">
+
+      <!-- סעיף ד (שאלה 2 מקומית) -->
+      <div class="s3-part" id="s2-part-5">
+        <p class="s3-body">بعد عدة أيام، تراجعت عائلة سلمان عن قرارها وقررت أنها تريد حديقة أكبر. طلبت من سامر أن تكون النسبة بين مساحة الحديقة ومساحة البناء 1 : 1‏‎.</p>
+        <p class="scq-qtext-em">ت. على افتراض أن مساحة الحديقة قبل التغيير هي 80 مترًا مربعًا، أي مساحة يجب أن ينقل سامر من المنطقة المخصصة للبناء إلى الحديقة، لتلبية طلب العائلة الجديد؟</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">المساحة التي يجب نقلها هي</span>
+            <input class="viq-input" id="s2-p5-input" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="المساحة التي يجب نقلها، بالأمتار المربعة" oninput="s2P5OnInput()">
+            <span class="viq-answer-unit">متر مربع</span>
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s2-p5-hint-btn" onclick="s2P5HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s2-p5-check" disabled onclick="s2P5Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s2-p5-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s2-p5-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2p5')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <!-- סעיף ג (שאלה 1 מקומית) -->
+      <div class="s3-part" id="s2-part-4">
+        <p class="scq-qtext-em">ت. أي مساحة يجب أن ينقل سامر من المنطقة المخصصة للحديقة إلى المنطقة المخصصة للبناء، لتلبية طلب العائلة؟</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">المساحة التي يجب نقلها هي</span>
+            <input class="viq-input" id="s2-p4-input" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="المساحة التي يجب نقلها، بالأمتار المربعة" oninput="s2P4OnInput()">
+            <span class="viq-answer-unit">متر مربع</span>
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s2-p4-hint-btn" onclick="s2P4HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s2-p4-check" disabled onclick="s2P4Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s2-p4-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s2-p4-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2p4')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    <div id="s2-p4-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">احسبوا أولًا المساحة الجديدة للبناء وللحديقة، ثم قارنوها بالمساحات الأصلية‎.</p>
+        <button class="scq-hint-close" type="button" onclick="s2P4HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+    <div id="s2-p5-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">احسبوا أولًا المساحة الجديدة للبناء وللحديقة بحسب النسبة التي تطلبها عائلة سلمان. <br>وفي المرحلة الثانية فقط، قارنوا مقدار المساحات الأصلية‎.</p>
+        <button class="scq-hint-close" type="button" onclick="s2P5HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s4-back" onclick="goTo(3)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s4-continue" disabled onclick="goTo(5)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 6 — מסך-סיום, מסך מעבר (TransitionScreen), data-screen="5", -->
+  <section class="screen" data-screen="5" id="s5">
+    <div class="transition-content">
+      <div class="transition-title-block">
+        <p class="transition-sub">كل الاحترام!</p>
+        <h2 class="transition-title">أكملتم الوحدة بنجاح!</h2>
+      </div>
+      <div class="transition-avatar-wrap">
+        <video class="transition-avatar" id="s5-avatar" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s5-back" onclick="goTo(4)">عودة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GLOBAL — Report/Issue button (.flag-btn) ============
+       רכיב גלובלי יחיד, מחוץ לכל .screen, ישירות ב-#app, לפי
+       720-templates skill (_global-components.md). ויזואלי בלבד — עדיין
+       בלי התנהגות קליק (ייתכן שיחובר ל-LMS בהמשך). -->
+  <button class="flag-btn" aria-label="هل وجدتم مشكلة؟" title="هل وجدتم مشكلة؟">
+    <span class="flag-btn-icon" aria-hidden="true">
+      <img class="flag-btn-icon-default" src="../unit-assets/img/btn-flag-default.png" alt="">
+      <img class="flag-btn-icon-hover" src="../unit-assets/img/btn-flag-hover.png" alt="">
+    </span>
+    <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+  </button>
+
+  <!-- GLOBAL — Image zoom modal -->
+  <!-- המודל הגלובלי (#img-zoom-modal) נשאר בשימוש עבור land-plot-
+       diagram.png בלבד. -->
+  <!-- Issue-report dialogs (unit-js/25-report.js, unit-css/25-report.css) -->
+  <div id="report-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="report-modal-title">
+      <div class="report-modal-box">
+        <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="סגור">&#10005;</button>
+        <h2 class="report-modal-title" id="report-modal-title">דיווח על בעיה</h2>
+        <p class="report-modal-body">משהו לא ברור או לא עובד כמו שצריך?<br>ספרו לנו מה קרה כדי שנטפל.</p>
+
+        <div class="report-field">
+          <label class="report-label" for="report-type"><span class="required-star">*</span> מה סוג הבעיה</label>
+                    <div class="report-custom-select" id="report-type-wrapper">
+            <button class="report-select-btn is-placeholder" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="report-select-value">בחרו סוג בעיה</span>
+            </button>
+            <ul class="report-select-list" role="listbox" hidden>
+              <li class="report-select-option" data-value="technical" role="option">תקלה טכנית או שמשהו לא עובד</li>
+              <li class="report-select-option" data-value="unclear" role="option">משהו לא ברור לי</li>
+              <li class="report-select-option" data-value="other" role="option">אחר</li>
+            </ul>
+            <input type="hidden" id="report-type" value="">
+          </div>
+          <span class="report-field-error" id="report-type-error" hidden>בחרו את סוג הבעיה</span>
+        </div>
+
+        <div class="report-field">
+          <label class="report-label" for="report-text"><span class="required-star">*</span> מה קרה?</label>
+          <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="פרטו מה קרה כדי שנוכל להבין את הבעיה" onblur="reportTextBlur()"></textarea>
+          <span class="report-field-error" id="report-text-error" hidden>כתבו מה קרה</span>
+          <span class="report-char-count" id="report-char-count">0 / 250</span>
+        </div>
+
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="tryCloseReportModal()">ביטול</button>
+          <button class="report-submit-btn" onclick="submitReport()" disabled>שליחת דיווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-confirm-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="confirm-modal-title">בטוח לסגור את החלון?</h2>
+        <p class="report-modal-body">בלחיצה על סגירה לא יישלח דיווח</p>
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="forceCloseReportModal()">סגור חלון</button>
+          <button class="report-submit-btn" onclick="backToReportForm()">אני רוצה לדווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-thanks-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="thanks-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="thanks-modal-title">הדיווח נשלח, תודה!</h2>
+        <p class="report-modal-body">קיבלנו את הדיווח שלכם ונטפל בו בהקדם.</p>
+        <div class="report-actions">
+          <button class="report-submit-btn" onclick="closeReportThanks()">סגירה</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="a11y-announcer" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+
+  <div id="img-zoom-modal" class="img-zoom-modal hidden" aria-hidden="true" data-zoom-close="true">
+    <div class="img-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="تكبير الصورة">
+      <button class="img-zoom-close" type="button" data-zoom-close="true" aria-label="إغلاق تكبير الصورة">
+        <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="img-zoom-modal__stage"></div>
+    </div>
+  </div>
+
+</div>
+<script src="../unit-js/10-identity.js?v=20261007a"></script>
+<script src="../unit-js/15-ui.js?v=20261007a"></script>
+<script src="../unit-js/20-xapi.js?v=20261007a"></script>
+<script src="../unit-js/22-scoring.js?v=20261007a"></script>
+<script src="../unit-js/25-report.js?v=20261007a"></script>
+<script src="../unit-js/28-feedback-drag.js?v=20261007a"></script>
+<script src="../unit-js/30-nav.js?v=20261007a"></script>
+<script src="../unit-js/32-progress.js?v=20261007a"></script>
+<script src="../unit-js/35-questions.js?v=20261007a"></script>
+<script src="../unit-js/40-resume.js?v=20261007a"></script>
+<script src="../unit-js/45-resume-part.js?v=20261007a"></script>
+<script src="../unit-js/50-loader.js?v=20261007a"></script>
+<script src="../unit-js/60-devbridge.js?v=20261007a"></script>
+<script src="script.js?v=20261007a"></script>
+<script src="../unit-js/90-boot.js?v=20261007a"></script>
+</body>
+</html>

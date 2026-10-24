@@ -1,0 +1,191 @@
+{
+  "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/",
+  "title": "وقت التمرين",
+  "learningUnitId": "methodica-math-ratio-05",
+  "componentPurpose": "practice",
+  "isAssessment": false,
+  "recommendedAfterFail": [],
+  "isRequired": true,
+  "relativeDifficulty": 3,
+  "masteryLevel": null,
+  "order": 2,
+  "depthLevel": "core-curriculum-basic",
+  "cognitiveLevels": [
+    "process-thinking"
+  ],
+  "languages": [
+    "Hebrew"
+  ],
+  "skills": [],
+  "estimatedTimeInMinutes": 24,
+  "createdAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "subContent": [
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-001/",
+      "title": "نسبة اللاعبين إلى محرّري الفيديو في قناة ألعاب",
+      "informationToBot": "מטרת הפריט: לתרגל חלוקת שלם ליחס נתון (7:3 מתוך 10 חלקים) על בסיס נתון מספרי כולל (30 תלמידים), כפתיחה לסדרת תרגול בת 4 שאלות (יש לענות נכון על 3 מתוך 4 לפחות). מה התלמיד אמור להבין/לתרגל: זיהוי היחס מתוך 'על כל 3 יש 7', חישוב 'חלק אחד' מתוך סכום החלקים (10), והכפלה בגודל הקבוצה הכולל. כיווני חשיבה ואסטרטגיות: לחשב 7/10·30=21 ו-3/10·30=9 (או 30-21=9). טעויות נפוצות: בלבול בין 3:7 ל-7:3, חלוקה ב-2 במקום בסכום החלקים (10), אי-זיהוי ש-30 הוא הסכום הכולל ולא אחד החלקים. מידע נוסף: כולל תמונה נלווית עיטורית/הקשרית בלבד, אינה נדרשת לפתרון. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-001/q1",
+          "questionType": "numeric",
+          "questionText": "كم طالبًا في القناة هم لاعبون؟ (في بطولة الألعاب السنوية للمدرسة، تشارك مجموعة من 30 طالبًا في قناة يوتيوب، وفي مقابل كل 3 محرّري فيديو يوجد 7 لاعبين.)",
+          "answers": [],
+          "correctAnswers": [
+            21
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-001/q2",
+          "questionType": "numeric",
+          "questionText": "كم طالبًا في القناة هم محرّرو فيديو؟",
+          "answers": [],
+          "correctAnswers": [
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-002/",
+      "title": "نسبة الأولاد إلى البنات في دردشة بثّ مباشر — تحديد نقاط على محور",
+      "informationToBot": "מטרת הפריט: לתרגל שימוש ביחס לחישוב חלוקה של קבוצה כוללת (30 משתתפים), כולל שינוי יחס לאורך זמן, בייצוג גרפי (נקודות על ציר X/Y). מה התלמיד אמור להבין/לתרגל: המרת יחס 1:5 לחלקי-שלם (30/6=5), זיהוי שרק אחד משני המרכיבים (בנים) משתנה כשהיחס משתנה ל-1:1 בעוד השני (בנות) נשאר קבוע. כיווני חשיבה ואסטרטגיות: חישוב מספר הבנים (1/6·30=5) ומספר הבנות (5/6·30=25) עבור נקודה A; זיהוי שמספר הבנות ב-B נשאר 25 (רק בנים הצטרפו) וכיוון שהיחס הפך ל-1:1, מספר הבנים ב-B שווה גם הוא 25. טעויות נפוצות: הנחה שגויה שגם מספר הבנות משתנה ביחס החדש, בלבול איזה ציר מייצג איזה מגדר. מידע נוסף: תמונת גרף נלווית עם תיאור טקסטואלי מלא ותואם, אין תלות בתמונה לפתרון. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-002/q1",
+          "questionType": "fill-in",
+          "questionText": "النقطة A – تمثل عدد الأولاد والبنات في الدردشة في بداية البث (30 مشاركًا، نسبة الأولاد:البنات = 1:5. المحور X يمثل الأولاد، والمحور Y يمثل البنات. أكملوا المعطيات بحسب الرسم البياني).",
+          "answers": [],
+          "correctAnswers": [
+            "A (5,25)"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-002/q2",
+          "questionType": "fill-in",
+          "questionText": "النقطة B – تمثل عدد الأولاد والبنات في نصف الساعة الثاني.",
+          "answers": [],
+          "correctAnswers": [
+            "B (25,25)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-003/",
+      "title": "النسبة بين الزوايا في مثلث سقف زجاجي",
+      "informationToBot": "מטרת הפריט: לתרגל שימוש בסכום זוויות במשולש (180°) יחד עם יחס נתון בין שתי זוויות, כולל ניתוח-מקרים (מה קורה אם הזווית הידועה משתנה). מה התלמיד אמור להבין/לתרגל: חישוב 180°-60°=120° ואז חלוקה ביחס 5:3 (3/8·120=45°, 5/8·120=75°); הכללה שכאשר הזווית הידועה משתנה, סכום שתי האחרות מתחלק לפי אותו יחס 3:5, ורק אם הסכום מתחלק ב-8 (=3+5) יתקבלו זוויות שלמות. כיווני חשיבה ואסטרטגיות: תמיד להתחיל מ-180° פחות הזווית הנתונה, ואז לחלק לפי חלקי-היחס (סכום החלקים=8). טעויות נפוצות: בלבול בין היחס 5:3 לבין 3:5 (סדר החלקים קריטי לזיהוי הזווית ה'קטנה'), אי-זיהוי שדרישת 'מספר שלם' דורשת התחלקות ב-8 ולא ב-2 או ב-5, הנחה שגויה שכל שינוי בזווית האחת יכול להוליד זווית ישרה בלי לבדוק בפועל. מידע נוסף: שתי תמונות עיטוריות/הקשריות (צילום בניין, דיאגרמת משולש עם alt-text מלא) - אין תלות תוכן חסרה. 4 טענות נבדקות בבדיקה אחת (עד 2 ניסיונות). צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-003/q1",
+          "questionType": "choice",
+          "questionText": "اختاروا المقدار الدقيق للزاويتين الأخريين في المبنى المخطط (يخطط مكتب هندسة معمارية لسقف زجاجي مثلث، الزاوية ∢BAC=60°، والنسبة بين الزاويتين الأخريين هي بالضبط 5:3):",
+          "answers": [
+            "30°, 50°",
+            "45°, 75°",
+            "40°, 80°",
+            "36°, 60°"
+          ],
+          "correctAnswers": [
+            "45°, 75°"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-003/q2",
+          "questionType": "true-false",
+          "questionText": "إذا أصبح مقدار الزاوية ∢BAC هو 100°، فإن مقدار الزاوية الإضافية، الأصغر بين الزاويتين الأخريين، سيكون 30° (بافتراض أن النسبة بين الزاويتين الأخريين بقيت 3:5).",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-003/q3",
+          "questionType": "true-false",
+          "questionText": "لكي نحصل على زوايا مقدارها هو عدد صحيح، يجب أن يكون مجموع الزاويتين الأخريين عددًا يقبل القسمة على 8 بدون باقٍ.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-003/q4",
+          "questionType": "true-false",
+          "questionText": "إذا تغير مقدار الزاوية ∢BAC إلى °20، ستكون إحدى الزاويتين الأخريين في المثلث زاوية قائمة.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "غير صحيح"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-004/",
+      "title": "مقارنة نسب الانتصارات إلى السباقات بين سبّاحين",
+      "informationToBot": "מטרת הפריט: לתרגל השוואת יחסים (הבנה איכותית ללא חישוב מספרי, ולאחר מכן חישוב כמותי מלא) בהקשר של יחס ניצחונות-משחקים. מה התלמיד אמור להבין/לתרגל: השוואת שני יחסים (3:5 מול 3:8) כשמספר ה'חלק' המשותף (ניצחונות=3) קבוע - ככל שהיחס הכולל (מכנה) גדול יותר, כך נדרשים יותר משחקים לאותו מספר ניצחונות; השוואת חלק-יחסי לזיהוי מי ניצח באחוז גבוה יותר ממשחקיו; ובסעיף ג' - פתרון משוואה ליניארית פשוטה (3/5·x=12, 3/8·y=12) לגזירת סך המשחקים. כיווני חשיבה ואסטרטגיות: לזהות שמספר הניצחונות (3) קבוע ורק המכנה (5 מול 8) משתנה; לחשב 3/5·x=12 -> x=20 ו-3/8·y=12 -> y=32. טעויות נפוצות: ניסיון לחשב מספרים בפועל בסעיף א' במקום להשוות איכותית, בלבול בין 'יותר ניצחונות' ל'יותר משחקים', טעות בפתרון המשוואה (חילוק הפוך). מידע נוסף: אין תמונות במסך זה. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-004/q1",
+          "questionType": "choice",
+          "questionText": "حقق وسام وعدن نفس عدد الانتصارات. بدون إجراء حساب، من منهما شارك في عدد أكبر من السباقات خلال الموسم؟ (السبّاح أ - وسام: نسبة الانتصارات:السباقات = 3:5. السبّاحة ب - عدن: النسبة = 3:8)",
+          "answers": [
+            "وسام",
+            "عدن",
+            "عدد السباقات التي شاركا فيها متساوٍ."
+          ],
+          "correctAnswers": [
+            "عدن"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-004/q2",
+          "questionType": "choice",
+          "questionText": "من فاز في عدد أكبر من السباقات هذا الموسم؟ بافتراض أنهما شاركا في العدد نفسه من السباقات.",
+          "answers": [
+            "وسام",
+            "عدن",
+            "كلاهما فازا بنفس عدد السباقات."
+          ],
+          "correctAnswers": [
+            "وسام"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-004/q3",
+          "questionType": "numeric",
+          "questionText": "كم سباقًا في المجموع شارك فيه وسام هذا الموسم؟ (معروف أن وسام فاز في 12 سباقًا خلال الموسم.)",
+          "answers": [],
+          "correctAnswers": [
+            20
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-02/methodica-math-ratio-05-02-004/q4",
+          "questionType": "numeric",
+          "questionText": "في كم سباق شاركت عدن هذا الموسم؟",
+          "answers": [],
+          "correctAnswers": [
+            32
+          ]
+        }
+      ]
+    }
+  ]
+}

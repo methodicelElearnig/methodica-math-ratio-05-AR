@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وحدة تعليمية 720 –– رياضيات الهدف 1.5 | النسبة | الفصل 3</title>
+<link rel="stylesheet" href="../unit-css/common.css?v=20261007a">
+<link rel="stylesheet" href="styles.css?v=20261007a">
+<link rel="stylesheet" href="../unit-css/25-report.css?v=20261007a">
+</head>
+<body>
+<!-- Boot cover (resume): hides the first screen until it is known which screen to draw.
+     A sibling of #app (not scaled). 50-loader.js / 40-resume.js dropBootCover() removes it on every
+     exit path; this inline net removes it after 800 ms, or — while a restore is in flight
+     (window.__resumeInFlight) — after at most 11 s. Copied from methodica-math-ratio-01. -->
+<div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+<script>
+(function () {
+  var t0 = Date.now();
+  function tick() {
+    var c = document.getElementById('boot-cover');
+    if (!c || !c.parentNode) return;
+    if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+    c.parentNode.removeChild(c);
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+<div id="app">
+
+  <!-- =========================================================
+       מסך 1 — מסך מעבר (TransitionScreen), data-screen="0", id="s0".
+       שקף 38 בתסריט. אותה תבנית בדיוק כמו מסך-המעבר הראשון של סיין 2
+       (.s0-content/.s0-line-1/2/3/.s0-avatar-wrap). ראו ARCHITECTURE.md.
+       ========================================================= -->
+  <section class="screen active" data-screen="0" id="s0">
+    <div class="s0-content">
+      <p class="s0-line-1">التمرين هو أفضل طريقة لتعزيز التعلم</p>
+      <p class="s0-line-2">3 أسئلة</p>
+      <p class="s0-line-3">وهناك تلميح من البداية! أجيبوا بشكل صحيح عن سؤالين فما فوق لتتمكّنوا من التقدّم.</p>
+      <div class="s0-avatar-wrap">
+        <video class="s0-avatar" id="s0-avatar" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s0-back" onclick="backToPart('methodica-math-ratio-05-02')">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s0-continue" onclick="goTo(1)">يمكن البدء!</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 2 — מסך גלילה, "שאלה 1 מתוך 3" (קבוצת התקדמות A), data-screen="1", -->
+  <section class="screen" data-screen="1" id="s1">
+    <nav class="progress-question" id="s1-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <div class="s1-widget-wrap" id="s1-widget-wrap">
+      <div class="s1-widget-panel">
+        <iframe class="s1-widget-applet" title="تطبيق النسبة — قالب الشوكولاتة" src="chocolate-ratio-app/index.html" loading="lazy"></iframe>
+        <button class="img-zoom-btn" type="button" aria-label="تكبير التطبيق" onclick="s1WidgetExpandToggle(true)">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="img-zoom-close" type="button" aria-label="إغلاق التطبيق المكبّر" onclick="s1WidgetExpandToggle(false)">
+          <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Gesture Hint (Cursor Scroll) — SELF-QA-lomda.md §7, מוגבל לפאנל-
+         הגלילה הימני בלבד (לא לכל רוחב המסך, כי הפלייסהולדר בצד שמאל
+         אינו גולל). -->
+    <div class="gesture-hint-scroll-wrap" id="s1-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s1-scroll-area" id="s1-scroll-area">
+    <div class="s1-scroll-inner">
+      <p class="scroll-intro-text">1. أعدّت رينا زهور شوكولاتة من نوعين: شوكولاتة بيضاء وشوكولاتة داكنة.<br>أرادت ترتيبها في قالب يحتوي على 50 تجويفًا.<br>استعينوا بالتطبيق، اختاروا نوع الشوكولاتة، ولوّنوا المربعات بحسب النسبة المطلوبة في كل بند، وأجيبوا عن الأسئلة‎.</p>
+
+      <div class="s1-part" id="s1-part-1">
+        <p class="s1-body">أ. النسبة بين عدد زهور الشوكولاتة الداكنة وعدد زهور الشوكولاتة البيضاء هي <br/><span dir="ltr">9 : 1</span>‏‎.</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">عدد زهور الشوكولاتة البيضاء في القالب</span>
+            <input class="viq-input" id="s1-p1-white" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد زهور الشوكولاتة البيضاء، البند أ" oninput="s1MixOnInput('p1')">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">عدد زهور الشوكولاتة الداكنة في القالب</span>
+            <input class="viq-input" id="s1-p1-dark" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد زهور الشوكولاتة الداكنة، البند أ" oninput="s1MixOnInput('p1')">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">هل بقيت تجويفات فارغة؟</span>
+            <div class="s1-yn-group" role="radiogroup" aria-label="اختيار نعم أو لا">
+              <div class="scq-opt s1-yn-opt" role="radio" aria-checked="false" tabindex="0" id="s1-p1-yes" data-id="yes" onclick="s1MixSelectYN('p1','yes')">
+                <span class="scq-opt-text">نعم</span><span class="scq-radio"></span>
+              </div>
+              <div class="scq-opt s1-yn-opt" role="radio" aria-checked="false" tabindex="0" id="s1-p1-no" data-id="no" onclick="s1MixSelectYN('p1','no')">
+                <span class="scq-opt-text">لا</span><span class="scq-radio"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s1-p1-check" disabled onclick="s1MixCheck('p1')">هل إجابتي صحيحة؟</button>
+        <div id="s1-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s1-p1-reveal-btn" type="button" hidden onclick="s1MixToggleReveal('p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s1-part" id="s1-part-2">
+        <p class="s1-body">
+          ب. الآن، النسبة بين عدد زهور الشوكولاتة الداكنة وعدد زهور الشوكولاتة <span style="white-space:nowrap">البيضاء هي <span dir="ltr">3 : 1</span>‏‎.</span>
+        </p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">عدد زهور الشوكولاتة البيضاء في القالب</span>
+            <input class="viq-input" id="s1-p2-white" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد زهور الشوكولاتة البيضاء، البند ب" oninput="s1MixOnInput('p2')">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">عدد زهور الشوكولاتة الداكنة في القالب</span>
+            <input class="viq-input" id="s1-p2-dark" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد زهور الشوكولاتة الداكنة، البند ب" oninput="s1MixOnInput('p2')">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">هل بقيت تجويفات فارغة؟</span>
+            <div class="s1-yn-group" role="radiogroup" aria-label="اختيار نعم أو لا">
+              <div class="scq-opt s1-yn-opt" role="radio" aria-checked="false" tabindex="0" id="s1-p2-yes" data-id="yes" onclick="s1MixSelectYN('p2','yes')">
+                <span class="scq-opt-text">نعم</span><span class="scq-radio"></span>
+              </div>
+              <div class="scq-opt s1-yn-opt" role="radio" aria-checked="false" tabindex="0" id="s1-p2-no" data-id="no" onclick="s1MixSelectYN('p2','no')">
+                <span class="scq-opt-text">لا</span><span class="scq-radio"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s1-p2-check" disabled onclick="s1MixCheck('p2')">هل إجابتي صحيحة؟</button>
+        <div id="s1-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s1-p2-reveal-btn" type="button" hidden onclick="s1MixToggleReveal('p2')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s1-part" id="s1-part-3">
+        <p class="s1-body">ت. تدّعي رينا أنه عندما تكون النسبة بين عدد زهور الشوكولاتة الداكنة وعدد زهور الشوكولاتة البيضاء 3 : 1،<br>يمكن حساب عدد زهور الشوكولاتة من كل نوع مسبقًا.<br>عدد زهور الشوكولاتة البيضاء هو <span dir="ltr"><span class="frac"><span class="frac-num">1</span><span class="frac-den">4</span> </span> · 50 = 12.5</span>.<br>وبما أنه لا يمكن الحصول على نصف زهرة شوكولاتة، فستبقى لدينا تجويفات فارغة‎.</p>
+        <p class="scq-qtext-em">هل رينا على صواب؟</p>
+        <div class="scq-answers" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="scqSelect('s1p3','a')">
+            <span class="scq-opt-text">نعم</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="scqSelect('s1p3','b')">
+            <span class="scq-opt-text">لا</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="scqSelect('s1p3','c')">
+            <span class="scq-opt-text">لا يمكن المعرفة</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s1-p3-check" disabled onclick="scqCheck('s1p3')">هل إجابتي صحيحة؟</button>
+        <div id="s1-p3-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s1-back" onclick="goTo(0)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s1-continue" disabled onclick="goTo(2)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 3 — מסך סטטי (לא גלילה), "سؤال 2 מתוך 3" (קבוצת התקדמות A),
+       data-screen="2", id="s2". גיאומטריית זוויות (angle-diagram-cd.png,
+       490×250 בפועל) + 4 טענות נכון/לא נכון. אין רמז — לא נמצא טקסט-
+       רמז מפורש בתסריט (שקף 42).
+       ========================================================= -->
+  <section class="screen" data-screen="2" id="s2">
+    <nav class="progress-question" id="s2-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <div class="gesture-hint-scroll-wrap" id="s2-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s2-static-wrap">
+      <div class="scq-question">
+        <div class="scq-text-col">
+          <div class="scq-qtext-body">
+            <p class="scq-qbody">2. ‎في الرسم معطاة الزاوية <span dir="ltr">∢ACB</span> والقطعة‎ CD ‎الخارجة من رأس الزاوية وتقسمها إلى الزاويتين α و-β. النسبة بين α و-β هي 7 : 2.</p>
+            <p class="scq-qtext-em">اختاروا الجُمل الصحيحة:</p>
+          </div>
+          <div class="tf-rows" id="s2-rows">
+            <div class="tf-row" id="s2-row-1">
+              <div class="tf-stmt">
+                <span class="tf-num">1.</span>
+                <span class="tf-text">الزاويتان‎ α ‎وβ -‎ متقابلتان بالرأس، ولذلك فهما متساويتان‎.</span>
+              </div>
+              <div class="tf-btns">
+                <button class="tf-btn" id="s2-r1-true" onclick="s2P1Select(1,'true')">صحيح</button>
+                <button class="tf-btn" id="s2-r1-false" onclick="s2P1Select(1,'false')">غير صحيح</button>
+              </div>
+            </div>
+            <div class="tf-row" id="s2-row-2">
+              <div class="tf-stmt">
+                <span class="tf-num">2.</span>
+                <span class="tf-text">مقدار الزاوية‎ α ‎هو °40.</span>
+              </div>
+              <div class="tf-btns">
+                <button class="tf-btn" id="s2-r2-true" onclick="s2P1Select(2,'true')">صحيح</button>
+                <button class="tf-btn" id="s2-r2-false" onclick="s2P1Select(2,'false')">غير صحيح</button>
+              </div>
+            </div>
+            <div class="tf-row" id="s2-row-3">
+              <div class="tf-stmt">
+                <span class="tf-num">3.</span>
+                <span class="tf-text">مقدار الزاوية‎ β ‎هو <span dir="ltr"> <span class="frac"><span class="frac-num">7</span><span class="frac-den">9</span></span> · °180 = °140</span>.</span>
+              </div>
+              <div class="tf-btns">
+                <button class="tf-btn" id="s2-r3-true" onclick="s2P1Select(3,'true')">صحيح</button>
+                <button class="tf-btn" id="s2-r3-false" onclick="s2P1Select(3,'false')">غير صحيح</button>
+              </div>
+            </div>
+            <div class="tf-row" id="s2-row-4">
+              <div class="tf-stmt">
+                <span class="tf-num">4.</span>
+                <span class="tf-text">الزاويتان‎ α ‎و-β ‎ متجاورتان، ولذلك مجموعهما هو °180.</span>
+              </div>
+              <div class="tf-btns">
+                <button class="tf-btn" id="s2-r4-true" onclick="s2P1Select(4,'true')">صحيح</button>
+                <button class="tf-btn" id="s2-r4-false" onclick="s2P1Select(4,'false')">غير صحيح</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-continue s3-inline-btn" id="s2-check" disabled onclick="s2P1Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <!-- התמונה שנייה ב-DOM כדי לרדת פיזית שמאלה תחת RTL אמיתי,
+             לפי אותה מוסכמה בדיוק כמו scq-img בסיין 2. -->
+        <div class="scq-img scq-img--wide-diagram">
+          <div class="scq-img-inner scq-img-inner--diagram">
+            <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                    data-zoom-src="assets/images/angle-diagram-cd.png" data-zoom-alt="رسم للزاوية‎ ACB ‎مع القطعة‎ CD ‎الخارجة من رأس الزاوية، وتقسمها إلى الزاويتين‎ α ‎و-β">
+              <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <img src="assets/images/angle-diagram-cd.png" alt="رسم للزاوية‎ ACB ‎مع القطعة‎ CD ‎الخارجة من رأس الزاوية، وتقسمها إلى الزاويتين‎ α ‎و-β">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s2-feedbox" class="scq-fb-box">
+      <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+      <p class="scq-fb-body"></p>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s2-back" onclick="goTo(1)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s2-continue" disabled onclick="goTo(3)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 4 — מסך גלילה, "שאלה 3 מתוך 3" (קבוצת התקדמות A), data-screen="3",
+       id="s3". "כרטיס הזהב" של פורים. תמונה קבועה (purim-gold-tickets.jpeg)
+       מוצגת בחלקים א'/ב' בלבד — מוסתרת לגמרי בחלק ג' (onDone של חלק ב',
+       ב-JS, לא CSS). 3 חלקים: א' VIQ זוגי (יחס "___ : ___"), ב' SCQ
+       רגיל (4 אפשרויות), ג' **MCQ** (בחירה מרובה, 2 מתוך 3 — המימוש
+       הראשון בפרויקט של הרכיב הזה). אין רמז.
+       ========================================================= -->
+  <section class="screen" data-screen="3" id="s3">
+    <nav class="progress-question" id="s3-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <div class="gesture-hint-scroll-wrap" id="s3-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s3-fixed-images" id="s3-fixed-images">
+      <div class="s3-img-frame">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/purim-gold-tickets.jpg" data-zoom-alt="بطاقات ذهبية لقُرعة رأس السنة">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/purim-gold-tickets.jpg" alt="بطاقات ذهبية لقُرعة رأس السنة">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s3-scroll-area">
+    <div class="s3-scroll-inner">
+      <p class="scroll-intro-text">3. ‎في حفلة رأس السنة في حركة الشبيبة، أراد تامر وعبير أن يشتريا معًا "البطاقة الذهبية" الكبيرة التي سعرها 12 شيكل، وذلك لزيادة احتمال فوزهما بالجائزة.<br>جمعا العملات التي كانت في جيبيهما:<br>وجد تامر 5 شيكل.<br>ووجدت عبير 7 شيكل.</p>
+
+      <div class="s3-part" id="s3-part-1">
+        <p class="scq-qtext-em">أ. ما هي النسبة بين استثمار تامر واستثمار عبير؟</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-coord" dir="ltr">
+              <input class="viq-input viq-input--sm" id="s3-p1-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="الجزء الأول في النسبة (تامر)" oninput="s3P1OnInput()">
+              :
+              <input class="viq-input viq-input--sm" id="s3-p1-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="الجزء الثاني في النسبة (عبير)" oninput="s3P1OnInput()">
+            </span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p1-check" disabled onclick="s3P1Check()">هل إجابتي صحيحة؟</button>
+        <div id="s3-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s3-p1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s3p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s3-part-2">
+        <p class="s3-body">فاز تامر وعبير بالجائزة الكبرى بقيمة 120 شيكل!!! والآن يريدان تقسيم الـ 120 شيكل بصورة عادلة، بحسب نسبة المال الذي دفعه كل منهما عند الشراء‎.</p>
+        <p class="scq-qtext-em">ب. اختاروا الإجابة الصحيحة:</p>
+        <div class="scq-answers" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s3P2Select('a')">
+            <span class="scq-opt-text">سيحصل تامر على 50 شيكل وستحصل عبير على 70 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s3P2Select('b')">
+            <span class="scq-opt-text">سيحصل تامر على 60 شيكل وستحصل عبير على 60 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s3P2Select('c')">
+            <span class="scq-opt-text">سيحصل تامر على 70 شيكل وستحصل عبير على 50 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="d" onclick="s3P2Select('d')">
+            <span class="scq-opt-text">سيحصل تامر على 20 شيكل وستحصل عبير على 100 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p2-check" disabled onclick="s3P2Check()">هل إجابتي صحيحة؟</button>
+        <div id="s3-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s3-part-3">
+        <p class="s3-body">ت. اقترح تامر تقسيمًا آخر: "بما أننا فزنا بـ 120 شيكل، يُمكن ببساطة أن نتقاسم المبلغ بالتساوي، ويحصل كل واحد منا على 60 شيكل". قالت عبير إن اقتراح تامر غير عادل تجاهها‎.</p>
+        <p class="scq-qtext-em">اختاروا الجُمل الصحيحة من الناحية الرياضية:</p>
+        <div class="scq-answers" role="group" aria-label="خيارات الإجابة (اختيار متعدد)">
+          <div class="scq-opt" role="checkbox" aria-checked="false" tabindex="0" data-id="a" onclick="mcqToggle('s3p3','a')">
+            <span class="scq-opt-text">الاقتراح غير عادل لأن عبير دفعت مبلغًا أكبر عند الشراء، ولذلك يجب أن تحصل على حصة أكبر من مبلغ الجائزة‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="checkbox" aria-checked="false" tabindex="0" data-id="b" onclick="mcqToggle('s3p3','b')">
+            <span class="scq-opt-text">الاقتراح عادل، لأنه بمجرد أن يكون هناك فوز مشترك، بغضّ النظر عن المبلغ الذي دفعه كل واحد في البداية – فالجائزة دائمًا تعود للشريكين بالتساوي تمامًا‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="checkbox" aria-checked="false" tabindex="0" data-id="c" onclick="mcqToggle('s3p3','c')">
+            <span class="scq-opt-text">الاقتراح غير عادل، لأن النسبة بين المبالغ التي دفعاها هي 7 : 5، والمبلغان 60 و-60 يمثلان نسبة مختلفة وهي 1 : 1‏‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p3-check" disabled onclick="mcqCheck('s3p3')">هل إجابتي صحيحة؟</button>
+        <div id="s3-p3-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s3-back" onclick="goTo(2)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s3-continue" disabled onclick="goTo(4)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 5 — מסך מעבר (TransitionScreen), data-screen="4", id="s4".
+       שקף 46 בתסריט. משתמש-חוזר ב-.s0-content הגנרי — "יופי של
+       עבודה!" (המשפט הבולט) ממופה ל-.s0-line-2 מטעמי משקל-חזותי (אין
+       "מספר גדול" במקור, אבל class זה נבחר לצורך המשקל בלבד — ראו
+       ARCHITECTURE.md § "מסך 5" לתיעוד שיקול-הדעת). כפתור "בואו נתחיל!"
+       (לא "אפשר להתחיל!" — כדי לא לחזור מילה-במילה על כפתור מסך 1;
+       שיקול-דעת, אין ניסוח-כפתור מפורש בתסריט לשקף הזה — ראו
+       ARCHITECTURE.md).
+       ========================================================= -->
+  <section class="screen" data-screen="4" id="s4">
+    <div class="s0-content">
+      <p class="s0-line-1">عمل رائع!</p>
+      <p class="s0-line-2">فيما يلي تمرينان إضافيان بمستوى صعوبة أعلى.
+</p>
+      <div class="s0-avatar-wrap">
+        <div class="s0-bubble">هذا سهل عليكم‎!</div>
+        <video class="s0-avatar" id="s4-avatar" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s4-back" onclick="goTo(3)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s4-continue" onclick="goTo(5)">هيا نبدأ!</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 6 — מסך גלילה, קבוצת-התקדמות **נפרדת** (practiceProgress2, -->
+  <section class="screen" data-screen="5" id="s5">
+
+    <div class="gesture-hint-scroll-wrap" id="s5-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <!-- תמונה בודדת, מוחלפת ב-JS (s5SetPhoto) בכל חלק — לא שלוש
+         תמונות מוערמות כמו s3-fixed-images במסך 4 (שם שתי התמונות
+         נשארות קבועות; כאן מתחלפת תמונה אחת). -->
+    <div class="s3-fixed-images" id="s5-fixed-images">
+      <div class="s3-img-frame">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة" id="s5-fixed-img-zoom-btn"
+                data-zoom-src="assets/images/boy-washing-car.jpg" data-zoom-alt="ولد يغسل سيارة">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img id="s5-fixed-img" src="assets/images/boy-washing-car.jpg" alt="ولد يغسل سيارة">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s5-scroll-area">
+    <div class="s3-scroll-inner">
+      <div class="s3-part" id="s5-part-1">
+        <p class="scroll-intro-text">عمل أمير ومنال معًا في غسيل السيارات في الحيّ.<br>عملت منال <strong>ساعتين </strong>وعمل أمير <strong>5 ساعات.</strong><br>قرّرا تقسيم المبلغ الذي سيكسبانه بحسب النسبة<br>بين عدد الساعات التي عملها كل منهما (أي بنسبة 5 : 2)‎.</p>
+        <p class="scq-qtext-em">أ. أكملوا الجمل التالية: <span style="font-weight:400">إذا كسبت منال وأمير معًا </span>210 شيكل<span style="font-weight:400">، سيتقاسمان المبلغ بينهما على النحو التالي‎:</span></p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">ستحصل منال على</span>
+            <input class="viq-input" id="s5-p1-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="المبلغ الذي ستحصل عليه منال" oninput="s5P1OnInput()">
+            <span class="viq-answer-unit">شيكل</span>
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">سيحصل أمير على</span>
+            <input class="viq-input" id="s5-p1-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="المبلغ الذي سيحصل عليه أمير" oninput="s5P1OnInput()">
+            <span class="viq-answer-unit">شيكل</span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s5-p1-check" disabled onclick="s5P1Check()">هل إجابتي صحيحة؟</button>
+        <div id="s5-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s5-p1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s5p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s5-part-2">
+        <p class="s3-body">في الأسبوع التالي، عملت منال وأمير مرة أخرى في غسيل السيارات.<br>النسبة بين عدد ساعات العمل كانت 2:5.<br>هذه المرة، كسبا مبلغًا <strong>جديدًا</strong> وغير معلوم.<br>أجرى أمير بعض الحسابات ووجد أن حصته من الأرباح كانت <strong>100 شيكل‎</strong>.</p>
+        <p class="scq-qtext-em">ب. أي من الجُمل التالية تصف تقسيم المبلغ بينهما بالشكل الصحيح؟</p>
+        <div class="scq-answers" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s5P2Select('a')">
+            <span class="scq-opt-text">كسبت منال وأمير معًا 140 شيكل، وحصلت منال على 40 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s5P2Select('b')">
+            <span class="scq-opt-text">حصلت منال على 50 شيكل، لأنها دائمًا تحصل على نصف مبلغ أمير</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s5P2Select('c')">
+            <span class="scq-opt-text">كسبت منال وأمير معًا 200 شيكل، وحصل أمير على 100 شيكل‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="d" onclick="s5P2Select('d')">
+            <span class="scq-opt-text">حصلت منال على 60 شيكل، والمبلغ الإجمالي الذي كسباه معًا كان 210 شيكل</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s5-p2-check" disabled onclick="s5P2Check()">هل إجابتي صحيحة؟</button>
+        <div id="s5-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s5-part-3">
+        <p class="scq-qtext-em">ت. كسبت منال وأمير 90 شيكل، هل يمكنهما تقسيم المبلغ بحسب النسبة المعطاة (5 : 2) بحيث يحصل كل منهما على المبلغ بأوراق نقدية؟</p>
+        <div class="scq-answers" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s5P3Select('a')">
+            <span class="scq-opt-text">نعم</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s5P3Select('b')">
+            <span class="scq-opt-text">لا</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s5-p3-check" disabled onclick="s5P3Check()">هل إجابتي صحيحة؟</button>
+        <div id="s5-p3-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s5-back" onclick="goTo(4)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s5-continue" disabled onclick="finishComponent('methodica-math-ratio-05-04')">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GLOBAL — Report/Issue button (.flag-btn) ============
+       רכיב גלובלי יחיד, מחוץ לכל .screen, ישירות ב-#app, לפי
+       720-templates skill (_global-components.md). ויזואלי בלבד — עדיין
+       בלי התנהגות קליק (ייתכן שיחובר ל-LMS בהמשך). -->
+  <button class="flag-btn" aria-label="هل وجدتم مشكلة؟" title="هل وجدتم مشكلة؟">
+    <span class="flag-btn-icon" aria-hidden="true">
+      <img class="flag-btn-icon-default" src="../unit-assets/img/btn-flag-default.png" alt="">
+      <img class="flag-btn-icon-hover" src="../unit-assets/img/btn-flag-hover.png" alt="">
+    </span>
+    <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+  </button>
+
+  <!-- GLOBAL — Image zoom modal -->
+  <!-- Issue-report dialogs (unit-js/25-report.js, unit-css/25-report.css) -->
+  <div id="report-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="report-modal-title">
+      <div class="report-modal-box">
+        <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="סגור">&#10005;</button>
+        <h2 class="report-modal-title" id="report-modal-title">דיווח על בעיה</h2>
+        <p class="report-modal-body">משהו לא ברור או לא עובד כמו שצריך?<br>ספרו לנו מה קרה כדי שנטפל.</p>
+
+        <div class="report-field">
+          <label class="report-label" for="report-type"><span class="required-star">*</span> מה סוג הבעיה</label>
+                    <div class="report-custom-select" id="report-type-wrapper">
+            <button class="report-select-btn is-placeholder" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="report-select-value">בחרו סוג בעיה</span>
+            </button>
+            <ul class="report-select-list" role="listbox" hidden>
+              <li class="report-select-option" data-value="technical" role="option">תקלה טכנית או שמשהו לא עובד</li>
+              <li class="report-select-option" data-value="unclear" role="option">משהו לא ברור לי</li>
+              <li class="report-select-option" data-value="other" role="option">אחר</li>
+            </ul>
+            <input type="hidden" id="report-type" value="">
+          </div>
+          <span class="report-field-error" id="report-type-error" hidden>בחרו את סוג הבעיה</span>
+        </div>
+
+        <div class="report-field">
+          <label class="report-label" for="report-text"><span class="required-star">*</span> מה קרה?</label>
+          <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="פרטו מה קרה כדי שנוכל להבין את הבעיה" onblur="reportTextBlur()"></textarea>
+          <span class="report-field-error" id="report-text-error" hidden>כתבו מה קרה</span>
+          <span class="report-char-count" id="report-char-count">0 / 250</span>
+        </div>
+
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="tryCloseReportModal()">ביטול</button>
+          <button class="report-submit-btn" onclick="submitReport()" disabled>שליחת דיווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-confirm-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="confirm-modal-title">בטוח לסגור את החלון?</h2>
+        <p class="report-modal-body">בלחיצה על סגירה לא יישלח דיווח</p>
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="forceCloseReportModal()">סגור חלון</button>
+          <button class="report-submit-btn" onclick="backToReportForm()">אני רוצה לדווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-thanks-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="thanks-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="thanks-modal-title">הדיווח נשלח, תודה!</h2>
+        <p class="report-modal-body">קיבלנו את הדיווח שלכם ונטפל בו בהקדם.</p>
+        <div class="report-actions">
+          <button class="report-submit-btn" onclick="closeReportThanks()">סגירה</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="a11y-announcer" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+
+  <div id="img-zoom-modal" class="img-zoom-modal hidden" aria-hidden="true" data-zoom-close="true">
+    <div class="img-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="تكبير الصورة">
+      <button class="img-zoom-close" type="button" data-zoom-close="true" aria-label="إغلاق تكبير الصورة">
+        <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="img-zoom-modal__stage"></div>
+    </div>
+  </div>
+
+</div>
+<script src="../unit-js/10-identity.js?v=20261007a"></script>
+<script src="../unit-js/15-ui.js?v=20261007a"></script>
+<script src="../unit-js/20-xapi.js?v=20261007a"></script>
+<script src="../unit-js/22-scoring.js?v=20261007a"></script>
+<script src="../unit-js/25-report.js?v=20261007a"></script>
+<script src="../unit-js/28-feedback-drag.js?v=20261007a"></script>
+<script src="../unit-js/30-nav.js?v=20261007a"></script>
+<script src="../unit-js/32-progress.js?v=20261007a"></script>
+<script src="../unit-js/35-questions.js?v=20261007a"></script>
+<script src="../unit-js/40-resume.js?v=20261007a"></script>
+<script src="../unit-js/45-resume-part.js?v=20261007a"></script>
+<script src="../unit-js/50-loader.js?v=20261007a"></script>
+<script src="../unit-js/60-devbridge.js?v=20261007a"></script>
+<script src="script.js?v=20261007a"></script>
+<script src="../unit-js/90-boot.js?v=20261007a"></script>
+</body>
+</html>

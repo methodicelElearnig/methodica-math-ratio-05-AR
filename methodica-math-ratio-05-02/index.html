@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وحدة تعليمية 720 –– رياضيات الهدف 1.5 | النسبة | الفصل 2</title>
+<link rel="stylesheet" href="../unit-css/common.css?v=20261007a">
+<link rel="stylesheet" href="styles.css?v=20261007a">
+<link rel="stylesheet" href="../unit-css/25-report.css?v=20261007a">
+</head>
+<body>
+<!-- Boot cover (resume): hides the first screen until it is known which screen to draw.
+     A sibling of #app (not scaled). 50-loader.js / 40-resume.js dropBootCover() removes it on every
+     exit path; this inline net removes it after 800 ms, or — while a restore is in flight
+     (window.__resumeInFlight) — after at most 11 s. Copied from methodica-math-ratio-01. -->
+<div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+<script>
+(function () {
+  var t0 = Date.now();
+  function tick() {
+    var c = document.getElementById('boot-cover');
+    if (!c || !c.parentNode) return;
+    if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+    c.parentNode.removeChild(c);
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+<div id="app">
+
+  <!-- =========================================================
+       מסך 1 — מסך מעבר (TransitionScreen), data-screen="0", id="s0"
+       שקף 28 בתסריט ("מסך הזנקה"). שלוש רמות-טיפוגרפיה נפרדות (לא שתי
+       שורות אחידות כמו במסך-המעבר של סיין 1) — כותרת-מספר גדולה
+       ("4 שאלות") באמצע, מבוססת על מוקאפ-השקף עצמו. כפתור-המשך מקבל
+       תווית מהתסריט ("يمكن البدء!"). ראו ARCHITECTURE.md § "מסך 1".
+       ========================================================= -->
+  <section class="screen active" data-screen="0" id="s0">
+    <div class="s0-content">
+      <p class="s0-line-1">أنهينا مرحلة التعلّم، وسننتقل إلى التمارين ونجيب عن</p>
+      <p class="s0-line-2">4 أسئلة</p>
+      <p class="s0-line-3">يجب الإجابة بشكل صحيح عن سؤالين على الأقل.</p>
+      <div class="s0-avatar-wrap">
+        <video class="s0-avatar" id="s0-avatar" autoplay loop muted playsinline></video>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s0-back" onclick="backToPart('methodica-math-ratio-05-01')">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s0-continue" onclick="goTo(1)">يمكن البدء!</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 2 — ValueInputQuestion + פלייסהולדר-תמונה, data-screen="1",
+       id="s1". שקף 29, "שאלה 1 (סעיפים א'+ב') מתוך 4". פריסה מועתקת
+       ממסך 11 (data-screen="10", id="s10") של methodica-science-mass-
+       measure-03-01 (תמונה+טקסט+סרגל התקדמות) — לפי בקשה מפורשת,
+       השאלה החד-ברירה של המקור הוחלפה בשאלת-קלט (VIQ, כמו מסך 6 באותה
+       לומדה). תמונת המקור (צילום-מסך טלפון) הוחלפה בפלייסהולדר, לפי
+       בקשה מפורשת. אין רמז — לא נמצא טקסט-רמז מפורש בתסריט (הכפתור
+       מופיע במוקאפ אבל בלי תוכן), ראו ARCHITECTURE.md.
+       ========================================================= -->
+  <section class="screen" data-screen="1" id="s1">
+    <nav class="progress-question" id="s1-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <div class="scq-scroll-outer">
+    <div class="scq-question">
+      <div class="scq-text-col">
+        <div class="scq-qtext-body">
+          <p class="scq-qbody">1. في بطولة الألعاب الإلكترونية السنوية في المدرسة، أنشأت مجموعة مكوّنة من 30 طالبًا قناة مشتركة على الشبكة لرفع الفيديوهات من البطولة.<br>قسّم الطلاب العمل فيما بينهم إلى مهمتين فقط: <br>بعضهم لاعبون يصوّرون أنفسهم وهم يلعبون، وبعضهم محرّرو فيديو.<br>مقابل كل 3 محرّري فيديو يوجد 7 لاعبين‎.</p>
+          <p class="scq-qtext-em">أجيبوا عن الأسئلة التالية:</p>
+        </div>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">أ. كم طالبًا في القناة هم لاعبون؟</span>
+            <input class="viq-input" id="s1-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="إجابة للبند أ" oninput="s1OnInput()">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">ب. كم طالبًا في القناة هم محرّرو فيديو؟</span>
+            <input class="viq-input" id="s1-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="إجابة للبند ب" oninput="s1OnInput()">
+          </div>
+        </div>
+      </div>
+      <div class="scq-img">
+        <div class="scq-img-inner">
+          <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                  data-zoom-src="assets/images/phone.jpg" data-zoom-alt="لقطة شاشة لقناة الألعاب الإلكترونية">
+            <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <img src="assets/images/phone.jpg" alt="لقطة شاشة لقناة الألعاب الإلكترونية">
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="s1-feedbox" class="scq-fb-box">
+      <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+      <p class="scq-fb-body"></p>
+      <button class="scq-fb-reveal-btn" id="s1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s1')">الإجابة الصحيحة</button>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s1-back" onclick="goTo(0)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s1-check" disabled onclick="s1Check()">هل إجابتي صحيحة؟</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 3 — ValueInputQuestion + פלייסהולדר-תמונה, data-screen="2",
+       id="s2". שקף 30, "שאלה 2 מתוך 4". אותו מבנה בדיוק כמו מסך 2 —
+       הפעם שתי תשובות הן זוגות-קואורדינטות (A(x,y)/B(x,y)) המוטבעות
+       במשפט, לפי הערת-ההפקה "לשים מקום למילוי בתוך הסוגריים".
+       ========================================================= -->
+  <section class="screen" data-screen="2" id="s2">
+    <nav class="progress-question" id="s2-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <div class="scq-scroll-outer">
+    <div class="scq-question">
+      <div class="scq-text-col">
+        <div class="scq-qtext-body">
+          <p class="scq-qbody">2. فتحت مجموعة من الطلاب بثًا مباشرًا على قناة بث. <br>في بداية البث، كان في الدردشة 30 مشاركًا.<br>النسبة بين عدد الأولاد وعدد البنات كانت 1:5.<br> خلال البث انضم إلى الدردشة أولاد فقط، وتغيرت النسبة بين الأولاد والبنات إلى 1:1. <br> أمامكم محور أعداد - محور X يمثل ‎عدد الأولاد، ومحور Y يمثل ‎عدد البنات‎.
+          </p>
+          <p class="scq-qtext-em">أكملوا المعطيات بحسب الرسم البياني‎:</p>
+        </div>
+        <div class="viq-answers">
+          <div class="viq-answer-row viq-answer-row--coord">
+            <span class="viq-answer-label">أ. النقطة A – تمثل عدد الأولاد والبنات في الدردشة في بداية البث‎.</span>
+            <span class="viq-coord" dir="ltr">
+              A (
+              <input class="viq-input viq-input--sm" id="s2-a-x" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النقطة A، محور X" oninput="s2OnInput()">
+              ,
+              <input class="viq-input viq-input--sm" id="s2-a-y" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النقطة A، محور Y" oninput="s2OnInput()">
+              )
+            </span>
+          </div>
+          <div class="viq-answer-row viq-answer-row--coord">
+            <span class="viq-answer-label">ب. النقطة B – تمثل عدد الأولاد والبنات في نصف الساعة‎ الثاني.</span>
+            <span class="viq-coord" dir="ltr">
+              B (
+              <input class="viq-input viq-input--sm" id="s2-b-x" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النقطة B، محور X" oninput="s2OnInput()">
+              ,
+              <input class="viq-input viq-input--sm" id="s2-b-y" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النقطة B، محور Y" oninput="s2OnInput()">
+              )
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="scq-img">
+        <div class="scq-img-inner">
+          <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                  data-zoom-src="assets/images/graph-screen-3.png" data-zoom-alt="محور أعداد يعرض عدد الأولاد (‎محور X) وعدد البنات (محور Y) ‎في الدردشة">
+            <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <img src="assets/images/graph-screen-3.png" alt="محور أعداد يعرض عدد الأولاد (‎محور X) وعدد البنات (محور Y) ‎في الدردشة">
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="s2-feedbox" class="scq-fb-box">
+      <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+      <p class="scq-fb-body"></p>
+      <button class="scq-fb-reveal-btn" id="s2-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2')">الإجابة الصحيحة</button>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s2-back" onclick="goTo(1)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s2-check" disabled onclick="s2Check()">هل إجابتي صحيحة؟</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 4 — מסך גלילה, שאלה 3 מתוך 4, data-screen="3", id="s3".
+       שקפים 31-33, שלושה חלקים נחשפים בזה אחר זה: (1) מידע בלבד, ללא
+       שאלה; (2) שאלה חד-ברירה (רפרנס: מסך 19 סיין 1 יעד 11 — s18 שם);
+       (3) נכון/לא נכון, 3 טענות (רפרנס: תבנית tf-row, סיין 4 יעד 3
+       מסך 4). שתי תמונות קבועות בצד שמאל לאורך כל שלושת החלקים (לפי
+       בקשה מפורשת "אל תיגע בתמונות"): צילום-בניין אמיתי (חולץ מה-pptx
+       כ-picture shape מוטמע) + דיאגרמת-משולש (יוצאה מהשקף, PowerPoint
+       COM export + טרימינג). ראו ARCHITECTURE.md § "מסך 4".
+       ========================================================= -->
+  <section class="screen" data-screen="3" id="s3">
+    <nav class="progress-question" id="s3-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <!-- Gesture Hint (Cursor Scroll) — SELF-QA-lomda.md §7. מוצג פעם
+         אחת בכניסה למסך, נעלם בגלילה אמיתית ראשונה. -->
+    <div class="gesture-hint-scroll-wrap" id="s3-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s3-fixed-images">
+      <div class="s3-img-frame">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/triangle-roof-building-opt.jpg" data-zoom-alt="مبنى عام له سقف زجاجي على شكل مثلث">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/triangle-roof-building-opt.jpg" alt="مبنى عام له سقف زجاجي على شكل مثلث">
+      </div>
+      <div class="s3-img-frame s3-img-frame--diagram">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/triangle-diagram-roof.png" data-zoom-alt="رسم لمثلث BAC، مقدار الزاوية A هو 60 درجة">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/triangle-diagram-roof.png" alt="رسم لمثلث BAC، مقدار الزاوية A هو 60 درجة">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s3-scroll-area">
+    <div class="s3-scroll-inner">
+      <div class="s3-part" id="s3-part-1">
+        <p class="s3-body">3. يخطط مكتب هندسة معمارية لمبنى عام جديد له سقف زجاجي على شكل مثلث.<br>حدّدت المهندسة المعمارية الرئيسية قاعدة بأن مقدار إحدى زوايا المثلث يجب أن يكون <br/> يساوي 60° (<span dir="ltr">∢BAC = 60°</span>).<br> قررت المهندسات المعماريات أن تكون النسبة بين مقدارَيّ الزاويتين الأخريين في مثلث السقف 5 : 3 بالضبط
+        </p>
+      </div>
+
+      <div class="s3-part" id="s3-part-2">
+        <p class="scq-qtext-em">أ. اختاروا المقدار الدقيق للزاويتين الأخريين في المبنى المخطط‎:</p>
+        <div class="scq-answers scq-answers--fit" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s3P2Select('a')">
+            <span class="scq-opt-text"><span dir="ltr">30°, 50°</span></span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s3P2Select('b')">
+            <span class="scq-opt-text"><span dir="ltr">45°, 75°</span></span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s3P2Select('c')">
+            <span class="scq-opt-text"><span dir="ltr">40°, 80°</span></span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="d" onclick="s3P2Select('d')">
+            <span class="scq-opt-text"><span dir="ltr">36°, 60°</span></span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p2-check" disabled onclick="s3P2Check()">هل إجابتي صحيحة؟</button>
+        <div id="s3-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s3-part-3">
+        <p class="s3-body">ب. تفكر المهندسات المعماريات في تغيير الزاوية المعروفة (<span dir="ltr">∢BAC = 60°</span>)، مع إبقاء<br/>النسبة بين الزاويتين الأخريين كما كانت - 3:5‏‎.</p>
+        <p class="scq-qtext-em">حدِّدوا لكلّ ادّعاء من الادّعاءات التالية ما إذا كان صحيحًا أو غير صحيح:</p>
+        <div class="tf-rows" id="s3-p3-rows">
+          <div class="tf-row" id="s3-p3-row-1">
+            <div class="tf-stmt">
+              <span class="tf-num">1.</span>
+              <span class="tf-text">إذا أصبح مقدار الزاوية <span dir="ltr">∢BAC</span> هو °100، فإن مقدار الزاوية الإضافية،<br/> الأصغر بين الزاويتين الأخريين، سيكون °30.</span>
+            </div>
+            <div class="tf-btns">
+              <button class="tf-btn" id="s3-p3-r1-true" onclick="s3P3Select(1,'true')">صحيح</button>
+              <button class="tf-btn" id="s3-p3-r1-false" onclick="s3P3Select(1,'false')">غير صحيح</button>
+            </div>
+          </div>
+          <div class="tf-row" id="s3-p3-row-2">
+            <div class="tf-stmt">
+              <span class="tf-num">2.</span>
+              <span class="tf-text">لكي نحصل على زوايا مقدارها هو عدد صحيح، يجب أن يكون مجموع <br/>الزاويتين الأخريين عددًا يقبل القسمة على 8 بدون باقٍ.</span>
+            </div>
+            <div class="tf-btns">
+              <button class="tf-btn" id="s3-p3-r2-true" onclick="s3P3Select(2,'true')">صحيح</button>
+              <button class="tf-btn" id="s3-p3-r2-false" onclick="s3P3Select(2,'false')">غير صحيح</button>
+            </div>
+          </div>
+          <div class="tf-row" id="s3-p3-row-3">
+            <div class="tf-stmt">
+              <span class="tf-num">3.</span>
+              <span class="tf-text">إذا تغير مقدار الزاوية <span dir="ltr">∢BAC</span> إلى °20، ستكون إحدى <br/>الزاويتين الأخريين في المثلث زاوية قائمة‎.</span>
+            </div>
+            <div class="tf-btns">
+              <button class="tf-btn" id="s3-p3-r3-true" onclick="s3P3Select(3,'true')">صحيح</button>
+              <button class="tf-btn" id="s3-p3-r3-false" onclick="s3P3Select(3,'false')">غير صحيح</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p3-check" disabled onclick="s3P3Check()">هل إجابتي صحيحة؟</button>
+        <div id="s3-p3-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s3-back" onclick="goTo(2)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s3-continue" disabled onclick="goTo(4)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 5 — מסך גלילה, שאלה 4 מתוך 4, data-screen="4", id="s4".
+       שקפים 34-36, שלושה חלקים: (1)+(2) שאלה חד-ברירה בלי תמונה
+       (רפרנס: מסך 20 סיין 1 יעד 3), (3) שאלת-קלט כפולה (2 תשובות
+       נפרדות). פסקת-הקשר (יחסי הניצחונות) קבועה, מוצגת תמיד מעל שלושת
+       החלקים — לא חוזרת בכל חלק. ראו ARCHITECTURE.md § "מסך 5".
+       ========================================================= -->
+  <section class="screen" data-screen="4" id="s4">
+    <nav class="progress-question" id="s4-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+      <div class="progress-question__connector" data-connector="3"></div>
+      <div class="progress-question__item" data-question="4">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 4</span>
+      </div>
+    </nav>
+
+    <!-- Gesture Hint (Cursor Scroll) — SELF-QA-lomda.md §7. -->
+    <div class="gesture-hint-scroll-wrap" id="s4-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="s4-scroll-area" id="s4-scroll-area">
+    <div class="s4-scroll-inner">
+      <p class="s4-context">4. يقارن مدرب سباحة بين معطيات سَبّاحة وسَبّاح متميّزين خلال الموسم:<br> <strong>السبّاح أ (وسام):</strong> النسبة بين <strong>عدد الانتصارات</strong> <strong>وعدد السباقات</strong> التي شارك فيها هي 3:5.<br> <strong>السَبّاحة ب (عدن):</strong> النسبة بين <strong>عدد الانتصارات</strong> <strong>وعدد السباقات</strong> التي شاركت فيها هي 3:8‏‎.</p>
+
+      <div class="s4-part" id="s4-part-1">
+        <p class="s4-body"><strong>أ. حقق وسام وعدن نفس عدد الانتصارات.</strong><br>بدون إجراء حساب، من منهما شارك في <strong>عدد أكبر من السباقات</strong> خلال الموسم؟</p>
+        <div class="scq-answers scq-answers--fit" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s4P1Select('a')">
+            <span class="scq-opt-text">وسام</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s4P1Select('b')">
+            <span class="scq-opt-text">عدن</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s4P1Select('c')">
+            <span class="scq-opt-text">عدد السباقات التي شاركا فيها متساوٍ‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s4-p1-check" disabled onclick="s4P1Check()">هل إجابتي صحيحة؟</button>
+        <div id="s4-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+
+      <div class="s4-part" id="s4-part-2">
+        <p class="s4-body"><strong>ب. من </strong>فاز في عدد أكبر من السباقات هذا الموسم؟ <br/> على افتراض أن كليهما شاركا في نفس عدد السباقات‎.</p>
+        <div class="scq-answers scq-answers--fit" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s4P2Select('a')">
+            <span class="scq-opt-text">وسام</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s4P2Select('b')">
+            <span class="scq-opt-text">عدن</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s4P2Select('c')">
+            <span class="scq-opt-text">كلاهما فازا بنفس عدد السباقات‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s4-p2-check" disabled onclick="s4P2Check()">هل إجابتي صحيحة؟</button>
+        <div id="s4-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+
+      <div class="s4-part" id="s4-part-3">
+        <p class="s4-body">ت. معلوم أن <strong>وسام فاز بـ 12 سباقًا</strong> خلال الموسم‎.
+</p>
+        <p class="scq-qtext-em">أكملوا‎:</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">في كم سباق شارك وسام هذا الموسم؟</span>
+            <input class="viq-input" id="s4-p3-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد السباقات الإجمالي التي شارك فيها وسام" oninput="s4P3OnInput()">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">في كم سباق شاركت عدن هذا الموسم؟</span>
+            <input class="viq-input" id="s4-p3-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد السباقات الإجمالي التي شاركت فيها عدن" oninput="s4P3OnInput()">
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s4-p3-check" disabled onclick="s4P3Check()">هل إجابتي صحيحة؟</button>
+        <div id="s4-p3-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s4-p3-reveal-btn" type="button" hidden onclick="viqToggleReveal('s4p3')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- אין .btn-hint במסך הזה (וגם לא בתוך אף אחד משלושת חלקי-התוכן —
+         SCQ בחלק א', SCQ בחלק ב', VIQ כפול בחלק ג'): לא נמצא טקסט-רמז
+         מפורש בתסריט/במוקאפ (שקפים 34-36) לאף חלק, אותה סיבה בדיוק כמו
+         s1/s2/s3. ראו ARCHITECTURE.md § "בדיקה מקיפה מול SELF-QA-lomda.md". -->
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s4-back" onclick="goTo(3)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s4-continue" disabled onclick="finishComponent('methodica-math-ratio-05-03')">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL — Report/Issue button (.flag-btn) -->
+  <button class="flag-btn" aria-label="هل وجدتم مشكلة؟" title="هل وجدتم مشكلة؟">
+    <span class="flag-btn-icon" aria-hidden="true">
+      <img class="flag-btn-icon-default" src="../unit-assets/img/btn-flag-default.png" alt="">
+      <img class="flag-btn-icon-hover" src="../unit-assets/img/btn-flag-hover.png" alt="">
+    </span>
+    <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+  </button>
+
+  <!-- GLOBAL — Image zoom modal -->
+  <!-- Issue-report dialogs (unit-js/25-report.js, unit-css/25-report.css) -->
+  <div id="report-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="report-modal-title">
+      <div class="report-modal-box">
+        <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="סגור">&#10005;</button>
+        <h2 class="report-modal-title" id="report-modal-title">דיווח על בעיה</h2>
+        <p class="report-modal-body">משהו לא ברור או לא עובד כמו שצריך?<br>ספרו לנו מה קרה כדי שנטפל.</p>
+
+        <div class="report-field">
+          <label class="report-label" for="report-type"><span class="required-star">*</span> מה סוג הבעיה</label>
+                    <div class="report-custom-select" id="report-type-wrapper">
+            <button class="report-select-btn is-placeholder" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="report-select-value">בחרו סוג בעיה</span>
+            </button>
+            <ul class="report-select-list" role="listbox" hidden>
+              <li class="report-select-option" data-value="technical" role="option">תקלה טכנית או שמשהו לא עובד</li>
+              <li class="report-select-option" data-value="unclear" role="option">משהו לא ברור לי</li>
+              <li class="report-select-option" data-value="other" role="option">אחר</li>
+            </ul>
+            <input type="hidden" id="report-type" value="">
+          </div>
+          <span class="report-field-error" id="report-type-error" hidden>בחרו את סוג הבעיה</span>
+        </div>
+
+        <div class="report-field">
+          <label class="report-label" for="report-text"><span class="required-star">*</span> מה קרה?</label>
+          <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="פרטו מה קרה כדי שנוכל להבין את הבעיה" onblur="reportTextBlur()"></textarea>
+          <span class="report-field-error" id="report-text-error" hidden>כתבו מה קרה</span>
+          <span class="report-char-count" id="report-char-count">0 / 250</span>
+        </div>
+
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="tryCloseReportModal()">ביטול</button>
+          <button class="report-submit-btn" onclick="submitReport()" disabled>שליחת דיווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-confirm-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="confirm-modal-title">בטוח לסגור את החלון?</h2>
+        <p class="report-modal-body">בלחיצה על סגירה לא יישלח דיווח</p>
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="forceCloseReportModal()">סגור חלון</button>
+          <button class="report-submit-btn" onclick="backToReportForm()">אני רוצה לדווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-thanks-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="thanks-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="thanks-modal-title">הדיווח נשלח, תודה!</h2>
+        <p class="report-modal-body">קיבלנו את הדיווח שלכם ונטפל בו בהקדם.</p>
+        <div class="report-actions">
+          <button class="report-submit-btn" onclick="closeReportThanks()">סגירה</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="a11y-announcer" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+
+  <div id="img-zoom-modal" class="img-zoom-modal hidden" aria-hidden="true" data-zoom-close="true">
+    <div class="img-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="تكبير الصورة">
+      <button class="img-zoom-close" type="button" data-zoom-close="true" aria-label="إغلاق تكبير الصورة">
+        <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="img-zoom-modal__stage"></div>
+    </div>
+  </div>
+
+</div>
+<script src="../unit-js/10-identity.js?v=20261007a"></script>
+<script src="../unit-js/15-ui.js?v=20261007a"></script>
+<script src="../unit-js/20-xapi.js?v=20261007a"></script>
+<script src="../unit-js/22-scoring.js?v=20261007a"></script>
+<script src="../unit-js/25-report.js?v=20261007a"></script>
+<script src="../unit-js/28-feedback-drag.js?v=20261007a"></script>
+<script src="../unit-js/30-nav.js?v=20261007a"></script>
+<script src="../unit-js/32-progress.js?v=20261007a"></script>
+<script src="../unit-js/35-questions.js?v=20261007a"></script>
+<script src="../unit-js/40-resume.js?v=20261007a"></script>
+<script src="../unit-js/45-resume-part.js?v=20261007a"></script>
+<script src="../unit-js/50-loader.js?v=20261007a"></script>
+<script src="../unit-js/60-devbridge.js?v=20261007a"></script>
+<script src="script.js?v=20261007a"></script>
+<script src="../unit-js/90-boot.js?v=20261007a"></script>
+</body>
+</html>

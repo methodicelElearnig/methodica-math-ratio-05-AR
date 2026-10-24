@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تطبيق النسبة — الخس والفجل</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    font-family: Calibri, Arial, sans-serif;
+    background: transparent;
+  }
+
+  .ratio-app {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    background: #F7F5FF;
+    border: 1px solid #CEC7FF;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* ⚠️ תוקן (07.09.2026, דיווח: "כפתור הרענון נמצא מתחת ל-X בהגדלת
+     המסך") — היה justify-content:space-between (מונה בצד ימין,
+     כפתור-רענון בצד שמאל-רחוק) — בהגדלה, כפתור-הסגירה החיצוני
+     (.img-zoom-close, top:16px/left:16px, כלל-פרויקט גלובלי) יושב
+     תמיד שם, אז שני הכפתורים התנגשו. הוחלף ל-flex-start+gap: שני
+     האלמנטים (מונה+כפתור) קבוצה אחת צמודה בצד ימין (RTL start), לא
+     נוגעים בפינה השמאלית-העליונה כלל. */
+  .ratio-app__header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #EAD9FF;
+    border-bottom: 1px solid #CEC7FF;
+  }
+
+  .ratio-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 20px;
+    color: #2F2478;
+  }
+  .ratio-count img { width: 30px; height: 30px; object-fit: contain; display: block; }
+
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: #ffffff;
+    color: #3B2FC2;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(59, 47, 194, 0.25);
+  }
+  .reset-btn:hover { background: #EAD9FF; }
+  .reset-btn:focus-visible { outline: 2px solid #3B2FC2; outline-offset: 2px; }
+  .reset-btn svg { width: 16px; height: 16px; }
+
+  .ratio-app__grid {
+    flex: 1;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    padding: 10px 14px;
+    overflow-y: auto;
+    background: #ffffff;
+  }
+
+  .veg-block { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+  .veg-block__label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #4B35A5;
+    flex-shrink: 0;
+  }
+  .veg-block__label img { width: 30px; height: 30px; object-fit: contain; }
+
+  .veg-col {
+    display: grid;
+    grid-auto-rows: min-content;
+    gap: 2px;
+    justify-content: center;
+  }
+  .veg-icon { width: 30px; height: 30px; object-fit: contain; display: block; }
+
+  .ratio-app__controls {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #F7F5FF;
+    border-top: 1px solid #CEC7FF;
+  }
+
+  .control-row { display: flex; align-items: center; gap: 8px; font-size: 20px; color: #2F2478; }
+  .control-row.rows-row label { flex-shrink: 0; font-weight: 700; }
+  /* ⚠️ הוחלף (07.09.2026, לפי בקשה מפורשת: "הייתי משנה מסליידר לאפשרות
+     ללחוץ על + ועל - ... שליטה טובה יותר מסליידר") — input[type=range]
+     הוחלף בזוג כפתורי-דילוג (rows-step-btn), אותה שפה חזותית כמו
+     .reset-btn הקיים (עיגול-לבן/סגול). */
+  /* ⚠️ תוקן (07.09.2026, דיווח: "תצמיד את הכפתורים ליד המילה שורות") —
+     flex:1+justify-content:center היו גורמים ל-stepper לתפוס את כל
+     הרוחב הפנוי בשורה ולמרכז את עצמו בתוכו, מרוחק מ-"שורות" (שמאלי
+     בתוך שורה רחבה). הוסרו — ה-stepper מתכווץ עכשיו לרוחב-תוכן טבעי
+     ונדבק ל-label דרך ה-gap הרגיל של .control-row. */
+  .rows-stepper { display: flex; align-items: center; gap: 10px; }
+  .rows-step-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: none;
+    background: #ffffff;
+    color: #3B2FC2;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(59, 47, 194, 0.25);
+  }
+  .rows-step-btn:hover:not(:disabled) { background: #EAD9FF; }
+  .rows-step-btn:focus-visible { outline: 2px solid #3B2FC2; outline-offset: 2px; }
+  .rows-step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .rows-row .rows-val { flex-shrink: 0; font-weight: 800; min-width: 22px; text-align: center; }
+
+  .per-row-inputs { justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .per-row-field { display: flex; align-items: center; gap: 4px; }
+  .per-row-field img { width: 30px; height: 30px; object-fit: contain; }
+  .per-row-field input[type="number"] {
+    width: 42px;
+    text-align: center;
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 20px;
+    border: 1px solid #CEC7FF;
+    border-radius: 6px;
+    padding: 2px 4px;
+  }
+  .per-row-field input[type="number"]:focus-visible { outline: 2px solid #3B2FC2; outline-offset: 1px; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="ratio-app">
+    <div class="ratio-app__header">
+      <div class="ratio-count" aria-live="polite">
+        <img src="images/חסה.png" alt="خس">
+        <span id="lettuceTotal">0</span>
+        <span aria-hidden="true">:</span>
+        <span id="radishTotal">0</span>
+        <img src="images/צנונית.png" alt="فجل">
+      </div>
+      <button type="button" class="reset-btn" id="resetBtn" title="إعادة ضبط" aria-label="إعادة ضبط التطبيق">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 12a8 8 0 1 1-2.34-5.66" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ratio-app__grid" id="grid">
+      <div class="veg-block">
+        <span class="veg-block__label">خس</span>
+        <div class="veg-col" id="lettuceCol"></div>
+      </div>
+      <div class="veg-block">
+        <span class="veg-block__label">فجل</span>
+        <div class="veg-col" id="radishCol"></div>
+      </div>
+    </div>
+
+    <div class="ratio-app__controls">
+      <div class="control-row rows-row">
+        <label id="rowsLabel">صفوف</label>
+        <div class="rows-stepper" role="group" aria-labelledby="rowsLabel">
+          <button type="button" class="rows-step-btn" id="rowsMinus" aria-label="تقليل صف">−</button>
+          <span class="rows-val" id="rowsVal">1</span>
+          <button type="button" class="rows-step-btn" id="rowsPlus" aria-label="إضافة صف">+</button>
+        </div>
+      </div>
+      <div class="control-row per-row-inputs">
+        <span class="per-row-field">
+          <img src="images/חסה.png" alt="">
+          <label for="lettucePerRow" class="sr-only">خس في كل صف</label>
+          <input type="number" id="lettucePerRow" min="0" max="9">
+        </span>
+        <span class="per-row-field">
+          <img src="images/צנונית.png" alt="">
+          <label for="radishPerRow" class="sr-only">فجل في كل صف</label>
+          <input type="number" id="radishPerRow" min="0" max="9">
+        </span>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  function intParam(name, fallback) {
+    var v = parseInt(params.get(name), 10);
+    return Number.isFinite(v) ? v : fallback;
+  }
+
+  var DEFAULTS = {
+    lettuce: intParam('lettuce', 4),
+    radish: intParam('radish', 3),
+    rows: intParam('rows', 1),
+    maxRows: intParam('maxRows', 18)
+  };
+
+  var rowsVal = document.getElementById('rowsVal');
+  var rowsMinusBtn = document.getElementById('rowsMinus');
+  var rowsPlusBtn = document.getElementById('rowsPlus');
+  var lettucePerRowInput = document.getElementById('lettucePerRow');
+  var radishPerRowInput = document.getElementById('radishPerRow');
+  var lettuceTotalEl = document.getElementById('lettuceTotal');
+  var radishTotalEl = document.getElementById('radishTotal');
+  var lettuceCol = document.getElementById('lettuceCol');
+  var radishCol = document.getElementById('radishCol');
+  var resetBtn = document.getElementById('resetBtn');
+
+  /* ⚠️ הוחלף (07.09.2026, לפי בקשה מפורשת: "הייתי משנה מסליידר
+     לאפשרות ללחוץ על + ועל -") — currentRows הוא מקור-האמת עכשיו
+     (היה rowsRange.value). גבולות זהים למה שהיה ל-slider (min=1,
+     max=DEFAULTS.maxRows). */
+  var currentRows = 1;
+
+  function updateRowsButtons() {
+    rowsMinusBtn.disabled = currentRows <= 1;
+    rowsPlusBtn.disabled = currentRows >= DEFAULTS.maxRows;
+  }
+
+  function clampPerRow(v) {
+    v = parseInt(v, 10);
+    if (!Number.isFinite(v)) v = 0;
+    return Math.max(0, Math.min(9, v));
+  }
+
+  function renderColumn(container, count, columns, src, alt) {
+    container.style.gridTemplateColumns = 'repeat(' + Math.max(columns, 1) + ', 1fr)';
+    var existing = container.children.length;
+    if (existing > count) {
+      for (var r = existing; r > count; r--) container.removeChild(container.lastChild);
+    } else if (existing < count) {
+      var frag = document.createDocumentFragment();
+      for (var i = existing; i < count; i++) {
+        var img = document.createElement('img');
+        img.className = 'veg-icon';
+        img.src = src;
+        img.alt = alt;
+        frag.appendChild(img);
+      }
+      container.appendChild(frag);
+    }
+  }
+
+  function render() {
+    var rows = currentRows;
+    var lettucePerRow = clampPerRow(lettucePerRowInput.value);
+    var radishPerRow = clampPerRow(radishPerRowInput.value);
+
+    var lettuceTotal = rows * lettucePerRow;
+    var radishTotal = rows * radishPerRow;
+
+    rowsVal.textContent = String(rows);
+    lettuceTotalEl.textContent = String(lettuceTotal);
+    radishTotalEl.textContent = String(radishTotal);
+    updateRowsButtons();
+
+    renderColumn(lettuceCol, lettuceTotal, lettucePerRow, 'images/חסה.png', '');
+    renderColumn(radishCol, radishTotal, radishPerRow, 'images/צנונית.png', '');
+  }
+
+  function reset() {
+    currentRows = Math.max(1, Math.min(DEFAULTS.rows, DEFAULTS.maxRows));
+    lettucePerRowInput.value = String(DEFAULTS.lettuce);
+    radishPerRowInput.value = String(DEFAULTS.radish);
+    render();
+  }
+
+  rowsMinusBtn.addEventListener('click', function () {
+    if (currentRows <= 1) return;
+    currentRows--;
+    render();
+  });
+  rowsPlusBtn.addEventListener('click', function () {
+    if (currentRows >= DEFAULTS.maxRows) return;
+    currentRows++;
+    render();
+  });
+  lettucePerRowInput.addEventListener('input', render);
+  radishPerRowInput.addEventListener('input', render);
+  resetBtn.addEventListener('click', reset);
+
+  reset();
+})();
+</script>
+</body>
+</html>

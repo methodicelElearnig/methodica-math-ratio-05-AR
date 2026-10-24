@@ -1,0 +1,1517 @@
+/* לומדה 720 — מתמטיקה יעד 1.5 | יחס | סיין 1 */
+
+/* ---------- Fonts (עותק מקומי לסין זה, ב-assets/fonts — כל סין
+   עצמאי לחלוטין, לפי כלל העצמאות של הפרויקט) ---------- */
+
+/* ---------- Reset ---------- */
+
+/* ---------- Canvas & viewport scaling ---------- */
+
+/* transitions removed on purpose — Figma states change instantly
+   (same convention as the science lomdot; entrance/reveal motion is
+   added later, per-screen, by the animation-system skill — not here) */
+
+/* מסך 1 — בחירת דמות מלווה (TwoOptionSelection), data-screen="0", id="s0" */
+.screen1-content {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 810px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+.screen1-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.screen1-title {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #303030;
+  text-align: center;
+  line-height: 1.2;
+}
+.screen1-subtitle {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+}
+
+/* שורת כרטיסים — true RTL: אין direction override. תחת dir="rtl" ברירת
+   המחדל של flex-direction:row כבר ממקמת את הילד הראשון ב-DOM פיזית
+   מימין ואת השני משמאל (main-axis start=right/end=left ב-RTL) — בלי
+   שום טריק direction:ltr, בניגוד למקור שעדיין משתמש בו כאן. */
+.options-row {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 296px;
+  cursor: pointer;
+  user-select: none;
+}
+.option-card:focus-visible {
+  outline: 2px solid var(--subject-500);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+.option-card-frame {
+  width: 296px;
+  background: #ffffff;
+  border: 3px solid rgba(201, 206, 216, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.option-card:hover .option-card-frame,
+.option-card:focus-visible .option-card-frame {
+  border-color: var(--subject-500);
+  background: var(--subject-100);
+}
+.option-card.selected .option-card-frame {
+  border-color: var(--subject-500);
+  background: var(--subject-100);
+}
+
+/* תמונה/וידאו בתוך המסגרת — aspect 296/278 per Figma. וידאו (המקרה
+   שלנו, שני הכרטיסים) ממלא את המסגרת לגמרי (object-fit:cover) — לא
+   contain כמו תמונת-דמות שקופה, כי כאן אין רקע שקוף להראות דרכו. */
+.option-card-img {
+  width: 100%;
+  aspect-ratio: 296 / 278;
+}
+.option-card-img video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* בר תחתון — מסך 1 בלבד: אין .bar-back בכלל (אין מסך קודם). "בחרתי"
+   מיושר לפיזי-שמאל דרך flex-end תחת RTL אמיתי (בלי direction:ltr) —
+   selector מורכב כדי לנצח את .bottom-bar-inner (justify-content:
+   space-between) בלי תלות בסדר-הופעה. */
+.bottom-bar-inner.s0-bar {
+  justify-content: flex-end;
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Bottom bar (74px, per Figma)
+   RTL אמיתי לאורך כל הבר: אין direction:ltr בשום מקום כאן. הסדר
+   הפיזי (bar-back מימין / bar-actions משמאל) מושג ע"י סדר ה-DOM
+   (bar-back ראשון = flex-start = ימין ב-RTL; bar-actions שני =
+   flex-end = שמאל), לא ע"י היפוך direction. בכל מסך, .bar-back
+   מופיע לפני .bar-actions ב-DOM. ════════════════════════════ */
+
+/* === Continue button (gradient pill) — Math gradient ===
+   SELF-QA-lomda.md §6: reference CSS, Math gradient per
+   720-design-guidelines/colors-and-gradients.md ("Math gradient"),
+   `to bottom` re-expressed as `180deg` for consistency with the rest
+   of the codebase's gradient syntax — same visual result. NOTE: this
+   gradient's exact intended usage (Continue button vs. something
+   narrower) is flagged as an open/unconfirmed question in the design
+   skill itself — see ARCHITECTURE.md "Assumptions" section. */
+
+/* === Back button (חזרה) — never shown on the first screen ===
+   SELF-QA-lomda.md §6: border/text color = var(--subject-700), never
+   var(--subject-500) (the single most commonly confused value in this
+   family — see the warning in SELF-QA-lomda.md §6). */
+
+/* === Hint button (אפשר רמז?) — CSS ready, not instantiated on the
+   placeholder screen (no question exists yet). SELF-QA-lomda.md §6:
+   border/text = var(--subject-700); the icon class actually applied
+   in markup is .scq-hint-icon (26×24) — the family also has an older,
+   unused .hint-icon (26×22) class name in some source files; only
+   .scq-hint-icon is current, see 720-templates skill's "superseded
+   rule" warning. Do not reintroduce .hint-icon here. */
+.btn-hint .scq-hint-icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 24px;
+}
+.btn-hint:disabled .scq-hint-icon { filter: grayscale(1) opacity(0.45); }
+.btn-hint:focus-visible {
+  outline: 3px solid var(--subject-500);
+  outline-offset: 2px;
+}
+
+.scq-answers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: flex-start = physical right */
+  gap: 12px;
+  width: 604px;
+  max-width: 100%;
+}
+.scq-opt:focus-visible { outline: 2px solid var(--subject-500); outline-offset: 2px; }
+.scq-opt-text {
+  flex: 1;
+  font-weight: 400;
+  font-size: 22px;
+  color: #222;
+  text-align: right;
+}
+
+.oly-answer-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: flex-start = פיזית ימין */
+  width: 604px;
+  max-width: 100%;
+  gap: 6px;
+}
+
+/* =========================================================
+   מסך 2 — אולימפיאדת המדעים (מסך גלילה מותאם), data-screen="1", id="s1"
+   "מסך לא בתבנית" (הערת מפיקה, שקפים 4-5) — ראו ARCHITECTURE.md לפירוט
+   מלא + כל ההנחות שדורשות אישור אנושי.
+   ========================================================= */
+
+.oly-fixed-images {
+  position: absolute;
+  top: 85px;
+  left: 40px; /* פיזי, קבוע — לא flex+סדר-DOM */
+  width: 260px;
+  display: flex;
+  flex-direction: column; /* מוערם זו-מעל-זו, לא שורה — לפי בקשה מפורשת */
+  gap: 12px;
+}
+.oly-delegation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.oly-delegation-img-frame {
+  width: 210px;
+  height: 210px;
+  box-sizing: border-box;
+}
+.oly-delegation-img-frame-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(201, 206, 216, 0.4); /* אותה מוסכמה כמו .option-card-frame */
+  border-radius: 16px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.oly-delegation-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Body/B-8 (20px Bold) */
+.oly-delegation-label {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #303030;
+  text-align: center;
+}
+/* Body/B-6 (20px Regular) */
+.oly-delegation-ratio {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--subject-700);
+  text-align: center;
+}
+
+/* אזור הגלילה — top:32 (יישור עם עמודת התמונות), left:222 (40+150+32
+   רווח, אחרי עמודת התמונות הקבועה), right:40, bottom:74 (מעל הבר
+   התחתון) → 604px גובה זמין. גלילה טבעית (wheel/מגע/פס-גלילה) — ראו
+   script.js § s1InitScrollJump לתיקון-באג שהוסיף preventDefault-על-
+   הגלגלת, שחסם לגמרי גלילה בפועל. כותרת+הקדמה+כל 3 השאלות בזרימה
+   רגילה כאן (לא absolute) — השאלה הראשונה מיד אחרי טקסט-ההקדמה, לפי
+   בקשה מפורשת. */
+.oly-scroll-area {
+  position: absolute;
+  top: 70px; left: 332px; right: 16px; bottom: 74px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 24px;
+  box-sizing: border-box;
+  cursor: grab;
+  direction: ltr;
+}
+.oly-scroll-inner { direction: rtl; width: 100%; }
+.oly-scroll-area::-webkit-scrollbar { width: 12px; }
+.oly-scroll-area::-webkit-scrollbar-track {
+  background: rgba(201, 206, 216, 0.4);
+  border-radius: 16px;
+}
+.oly-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.56);
+  border-radius: 24px;
+}
+
+.gesture-hint-scroll-wrap {
+  position: absolute;
+  top: 70px; left: 332px; right: 16px; bottom: 74px;
+  pointer-events: none;
+  z-index: 20;
+}
+.s2-gesture-hint-wrap { top: 70px; left: 40px; right: 16px; bottom: 74px; }
+#s6-scroll-gesture { top: 110px; left: 40px; right: 16px; bottom: 74px; }
+
+.gesture-hint-drag-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.gesture-hint-drag-wrap[hidden] { display: none; }
+
+/* Heading/H-5 (40px Bold) — טוקן מאושר */
+.oly-title {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--subject-500);
+  text-align: right;
+  margin: 0 0 16px;
+}
+.oly-intro { margin-bottom: 8px; }
+/* Body/B-3 (24px Regular) — טוקן מאושר, גם לפסקה וגם לפריטי הרשימה */
+.oly-intro p {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.4;
+  margin: 0;
+}
+.oly-intro-list {
+  margin: 8px 0 0;
+  padding-inline-start: 24px; /* לוגי — מתאים עצמו לימין תחת RTL */
+  padding-inline-end: 0;
+}
+.oly-intro-list li {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.oly-question {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: physical right */
+  width: 100%;
+  padding: 24px 0 32px;
+  box-sizing: border-box;
+}
+.oly-question[hidden] { display: none; }
+
+.oly-outro {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  gap: 24px;
+  padding: 24px 0 32px;
+  box-sizing: border-box;
+}
+.oly-outro[hidden] { display: none; }
+.oly-outro .oly-intro { flex: 1; min-width: 0; margin-bottom: 0; }
+.oly-outro .char-bubble-wrap { flex-shrink: 0; }
+
+.char-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.char-bubble-wrap[hidden] { display: none; }
+.char-speech-bubble {
+  position: relative;
+  background: #fff;
+  border: 2px solid var(--subject-500);
+  border-radius: 16px;
+  padding: 12px 16px;
+  max-width: 260px;
+}
+.char-speech-bubble p {
+  margin: 0;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #222;
+  text-align: center;
+}
+/* זנב הבועה — שני משולשי CSS מוערמים, לא asset (זהה למקור) */
+.char-speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid var(--subject-500);
+}
+.char-speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #fff;
+}
+.char-bubble-avatar {
+  overflow: hidden;
+}
+.char-bubble-avatar video {
+  width: 300px;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Body/B-5 (24px Bold) — טוקן מאושר */
+.oly-qtext {
+  font-family: Calibri, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--subject-500);
+  text-align: right;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.oly-qtext-lead { font-weight: 400; }
+
+.oly-check-btn {
+  align-self: flex-end;
+  margin-top: 4px;
+  margin-left:15px
+}
+
+.s2-scroll-area {
+  position: absolute;
+  top: 70px;
+  left: 40px; right: 16px; bottom: 74px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: grab;
+  direction: ltr;
+}
+.s2-scroll-inner { direction: rtl; width: 100%; }
+.s2-scroll-area::-webkit-scrollbar { width: 12px; }
+.s2-scroll-area::-webkit-scrollbar-track {
+  background: rgba(201, 206, 216, 0.4);
+  border-radius: 16px;
+}
+.s2-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.56);
+  border-radius: 24px;
+}
+
+.s2-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: physical right */
+  width: 100%;
+  gap: 16px;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.s2-section[hidden] { display: none; }
+
+/* Body/B-3 (24px Regular) — טוקן מאושר */
+.s2-body {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.4;
+  width: 100%;
+  margin: 0;
+}
+/* Body/B-5 (24px Bold) — טוקן מאושר, לשאלות/כותרות-משנה */
+.s2-qtext {
+  font-weight: 700;
+  color: var(--subject-500);
+}
+.s2-ddq-instruction { color: var(--subject-500); font-weight: 700; }
+
+.s2-flow-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 16px;
+  width: 100%;
+}
+.s2-flow-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* תמונת-הקדמה (שקף 8, תצלום אמיתי) — גודל 380×380 (מרובע, object-fit:
+   cover) לפי בקשה מפורשת ("מסודר כמו מסך 2 בסיין 6") — .s6-textimg-img
+   ב-methodica-science-mass-measure-03-06 הוא 380×380 בדיוק; תמונת
+   המקור שלנו היא 523×349 בפועל (לא מרובעת) — נחתכת ע"י object-fit:
+   cover, אותו עיקרון בדיוק כמו ברפרנס. שתי-רמות (חיצונית קבועה +
+   פנימית יחסית 100%/100%) לפי אותו תיקון-מבנה כמו .oly-delegation-img-frame
+   (ראו למעלה) — הרמה הפנימית היא זו שבפועל משוכפלת למודאל-הזום. */
+.s2-hook-visual {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.s2-hook-bubble { max-width: 220px; }
+.s2-hook-bubble::before {
+  left: -12px;
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 0;
+  border-right: 12px solid var(--subject-500);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+.s2-flow-bubble {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.s2-flow-bubble .s2-body {
+  text-align: right;
+  font-size: 20px;
+  font-weight: 400;
+  color: #303030;
+}
+.s2-flow-bubble .s2-formula-line {
+  text-align: right;
+  font-size: 24px;
+  font-weight: 700;
+  color: #303030;
+  justify-content: flex-end;
+}
+/* בועה-קטנה מעל התמונה (לא לצדה) — עמודה: בועה למעלה, מסגרת-תמונה
+   למטה. הבועה משתמשת בזנב-הבסיס (.char-speech-bubble הרגילה, פונה
+   למטה) — הזנב פונה ישירות אל התמונה שמתחתיה. ה-gap חייב לפנות מקום
+   לזנב הבולט (~17px) כדי שלא ייחתך/יחפוף את קצה-המסגרת. */
+.s2-hook-img-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+.s2-hook-bubble::after {
+  left: -9px;
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 0;
+  border-right: 10px solid #fff;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.s2-hook-img-frame {
+  width: 380px;
+  height: 380px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.s2-hook-img-frame-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s2-hook-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.char-bubble-avatar-pending {
+  width: 300px;
+  height: 230px;
+  border: 2px dashed var(--subject-350);
+  border-radius: 16px;
+  background: var(--subject-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.char-bubble-avatar-pending span {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  color: #303030;
+  opacity: 0.6;
+}
+
+.s2-sim-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+.s2-sim-placeholder {
+  flex-shrink: 0;
+  width: 460px;
+  max-width: 100%;
+  height: 320px;
+  background: #c4c4c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+.s2-sim-placeholder span {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 0 20px;
+}
+.s2-sim-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 650px;
+  max-width: 100%;
+  height: 320px;
+}
+.s2-sim-panel { position: relative; width: 100%; height: 100%; }
+.s2-sim-applet {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+}
+.s2-sim-panel .img-zoom-btn { display: flex; right: auto; left: 10px; }
+.s2-sim-panel .img-zoom-close { display: none; }
+.s2-sim-wrap.is-expanded {
+  position: absolute;
+  inset: 0;
+  width: auto; height: auto;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.78);
+}
+.s2-sim-wrap.is-expanded .s2-sim-panel {
+  width: 80%;
+  height: 75%;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s2-sim-wrap.is-expanded .s2-sim-panel .img-zoom-btn { display: none; }
+.s2-sim-wrap.is-expanded .s2-sim-panel .img-zoom-close { display: flex; }
+.s2-sim-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.s2-check-btn {
+  align-self: flex-end; /* עקבי עם מסך 2 — "צדקתי?" בצד שמאל */
+  margin-top: 4px;
+}
+
+.s2-scq-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+.s2-scq-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.s2-scq-side { flex-shrink: 0; }
+
+.s2-fb-img-frame {
+  width: 380px;
+  height: 380px;
+  max-width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.s2-fb-img-frame[hidden] { display: none; }
+.s2-fb-img-frame-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s2-fb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* שבר מוצג (3/7 וכו') — component קטן משותף, אין רכיב-שבר גלובלי קיים
+   בפרויקטי המדעים; נבנה כאן לפי הצורך (קו מעל/מתחת, לא / רגיל) */
+
+.s2-formula-line {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #303030;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  direction: ltr; /* הביטוי המתמטי עצמו (מספרים+שבר+סימנים) נשאר LTR פנימי,
+                     כמו כל ביטוי מתמטי בטקסט עברי — לא המשפט כולו */
+  width: 100%;
+  justify-content: flex-end; /* פיזית ימין, תואם ליישור שאר הטקסט בעמודה */
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════════════
+   סעיף ה (שקף 14) — וריאנט מקומי חדש של DragAndDropQuestion:
+   "דיאגרמת-משוואה". שוחזר מרינדור בפועל של השקף (PowerPoint COM
+   export), לא ממקור Figma — קירוב חזותי, לא מדויק-פיקסל. מצבי הצבע
+   (default/hover/dropped/correct/wrong) לקוחים מהטבלה הקנונית של
+   DragAndDropQuestion (720-templates skill), לא הומצאו.
+   ════════════════════════════════════════════════════════ */
+.s2-eq-diagram {
+  position: relative;
+  width: 700px;
+  max-width: 100%;
+  min-height: 280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+.s2-eq-formula {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 24px;
+  direction: ltr;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #303030;
+  white-space: nowrap; /* חל על טקסט-המשוואה עצמו (מספרים/·/=) בלבד —
+    .s2-eq-placed-card דורס בחזרה ל-normal, ראו שם, כדי שהתוית הארוכה
+    בפועל תוכל לגלוש לשתי-שלוש שורות בתוך המשבצת. */
+}
+.s2-eq-num-col {
+  display: grid;
+  grid-template-rows: minmax(64px, auto) auto minmax(64px, auto);
+  align-items: center;
+  justify-items: center;
+  row-gap: 8px;
+}
+/* מיפוי מפורש שורה→אלמנט (לא להסתמך על סדר-DOM גרידא — בעמודת 40/
+   knownsize סדר-ה-DOM הוא "מספר, אז משבצת", ההפך מעמודת 70/
+   groupsize; מיפוי מפורש מבטל את התלות השברירית הזו). */
+#s2-target-known, #s2-target-groupsize { grid-row: 1; }
+.s2-eq-num-col > .frac, #s2-eq-n70, #s2-eq-n40 { grid-row: 2; }
+#s2-target-total, #s2-target-knownsize { grid-row: 3; }
+.s2-eq-target {
+  width: 172px;
+  min-height: 64px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f5;
+  border: 1px dashed rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+.s2-eq-target.drag-over { border-style: dashed; border-color: var(--subject-500); background: #fff; }
+.s2-eq-target.occupied { border-width: 1.5px; border-style: solid; border-color: var(--subject-500); background: #d4f3ff; }
+.s2-eq-target.correct { border-style: solid; border-color: #609e12; background: #fff; }
+.s2-eq-target.wrong { border-style: solid; border-color: #b20010; background: #fff; }
+.s2-eq-placed-card {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  direction: rtl;
+  gap: 10px;
+  padding: 4px 8px; box-sizing: border-box;
+  font-family: Calibri, Arial, sans-serif; font-size: 20px; font-weight: 400;
+  color: #303030; text-align: center; line-height: 1.2;
+  white-space: normal;
+  cursor: grab;
+}
+.s2-eq-target.occupied .s2-eq-placed-card { font-size: 22px; color: #222; }
+.s2-eq-target.correct .s2-eq-placed-card::after,
+.s2-eq-target.wrong .s2-eq-placed-card::after {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  order: -1;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.s2-eq-target.correct .s2-eq-placed-card::after {
+  background-color: #609e12;
+  background-image: url('../unit-assets/img/icon-check-white.svg');
+  background-size: 14px 12px;
+}
+.s2-eq-target.wrong .s2-eq-placed-card::after {
+  background-color: #b20010;
+  background-image: url('../unit-assets/img/icon-x-white.svg');
+  background-size: 13px 13px;
+}
+
+.s2-ddq-source {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+.s2-ddq-slot {
+  width: 172px;
+  min-height: 64px;
+  position: relative;
+}
+.s2-ddq-card {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  border: 1.5px solid #ececec;
+  border-radius: 12px;
+  background: #fff;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+  line-height: 1.25;
+  cursor: grab;
+  user-select: none;
+}
+.s2-ddq-card:hover { border-color: var(--subject-500); box-shadow: 0 2px 6px rgba(59, 47, 194, 0.2); }
+.s2-ddq-card.ghost { visibility: hidden; }
+.s2-ddq-card.dragging { opacity: 0.38; cursor: grabbing; }
+.s2-ddq-card.locked { cursor: default; }
+.s2-ddq-card.locked:hover { border-color: #ececec; box-shadow: none; }
+
+/* =========================================================
+   מסך 4 — מסך מעבר (TransitionScreen), data-screen="3", id="s3"
+   תוכן משקף 15. ראו ARCHITECTURE.md § "מסך 4" לפירוט + הנחת-העבודה על
+   הדמות הבודדת (לא "שתי דמויות אוחזות יד ביד" כמו בהערת המפיקה — אין
+   נכס כזה בפרויקט).
+   ========================================================= */
+.s3-content {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+/* Heading/H-5 (40px Bold) — טוקן מאושר */
+.s3-line {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+  line-height: 1.3;
+}
+.s3-line--sub { font-size: 28px; }
+.s3-avatar-wrap { display: flex; align-items: center; justify-content: center; }
+.s3-avatar { width: 450px; height: 350px; object-fit: cover; display: block; }
+
+/* מסך 5 (מאוחד) — תרגול מונחה, data-screen="4", id="s4" */
+:root { --s4-card-bg-unconfirmed: #5749C4;  }
+
+/* עוטף title+text-block, gap:40 ביניהם (זהה לרפרנס: "Instruction Math
+   Section" gap-[40px]). */
+.s4-content {
+  position: absolute;
+  top: 56px;
+  left: 40px;
+  right: 40px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL: flex-start = פיזית ימין */
+  gap: 24px;
+}
+/* Heading/H-5 (40px Bold, #3b2fc2) — זהה בדיוק לרפרנס (Section Title) */
+.s4-title {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--subject-500);
+  text-align: right;
+  width: 100%;
+  margin: 0;
+}
+/* עוטף instruction+row, gap:24 ביניהם (זהה לרפרנס: "Text" gap-[24px]). */
+.s4-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL: flex-start = פיזית ימין */
+  gap: 24px;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+}
+/* הנחיה מתמדת (Body/B-5, 24px Bold, #303030) — מוצגת בכל השלבים,
+   לא רק בפתיחה כמו שהיה בסבב הקודם — תואם למדויק לרפרנס. */
+.s4-instruction {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #303030;
+  text-align: right;
+  max-width: 900px;
+  width: 100%;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.s4-main {
+  display: flex;
+  flex-direction: row; /* RTL row: ראשון ב-DOM = פיזית ימין */
+  gap: 56px;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+}
+
+.s4-notebook {
+  position: relative;
+  flex: 1 1 683px;
+  max-width: 683px;
+  max-height: 100%;
+  border: 2px solid var(--subject-500);
+  border-radius: 24px;
+  background: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.s4-notebook-scroll {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  padding: 20px 32px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: ltr;
+  cursor: grab; /* SELF-QA-lomda.md §7 */
+}
+.s4-notebook-scroll::-webkit-scrollbar { width: 12px; }
+.s4-notebook-scroll::-webkit-scrollbar-track { background: rgba(201, 206, 216, 0.4); border-radius: 16px; }
+.s4-notebook-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.56); border-radius: 24px; }
+.s4-notebook-inner {
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: flex-start = פיזית ימין */
+  gap: 10px;
+}
+/* הבעיה המקורית — Body/B-3 (24px Regular). מלאה-צבע בפתיחה (שלב 0,
+   תואם ל-State-01 ברפרנס — אין עדיין עמעום), מעומעמת (#d4d4d4, תואם
+   ל-State-03+ ברפרנס) מרגע שהאינטראקציה מתחילה — .s4-problem--dimmed
+   (script.js § s4ShowStep). */
+.s4-problem {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.4;
+  width: 100%;
+  margin: 0;
+}
+.s4-problem.s4-problem--dimmed { color: #d4d4d4; }
+/* שורת-סיכום דינמית — Body/B-3 24px, צבע Purple/500 ב-opacity:25%,
+   תואם למדויק לרפרנס (לא צבע-מלא כמו שהיה בסבב הקודם). */
+.s4-preview-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.s4-preview-rows[hidden] { display: none; }
+.s4-preview-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+.s4-preview-label {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+}
+.s4-preview-label.current { font-weight: 700; }
+.s4-preview-box {
+  flex-shrink: 0;
+  width: 150px;
+  height: 42px;
+  border: 1.5px solid var(--subject-350);
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--subject-500);
+}
+.s4-preview-box.answered { border-color: var(--subject-500); }
+
+/* "Custom Content Slot" — דיאגרמת-הגולות (שקף 22), 8 שורות × 7 גולות
+   (2 אדומות + 5 כחולות בכל שורה), בנוי HTML/CSS טהור (בלי asset תמונה
+   חסר) — נבנה דינמית ב-JS (s4RenderMarbles), ראו script.js. */
+.s4-marbles {
+  bsckground-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  align-items: center;
+}
+.s4-marbles[hidden] { display: none; }
+.s4-marble-row { display: flex; flex-direction: row; gap: 2px; }
+.s4-marble {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.s4-marble--red { background: #c0392b; }
+.s4-marble--blue { background: white; }
+
+.s4-intro-char {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24px;
+}
+.s4-intro-char[hidden] { display: none; }
+
+.s4-step-card {
+  flex: 1 1 461px;
+  max-width: 461px;
+  max-height: 100%;
+  background: var(--s4-card-bg-unconfirmed);
+  border-radius: 24px;
+  padding: 22px 26px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  direction: ltr;
+}
+.s4-step-card-inner {
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* RTL column: flex-start = פיזית ימין */
+  gap: 12px;
+}
+.s4-step-card[hidden] { display: none; }
+
+.s4-card-gesture-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+.s4-card-gesture-wrap[hidden] { display: none; }
+.s4-card-gesture-wrap .gesture-hint { left: auto; right: 6px; }
+/* אייקון-נורה — נכס SVG אמיתי שיוצא מ-Figma (לא הומצא, ולא הושמט כמו
+   בסבב הקודם שגרס בטעות שאין נכס כזה). */
+.s4-bulb { width: 28px; height: 28px; flex-shrink: 0; }
+
+/* gap:20 — זהה בדיוק לרפרנס ("Slot" gap-[20px] בתוך הכרטיס), היה 16px */
+.s4-step-block { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; width: 100%; }
+.s4-step-block[hidden] { display: none; }
+
+.s4-step-setup {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #fff;
+  text-align: right;
+  line-height: 1.08;
+  width: 100%;
+  margin: 0;
+}
+.s4-step-prompt {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-align: right;
+  line-height: 1.08;
+  width: 100%;
+  margin: 0;
+}
+.s4-step-explain {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #fff;
+  text-align: right;
+  line-height: 1.08;
+  width: 100%;
+  margin: 0;
+}
+.s4-step-explain[hidden] { display: none; }
+
+.s4-pills {
+  display: flex;
+  flex-direction: row; /* RTL אמיתי: ראשון ב-DOM כבר פיזית ימין, בלי row-reverse */
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-start;
+}
+.s4-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 85px;
+  min-height: 38px;
+  padding: 0 20px;
+  border: 2px solid var(--subject-500);
+  border-radius: 999px;
+  background: #fff;
+  color: #222;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  cursor: pointer;
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.s4-pill:hover:not(:disabled) { opacity: 0.85; }
+.s4-pill:disabled { cursor: default; }
+.s4-pill:focus-visible { outline: 2px solid var(--subject-500); outline-offset: 2px; }
+.s4-pill.selected {
+  background: var(--subject-300);
+  font-weight: 600;
+}
+.s4-pill.correct {
+  background: #fff;
+  font-weight: 600;
+}
+.s4-pill.correct.chosen {
+  background: var(--subject-300);
+}
+.s4-pill.wrong {
+  background: var(--subject-300);
+  font-weight: 400;
+}
+.s4-pill.correct::after {
+  content: '';
+  order: -1;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border-color: #609e12;
+  background: #609e12 url('assets/images/icon-guided-step-check.svg') no-repeat center;
+  background-size: 10px 8px;
+}
+
+.s4-inline-btn { align-self: flex-end }
+.s4-inline-btn[hidden] { display: none; }
+
+/* ════════════════════════════════════════════════════════
+   מסך 7 — ValueInputQuestion כפול, מסך גלילה, data-screen="6", id="s6".
+   שקפים 24-26. ראו ARCHITECTURE.md § "מסך 7".
+   ════════════════════════════════════════════════════════ */
+.s6-scroll-area {
+  position: absolute;
+  top: 110px; left: 40px; right: 16px; bottom: 74px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: grab;
+  direction: ltr;
+}
+.s6-scroll-inner { direction: rtl; width: 100%; }
+.s6-scroll-area::-webkit-scrollbar { width: 12px; }
+.s6-scroll-area::-webkit-scrollbar-track { background: rgba(201, 206, 216, 0.4); border-radius: 16px; }
+.s6-scroll-area::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.56); border-radius: 24px; }
+
+.s6-question { display: flex; flex-direction: column; width: 100%; padding: 20px 0; box-sizing: border-box; }
+.s6-question[hidden] { display: none; }
+
+.s6-q-row { display: flex; flex-direction: row; align-items: flex-start; gap: 24px; width: 100%; }
+.s6-q-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+
+.s6-applet-placeholder {
+  flex-shrink: 0;
+  width: 460px;
+  max-width: 100%;
+  height: 460px;
+  background: #c4c4c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+.s6-applet-placeholder span {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 0 20px;
+}
+.s6-applet-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 460px;
+  max-width: 100%;
+  height: 478px; /* היה 460 — הטקסט בערבית ארוך יותר וחתך את כרטיס הספירה בתחתית */
+}
+.s6-applet-panel { position: relative; width: 100%; height: 100%; }
+.s6-applet-panel .img-zoom-btn { display: flex; right: auto; left: 10px; }
+.s6-applet-panel .img-zoom-close { display: none; }
+.s6-applet-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+}
+.s6-applet-wrap.is-expanded {
+  position: fixed;
+  inset: 0;
+  width: auto; height: auto;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+}
+.s6-applet-wrap.is-expanded .s6-applet-panel {
+  width: 94%;
+  height: 90%;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s6-applet-wrap.is-expanded .s6-applet-panel .img-zoom-btn { display: none; }
+.s6-applet-wrap.is-expanded .s6-applet-panel .img-zoom-close { display: flex; }
+#s6 .s2-qtext { font-size: 24px; }
+
+/* דיאגרמת-הזווית (שקף 26) — נכס אמיתי, יוצא מהשקף עצמו (PowerPoint
+   COM export + טרימינג-רקע), לא צויר ביד. */
+.s6-angle-diagram-frame {
+  position: relative;
+  flex-shrink: 0;
+  width: 300px;
+  margin-top: 8px;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.s6-angle-diagram { width: 100%; height: auto; display: block; }
+
+.s6-answer-row { display: flex; flex-direction: row; align-items: center; gap: 16px; width: 100%; }
+.s6-answer-label {
+  flex: 1;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+}
+.s6-answer-unit { font-family: Calibri, Arial, sans-serif; font-size: 24px; color: #303030; }
+.s6-answer-value { display: flex; flex-direction: row; align-items: center; gap: 2px; }
+#s6-q2 .s6-answer-label { flex: 0 0 auto; }
+/* align-self:flex-end על שניהם — .s6-check-btn ילד ישיר של
+   .oly-answer-block בשאלה 1 (בדיקה בודדת); .s6-answer-row-actions
+   ילד ישיר שלו בשאלה 2 (בדיקה+רמז יחד) — שני המקרים דוחפים פיזית
+   שמאלה, עקבי עם המוסכמה הגלובלית "כפתור-פעולה תמיד פיזית שמאל". */
+.s6-check-btn { align-self: flex-end; }
+.s6-answer-row-actions { display: flex; flex-direction: row; align-items: center; gap: 16px; align-self: flex-end; }
+
+.viq-input {
+  width: 180px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  background-color: #fff;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+}
+.viq-input--sm { width: 90px; }
+.viq-input:not(:placeholder-shown):not(:focus):not(.correct):not(.wrong) { border: 1.5px solid #ececec; } /* לעולם לא אפור, גם כשנעול */
+
+/* מיירוט ספינר-מספרים ילידי (SELF-QA-lomda.md §1 checklist) — הפרויקט
+   הזה (כל הסינים) לא כלל עד כה אף כלל-דיכוי; מוגדר גלובלית פעם אחת,
+   חל על כל input[type=number] בסין (לא רק .viq-input). */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* סרגל התקדמות (qnav, 2 פריטים) — הותאם מ-updateQuestionNav/
+   מסכים 10-11 של methodica-science-mass-measure-03-01 (2-שאלות),
+   לא מ-updateQuestionNavB (6 שאלות, לא רלוונטי כאן). RTL אמיתי: סדר
+   ה-DOM עצמו הוא שאלה-1-קודם (flex-start=ימין), בלי direction:ltr
+   (המקור השתמש בטריק הזה — נפסל בפרויקט הזה, ראו ARCHITECTURE.md). */
+.qnav {
+  position: absolute;
+  top: 32px; left: 40px; right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+}
+.qnav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 60px; }
+.qnav-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.qnav-icon.qnav-future { border: 1.5px solid #ececec; background: #fff; }
+.qnav-icon.qnav-future::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: #ececec; display: block; }
+.qnav-icon.qnav-current { border: 2px solid var(--subject-500); background: #fff; }
+.qnav-icon.qnav-current::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--subject-500); display: block; }
+.qnav-icon.qnav-success { background: var(--subject-500); border: 2px solid var(--subject-500); }
+.qnav-icon.qnav-success::after {
+  content: '';
+  width: 12px; height: 12px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../unit-assets/img/icon-check-white.svg');
+  background-size: 10px 8px;
+}
+.qnav-icon.qnav-fail { background: var(--subject-500); border: 2px solid var(--subject-500); }
+.qnav-icon.qnav-fail::after {
+  content: '';
+  width: 12px; height: 12px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../unit-assets/img/icon-x-white.svg');
+  background-size: 9px 9px;
+}
+.qnav-label { font-family: Calibri, Arial, sans-serif; font-size: 20px; color: #ececec; text-align: center; white-space: nowrap; }
+.qnav-label.qnav-label-active { color: #222; }
+.qnav-line { width: 64px; height: 1.5px; background: #ececec; margin-top: 11.5px; border-radius: 2px; flex-shrink: 0; }
+.qnav-line.line-done { background: rgba(0, 0, 0, 0.6); }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Feedback popup system (_global-components.md:
+   "Feedback popup system") — shared style/positioning/drag
+   behavior. Instantiated for real by מסך 2 (s1-q1/q2/q3-feedbox) —
+   see script.js § olySetFeedback/s1InitFeedbackDrag.
+   Question templates own their own feedback TEXT and box id
+   (id ends in "-feedbox", per this project's own popup-id
+   convention — see ARCHITECTURE.md), but must reuse this same
+   class contract: .scq-fb-box / .scq-fb-title / .scq-fb-title-text /
+   .scq-fb-body, toggled via .visible / .is-correct / .is-wrong.
+   Draggable from anywhere on the box (not just a title bar).
+   NO close button anywhere — see _global-components.md → "No manual
+   close". Feedback/correct/incorrect colors are theme-independent —
+   identical to the Science lomdot, per the design-guidelines rule
+   that only Subject/*-bound properties change between themes.
+   ════════════════════════════════════════════════════════ */
+.scq-fb-box {
+  display: none;
+  position: absolute;
+  left: 16px;
+  bottom: 87px;
+  width: 426px;
+  max-width: calc(100% - 32px);
+  border: 0.3px solid #aeaeae;
+  border-radius: 12px;
+  padding: 24px;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  z-index: 25;
+  cursor: grab;
+  user-select: none;
+}
+.scq-fb-box.is-static {
+  position: static;
+  left: auto; right: auto; top: auto; bottom: auto;
+  width: 100%;
+  max-width: none;
+  cursor: default;
+}
+
+.scq-fb-title {
+  display: flex;
+  direction: rtl;
+  align-items: center;
+  gap: 16px;
+}
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Hint overlay (_global-components.md — outside .screen,
+   direct child of #app, one instance per screen that needs it, e.g.
+   #s1-hint-overlay). CSS ready; no instance in this placeholder scene
+   (no question exists yet). Opened/closed per-screen via the native
+   `hidden` property (el.hidden = false/true) — this is exactly the
+   mechanism closeAllPopupsAndHints() in script.js relies on.
+   ════════════════════════════════════════════════════════ */
+.scq-hint-close {
+  align-self: center;
+  width: 196px;
+  padding: 16px 40px;
+  border-radius: 999px;
+  background: #fff;
+  color: #303030;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Image zoom (_global-components.md: "Image zoom")
+   Zoom button sits inside each image wrapper (position:relative,
+   no transform/filter/z-index on the wrapper itself); the modal
+   below is the ONE shared instance for the whole scene, outside all
+   .screen divs, directly in #app. Ready for use once a content
+   screen adds an image + .img-zoom-btn.
+   ════════════════════════════════════════════════════════ */
+
+.img-zoom-modal__panel {
+  position: relative;
+  width: 660px;
+  height: 660px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.img-zoom-modal__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.img-zoom-modal__stage .s6-angle-diagram-frame { width: 100%; height: 100%; }
+.img-zoom-modal__stage .s6-angle-diagram { width: 100%; height: 100%; object-fit: contain; }
+
+.img-zoom-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--subject-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+.img-zoom-close__icon { width: 15px; height: 15px; stroke: var(--subject-500); }
+.img-zoom-close:hover .img-zoom-close__icon { stroke: #fff; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Report/Issue button (.flag-btn)
+   Lives outside all .screen divs, directly in #app. Visual only —
+   no click behavior defined yet (may connect to the LMS later).
+   ════════════════════════════════════════════════════════ */

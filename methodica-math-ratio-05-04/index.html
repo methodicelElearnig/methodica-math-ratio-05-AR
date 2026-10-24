@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وحدة تعليمية 720 –– رياضيات الهدف 1.5 | النسبة | الفصل 4</title>
+<link rel="stylesheet" href="../unit-css/common.css?v=20261007a">
+<link rel="stylesheet" href="styles.css?v=20261007a">
+<link rel="stylesheet" href="../unit-css/25-report.css?v=20261007a">
+</head>
+<body>
+<!-- Boot cover (resume): hides the first screen until it is known which screen to draw.
+     A sibling of #app (not scaled). 50-loader.js / 40-resume.js dropBootCover() removes it on every
+     exit path; this inline net removes it after 800 ms, or — while a restore is in flight
+     (window.__resumeInFlight) — after at most 11 s. Copied from methodica-math-ratio-01. -->
+<div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+<script>
+(function () {
+  var t0 = Date.now();
+  function tick() {
+    var c = document.getElementById('boot-cover');
+    if (!c || !c.parentNode) return;
+    if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+    c.parentNode.removeChild(c);
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+<div id="app">
+
+  <!-- =========================================================
+       מסך 1 — מסך מעבר, דמות+בועית-דיבור, data-screen="0", id="s0".
+       שקף 51 בתסריט. מבנה מועתק 1:1 מ"מסך 13 סיין 1 יעד 3"
+       (methodica-science-mass-measure-03-01, data-screen="12") — לפי
+       הנחיית-הדוקס המפורשת. הדמות בפועל: מערכת-הדמות-הנלווית של
+       הפרויקט הזה (character-1/character-2), לא המפלצת-הגנרית שמופיעה
+       במוקאפ הגולמי של ה-pptx (אותה תבנית-פלייסהולדר גנרית שכבר נראתה
+       בכל מוקאפי-המעבר של הפרויקט — לא נכס-פרויקט אמיתי). ראו
+       ARCHITECTURE.md § "מסך 1".
+       ========================================================= -->
+  <section class="screen active" data-screen="0" id="s0">
+    <div class="transition-content">
+      <div class="transition-title-block">
+        <p class="transition-sub">أنهيت التمرين بنجاح - كل الاحترام!</p>
+        <h2 class="transition-title">هذا وقت مناسب للتعلم بطريقة مختلفة أيضًا،</h2>
+        <p class="transition-sub">لأن التعلم يتم بعدّة طرق.</p>
+      </div>
+      <div class="transition-avatar-wrap">
+        <video class="transition-avatar" id="s0-avatar" autoplay loop muted playsinline></video>
+        <div class="transition-bubble">سنُنفّذ المهمّة التالية بدون حاسوب، في الصف أو المدرسة!</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <!-- Never shown on the first screen -->
+        <div class="bar-back"><button class="btn-back" id="s0-back" onclick="backToPart('methodica-math-ratio-05-03')">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s0-continue" onclick="goTo(1)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 2 — משימת כיתה (הוראות בלבד, בלי אינטראקציה/בדיקה), -->
+  <section class="screen" data-screen="1" id="s1">
+    <div class="s2-content" id="s1-scroll-area">
+      <div class="s2-content-inner">
+        <h1 class="s2-title">مهمّة صفيّة</h1>
+        <div class="s2-body">
+          <p class="s2-section-bold">جدوا زميلًا أو زميلةً في نفس المرحلة من التعلم. اذا لم تجدوا، يمكنكم تنفيذ المهمة بمفردكم.</p>
+          <div class="s2-group">
+            <ol class="s2-steps">
+              <li>تجوّلوا في الصف أو اخرجوا إلى ساحة المدرسة‎.</li>
+              <li>اختاروا نوعين من الأشياء الموجودة في المكان (مثلًا: نوافذ وأشجار، بنات وأولاد، أبواب وبلاط، حقائب ودفاتر)‎.</li>
+              <li>عدّوا الوحدات من كل نوع واكتبوا في الدفتر النسبة بينهما‎.</li>
+            </ol>
+          </div>
+          <div class="s2-group">
+            <p class="s2-section-body">تخيّلوا أنه أُضيفت إلى المكان 3 أشياء إضافية من النوع الأول الذي قمتم بعدّه (مثلًا 3 نوافذ إضافية).<br>اكتبوا في الدفتر‎:</p>
+            <ul class="s2-bullets">
+              <li>كم وحدة توجد الآن من النوع الأول؟</li>
+              <li>هل بقيت النسبة بين النوعين نفس النسبة التي كتبتموها سابقًا؟ إذا لم تبقَ - اكتبوا النسبة الجديدة‎.</li>
+              <li>كم وحدة من النوع الثاني كان يجب إضافتها للحفاظ على النسبة الأصلية بالضبط؟</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-bubble-wrap">
+      <div class="char-speech-bubble"><p>كم نافذة توجد في طابقنا؟</p></div>
+      <div class="char-bubble-avatar"><video id="s1-char-img" autoplay loop muted playsinline></video></div>
+    </div>
+
+    <div class="gesture-hint-scroll-wrap" id="s1-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s1-back" onclick="goTo(0)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue s2-btn-continue-wide" id="s1-continue" onclick="s1Continue()">عُدتُ. يمكن المتابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 3 — המשך משימת הכיתה: קלט פתוח של נתוני-אמת של הלומד/ת -->
+  <section class="screen" data-screen="2" id="s2">
+    <div class="s3open-content" id="s2-scroll-area">
+      <div class="s3open-content-inner">
+        <h1 class="s2-title">مهمّة صفيّة</h1>
+        <div class="s3open-rows">
+          <div class="s3open-row">
+            <span class="s3open-label">أيّ أشياء أو أغراض اخترتم؟</span>
+            <div class="s3open-pair">
+              <input class="viq-input s3open-text" id="s2-obj-1" type="text" placeholder=" " aria-label="نوع الغرض الأول" oninput="s2OnInput()">
+              <input class="viq-input s3open-text" id="s2-obj-2" type="text" placeholder=" " aria-label="نوع الغرض الثاني" oninput="s2OnInput()">
+            </div>
+          </div>
+          <div class="s3open-row">
+            <span class="s3open-label">النسبة الأولى بينهما كانت‎:</span>
+            <span class="viq-coord" dir="ltr">
+              <input class="viq-input viq-input--sm" id="s2-ratio1-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النسبة الأولى، العدد الأول" oninput="s2OnInput()">
+              :
+              <input class="viq-input viq-input--sm" id="s2-ratio1-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النسبة الأولى، العدد الثاني" oninput="s2OnInput()">
+            </span>
+          </div>
+          <div class="s3open-row">
+            <span class="s3open-label">النسبة الثانية بينهما (بعد إضافة 3 وحدات) هي‎:</span>
+            <span class="viq-coord" dir="ltr">
+              <input class="viq-input viq-input--sm" id="s2-ratio2-a" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النسبة الثانية، العدد الأول" oninput="s2OnInput()">
+              :
+              <input class="viq-input viq-input--sm" id="s2-ratio2-b" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="النسبة الثانية، العدد الثاني" oninput="s2OnInput()">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-bubble-wrap">
+      <div class="char-speech-bubble"><p>واو! ما أروع الأشياء التي اخترتموها‎!</p></div>
+      <div class="char-bubble-avatar"><video id="s2-char-img" autoplay loop muted playsinline></video></div>
+    </div>
+
+    <div class="gesture-hint-scroll-wrap" id="s2-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s2-back" onclick="goTo(1)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s2-continue" disabled onclick="finishComponent('methodica-math-ratio-05-05')">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL — Report/Issue button (.flag-btn) -->
+  <button class="flag-btn" aria-label="هل وجدتم مشكلة؟" title="هل وجدتم مشكلة؟">
+    <span class="flag-btn-icon" aria-hidden="true">
+      <img class="flag-btn-icon-default" src="../unit-assets/img/btn-flag-default.png" alt="">
+      <img class="flag-btn-icon-hover" src="../unit-assets/img/btn-flag-hover.png" alt="">
+    </span>
+    <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+  </button>
+
+  <!-- ============ GLOBAL — Image zoom modal ============
+       מופע-משותף יחיד לכל היחידה, מחוץ לכל .screen, ישירות ב-#app, לפי
+       מפרט 720-templates _global-components.md ("Image zoom"). כל תמונת
+       תוכן שתצטרך זום (במסכי תוכן עתידיים) תוסיף כפתור .img-zoom-btn
+       משלה בתוך ה-wrapper שלה (position:relative, בלי stacking context). -->
+  <!-- Issue-report dialogs (unit-js/25-report.js, unit-css/25-report.css) -->
+  <div id="report-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="report-modal-title">
+      <div class="report-modal-box">
+        <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="סגור">&#10005;</button>
+        <h2 class="report-modal-title" id="report-modal-title">דיווח על בעיה</h2>
+        <p class="report-modal-body">משהו לא ברור או לא עובד כמו שצריך?<br>ספרו לנו מה קרה כדי שנטפל.</p>
+
+        <div class="report-field">
+          <label class="report-label" for="report-type"><span class="required-star">*</span> מה סוג הבעיה</label>
+                    <div class="report-custom-select" id="report-type-wrapper">
+            <button class="report-select-btn is-placeholder" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="report-select-value">בחרו סוג בעיה</span>
+            </button>
+            <ul class="report-select-list" role="listbox" hidden>
+              <li class="report-select-option" data-value="technical" role="option">תקלה טכנית או שמשהו לא עובד</li>
+              <li class="report-select-option" data-value="unclear" role="option">משהו לא ברור לי</li>
+              <li class="report-select-option" data-value="other" role="option">אחר</li>
+            </ul>
+            <input type="hidden" id="report-type" value="">
+          </div>
+          <span class="report-field-error" id="report-type-error" hidden>בחרו את סוג הבעיה</span>
+        </div>
+
+        <div class="report-field">
+          <label class="report-label" for="report-text"><span class="required-star">*</span> מה קרה?</label>
+          <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="פרטו מה קרה כדי שנוכל להבין את הבעיה" onblur="reportTextBlur()"></textarea>
+          <span class="report-field-error" id="report-text-error" hidden>כתבו מה קרה</span>
+          <span class="report-char-count" id="report-char-count">0 / 250</span>
+        </div>
+
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="tryCloseReportModal()">ביטול</button>
+          <button class="report-submit-btn" onclick="submitReport()" disabled>שליחת דיווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-confirm-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="confirm-modal-title">בטוח לסגור את החלון?</h2>
+        <p class="report-modal-body">בלחיצה על סגירה לא יישלח דיווח</p>
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="forceCloseReportModal()">סגור חלון</button>
+          <button class="report-submit-btn" onclick="backToReportForm()">אני רוצה לדווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-thanks-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="thanks-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="thanks-modal-title">הדיווח נשלח, תודה!</h2>
+        <p class="report-modal-body">קיבלנו את הדיווח שלכם ונטפל בו בהקדם.</p>
+        <div class="report-actions">
+          <button class="report-submit-btn" onclick="closeReportThanks()">סגירה</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="a11y-announcer" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+
+  <div id="img-zoom-modal" class="img-zoom-modal hidden" aria-hidden="true" data-zoom-close="true">
+    <div class="img-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="تكبير الصورة">
+      <button class="img-zoom-close" type="button" data-zoom-close="true" aria-label="إغلاق تكبير الصورة">
+        <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="img-zoom-modal__stage"></div>
+    </div>
+  </div>
+
+</div>
+<script src="../unit-js/10-identity.js?v=20261007a"></script>
+<script src="../unit-js/15-ui.js?v=20261007a"></script>
+<script src="../unit-js/20-xapi.js?v=20261007a"></script>
+<script src="../unit-js/22-scoring.js?v=20261007a"></script>
+<script src="../unit-js/25-report.js?v=20261007a"></script>
+<script src="../unit-js/28-feedback-drag.js?v=20261007a"></script>
+<script src="../unit-js/30-nav.js?v=20261007a"></script>
+<script src="../unit-js/32-progress.js?v=20261007a"></script>
+<script src="../unit-js/35-questions.js?v=20261007a"></script>
+<script src="../unit-js/40-resume.js?v=20261007a"></script>
+<script src="../unit-js/45-resume-part.js?v=20261007a"></script>
+<script src="../unit-js/50-loader.js?v=20261007a"></script>
+<script src="../unit-js/60-devbridge.js?v=20261007a"></script>
+<script src="script.js?v=20261007a"></script>
+<script src="../unit-js/90-boot.js?v=20261007a"></script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+/* לומדה 720 — מתמטיקה יעד 1.5 | יחס | סיין 6 */
+
+/* ---------- Subject theme tokens (Math) ----------
+   זהים לחלוטין לסיינים 1+2 — אותו יעד/נושא ("יחס"), אותה ערכת-צבע. */
+
+/* ---------- Fonts (עותק מקומי לסין זה, ב-assets/fonts — כל סין
+   עצמאי לחלוטין, לפי כלל העצמאות של הפרויקט) ---------- */
+
+/* ---------- Reset ---------- */
+
+/* ---------- Canvas & viewport scaling ---------- */
+
+/* transitions removed on purpose — Figma states change instantly;
+   entrance/reveal motion is added later, per-screen, by the
+   animation-system skill — not here */
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Bottom bar (74px, per Figma)
+   RTL אמיתי לאורך כל הבר: אין direction:ltr בשום מקום כאן. הסדר
+   הפיזי (bar-back מימין / bar-actions משמאל) מושג ע"י סדר ה-DOM
+   (bar-back ראשון = flex-start = ימין ב-RTL; bar-actions שני =
+   flex-end = שמאל), לא ע"י היפוך direction. בכל מסך, .bar-back
+   מופיע לפני .bar-actions ב-DOM. ════════════════════════════ */
+
+/* === Continue button (gradient pill) — Math gradient ===
+   SELF-QA-lomda.md §6: reference CSS, Math gradient per
+   720-design-guidelines/colors-and-gradients.md ("Math gradient"),
+   `to bottom` re-expressed as `180deg`. NOTE: this gradient's exact
+   first color-stop (#6F6AD5) has not been confirmed against an
+   actual Math-themed Figma frame — flagged as an open question since
+   סיין 1 (ARCHITECTURE.md § "ביקורת התאמה לפיגמה") — carried forward
+   as-is, not re-derived here. */
+
+/* === Back button (חזרה) — never shown on the first screen ===
+   border/text color = var(--subject-700), never var(--subject-500)
+   (הצבע המבולבל ביותר במשפחה הזו). */
+
+/* === Hint button (אפשר רמז?) — border/text = var(--subject-700);
+   icon class is .scq-hint-icon (26×24). 4 מופעים במסך 3 (סעיפים
+   א/ב/ג/ד), בתוך .btn-hint-row (רמז ראשון ב-DOM, צדקתי שני). */
+.btn-hint .scq-hint-icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 24px;
+}
+.btn-hint:disabled .scq-hint-icon { filter: grayscale(1) opacity(0.45); }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Report/Issue button (.flag-btn)
+   Lives outside all .screen divs, directly in #app. Visual only —
+   no click behavior defined yet (may connect to the LMS later).
+   Figma-verified position (fileKey eSbp4bKHgBky0rakDb8l9N,
+   nodeId 1045:13096, "Report Problem"): top:32/left:32.
+   ════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Image zoom (_global-components.md: "Image zoom")
+   Zoom button sits inside each image wrapper (position:relative,
+   no transform/filter/z-index on the wrapper itself); the modal
+   below is the ONE shared instance for the whole scene, outside all
+   .screen divs, directly in #app. Ready for use once a content
+   screen adds an image + .img-zoom-btn.
+   ════════════════════════════════════════════════════════ */
+
+.img-zoom-modal__panel {
+  position: relative;
+  width: 660px;
+  height: 660px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.img-zoom-modal__stage { position: relative; width: 100%; height: 100%; }
+.img-zoom-modal__stage .s3-img-frame { width: 100%; height: 100%; }
+.img-zoom-modal__stage .s3-img-frame img { width: 100%; height: 100%; object-fit: contain; }
+.img-zoom-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--subject-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.img-zoom-close__icon { width: 15px; height: 15px; color: var(--subject-500); }
+.img-zoom-close:hover .img-zoom-close__icon { color: #fff; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Feedback popup system (_global-components.md:
+   "Feedback popup system") — shared style/positioning/drag
+   behavior. 4 מופעים במסך 3 (s2-p1/p2/p4/p5-feedbox). Question
+   templates own their own feedback TEXT and box id (id ends in
+   "-feedbox", per this project's own popup-id convention — see
+   ARCHITECTURE.md), but must reuse this same class contract:
+   .scq-fb-box / .scq-fb-title / .scq-fb-title-text / .scq-fb-body,
+   toggled via .visible / .is-correct / .is-wrong. Draggable from
+   anywhere on the box (not just a title bar). NO close button
+   anywhere — see _global-components.md → "No manual close".
+   ════════════════════════════════════════════════════════ */
+.scq-fb-box {
+  /* מיקום/מידות לפי 720-templates skill → ValueInputQuestion.md
+     ("Figma-confirmed, current"). */
+  display: none;
+  position: absolute;
+  left: 16px;
+  bottom: 90px;
+  width: 426px;
+  max-width: calc(100% - 32px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 50;
+  cursor: grab;
+}
+.scq-fb-box.is-static {
+  position: static;
+  left: auto; right: auto; top: auto; bottom: auto;
+  width: 100%;
+  max-width: none;
+  cursor: default;
+  z-index: auto;
+}
+.scq-fb-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Hint overlay (_global-components.md — outside .screen,
+   direct child of #app). 4 מופעים במסך 3 (s2-p1/p2/p4/p5-hint-overlay).
+   Opened/closed per-screen via the native `hidden` property — this is
+   exactly the mechanism closeAllPopupsAndHints() in script.js relies on.
+   ════════════════════════════════════════════════════════ */
+.scq-hint-close {
+  align-self: center;
+  width: 196px;
+  padding: 16px 40px;
+  border-radius: 999px;
+  background: #fff;
+  color: #303030;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* =========================================================
+   מסך 1 — מסך מעבר, דמות+בועית-דיבור (data-screen="0", id="s0").
+   מבנה+ערכים מועתקים 1:1 מ-methodica-math-ratio-01-04, מסך 1 — לפי
+   הנחיית-הדוקס המפורשת ("להעתיק ממסך 1 סיין 4 בלומדה הנוכחית").
+   ========================================================= */
+.transition-content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 74px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 56px 50px;
+}
+.transition-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 810px;
+  direction: rtl;
+}
+.transition-title {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #303030;
+  text-align: center;
+}
+.transition-sub {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #303030;
+  text-align: center;
+  line-height: 1.5;
+}
+.transition-avatar-wrap {
+  position: relative;
+  width: 304px;
+  flex-shrink: 0;
+}
+.transition-avatar {
+  width: 304px;
+  aspect-ratio: 304 / 293;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+.transition-bubble {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 11px);
+  transform: translateY(-50%);
+  width: 300px;
+  background: #ffffff;
+  border: 1.5px solid var(--subject-500);
+  border-radius: 20px;
+  padding: 16px 20px;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #000000;
+  text-align: center;
+  line-height: 1.5;
+  direction: rtl;
+}
+.transition-bubble::before {
+  content: '';
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left: 7px solid var(--subject-500);
+}
+.transition-bubble::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left: 6px solid #ffffff;
+  z-index: 1;
+}
+
+/* =========================================================
+   מסך 2 — תמונה ממלאת-מסך + תגית-מידע, data-screen="1", id="s1".
+   סוג-מסך חדש בפרויקט הזה (אין תקדים ישיר) — נבנה לפי דפוס גנרי של
+   "כרטיס-מידע לבן מעל תמונה" + הגיאומטריה שנמדדה מה-pptx (יחסים,
+   לא ערכי-pt). ראו ARCHITECTURE.md § "מסך 2".
+   ========================================================= */
+.s1-photo-wrap {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 74px;
+  overflow: hidden;
+}
+.s1-photo-img-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.s1-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* .info-banner-card — כרטיס-מידע לבן גנרי, מעל תמונה. משמש גם במסך 2
+   (תגית קבועה בפינה) וגם בחלק-הביניים התמונתי במסך 3 (רצועה תחתונה
+   רחבה) — מיקום/רוחב שונים נקבעים ב-.s1-info-banner/.s2-interlude-
+   banner בהתאמה, לא כאן. */
+.info-banner-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+.info-banner-label {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--subject-700);
+  text-align: right;
+  line-height: 1.4;
+  margin: 0;
+}
+.info-banner-body {
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  line-height: 1.5;
+  margin: 0;
+}
+.s1-info-banner {
+  position: absolute;
+  bottom: 2.5%;
+  left: 1.1%;
+  width: 38%;
+  z-index: 2;
+}
+.s1-info-banner .info-banner-label,
+.s1-info-banner .info-banner-body {
+  font-size: 24px;
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — ValueInputQuestion inputs. מועתק כפי-שהוא מסיינים 3/5.
+   ════════════════════════════════════════════════════════ */
+.viq-answers { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
+.viq-answer-unit { font-family: Calibri, Arial, sans-serif; font-size: 20px; color: #303030; }
+
+.viq-input {
+  width: 180px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(174, 174, 174, 0.5);
+  background-color: #fff;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #303030;
+  text-align: right;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+}
+.viq-input:not(:placeholder-shown):not(:focus) { border: 1px solid #ececec; }
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Progress Question (720-templates skill →
+   _global-components.md → "Progress Question"). מועתק כפי-שהוא מסיין 3.
+   מופע יחיד כאן: #s2-progress, 4 פריטים (סעיפים א/ב/ג/ד).
+   ════════════════════════════════════════════════════════ */
+.btn-hint-row { display: flex; flex-direction: row; align-items: center; gap: 16px; align-self: flex-end; }
+
+/* ════════════════════════════════════════════════════════
+   מסכים 3+5 (id="s2"/"s4") — מסכי-גלילה עם דיאגרמה קבועה, כל אחד
+   מופע-עצמאי משלו. מועתק כפי-שהוא מסיין 3 (.s3-fixed-images/
+   .s3-img-frame/.s3-scroll-area/.s3-scroll-inner/.s3-part/.s3-body/
+   .s3-inline-btn), בלי שום שינוי ערך.
+   ════════════════════════════════════════════════════════ */
+.s3-fixed-images {
+  position: absolute;
+  top: 139px;
+  left: 40px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1;
+}
+.s3-img-frame { position: relative; width: 400px; border: 1px solid rgba(174, 174, 174, 0.5); border-radius: 16px; overflow: hidden; box-sizing: border-box; }
+.s3-img-frame--diagram { background: #fafafa; padding: 16px; box-sizing: border-box; }
+.s3-img-frame--diagram img { width: 100%; height: auto; }
+
+.s3-scroll-area {
+  position: absolute;
+  top: 139px;
+  left: 460px;
+  right: 16px;
+  bottom: 74px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: ltr;
+  cursor: grab;
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL — Gesture Hint (Cursor Scroll), SELF-QA-lomda.md §7. מועתק
+   כפי-שהוא מסיין 3 (ערכים/keyframes/מבנה זהים במדויק, צבעי Math).
+   ════════════════════════════════════════════════════════ */
+.gesture-hint-scroll-wrap {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+}
+#s2-scroll-gesture { top: 139px; left: 460px; right: 16px; bottom: 74px; }
+#s4-scroll-gesture { top: 139px; left: 460px; right: 16px; bottom: 74px; }
+
+/* שבר מוצג (2/7 וכו') */
+

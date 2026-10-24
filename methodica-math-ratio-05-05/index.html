@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وحدة تعليمية 720 –– رياضيات الهدف 1.5 | النسبة | الفصل 5</title>
+<link rel="stylesheet" href="../unit-css/common.css?v=20261007a">
+<link rel="stylesheet" href="styles.css?v=20261007a">
+<link rel="stylesheet" href="../unit-css/25-report.css?v=20261007a">
+</head>
+<body>
+<!-- Boot cover (resume): hides the first screen until it is known which screen to draw.
+     A sibling of #app (not scaled). 50-loader.js / 40-resume.js dropBootCover() removes it on every
+     exit path; this inline net removes it after 800 ms, or — while a restore is in flight
+     (window.__resumeInFlight) — after at most 11 s. Copied from methodica-math-ratio-01. -->
+<div id="boot-cover" style="position:fixed;inset:0;z-index:9999;background:#ffffff"></div>
+<script>
+(function () {
+  var t0 = Date.now();
+  function tick() {
+    var c = document.getElementById('boot-cover');
+    if (!c || !c.parentNode) return;
+    if (window.__resumeInFlight && Date.now() - t0 < 11000) { setTimeout(tick, 100); return; }
+    c.parentNode.removeChild(c);
+  }
+  setTimeout(tick, 800);
+})();
+</script>
+<div id="app">
+
+  <!-- מסך 1 — מסך מעבר, דמות+בועית-דיבור, data-screen="0", id="s0". -->
+  <section class="screen active" data-screen="0" id="s0">
+    <div class="transition-content">
+      <div class="transition-title-block">
+        <h2 class="transition-title">حان الوقت لـ 3 أسئلة متقدمة</h2>
+      </div>
+      <div class="transition-avatar-wrap">
+        <video class="transition-avatar" id="s0-avatar" autoplay loop muted playsinline></video>
+        <div class="transition-bubble">هذا يعني أننا تقدمنا في المستوى!</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <!-- Never shown on the first screen -->
+        <div class="bar-back"><button class="btn-back" id="s0-back" onclick="backToPart('methodica-math-ratio-05-04')">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s0-continue" onclick="goTo(1)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 2 — מסך גלילה, שאלה 1 מתוך 3, data-screen="1", id="s1".
+       משולש שווה-שוקיים ABC, שני חלקים נחשפים בזה אחר זה: (א) שאלת-קלט
+       משולשת (שלוש הזוויות), (ב) שאלה חד-ברירה (טענת האדריכל). תמונת
+       המשולש קבועה בצד שמאל לאורך שני החלקים (לא משתנה/מוסתרת).
+       ראו ARCHITECTURE.md § "מסך 2".
+       ========================================================= -->
+  <section class="screen" data-screen="1" id="s1">
+    <nav class="progress-question" id="s1-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <!-- Gesture Hint (Cursor Scroll) — SELF-QA-lomda.md §7, גרסה
+         מתוקנת-מרוץ (s1ProgrammaticScroll, ראו script.js). -->
+    <div class="gesture-hint-scroll-wrap" id="s1-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <!-- תמונת המשולש קבועה בצד שמאל, זהה בשני החלקים (לא כמו מסך 4
+         של סיין 2, שם התמונות נשארות קבועות לאורך 3 חלקים — כאן שני
+         חלקים בלבד, אותה עקרון-קבע). 530×270 מקורי, מוצג ב-300px רוחב
+         (יחס-רוחב-גובה נשמר, height:auto). -->
+    <div class="s1-fixed-images">
+      <div class="s1-img-frame">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/triangle-isoceles-abc.png" data-zoom-alt="مثلث متساوي الساقين ABC: الرأس‎ A ‎في الأعلى، B في أسفل اليسار، C في أسفل اليمين، مع علامات التساوي على الضلعين AB و-AC">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/triangle-isoceles-abc.png" alt="مثلث متساوي الساقين ABC: الرأس‎ A ‎في الأعلى، B في أسفل اليسار، C في أسفل اليمين، مع علامات التساوي على الضلعين AB و-AC">
+      </div>
+    </div>
+
+    <div class="s1-scroll-area" id="s1-scroll-area">
+    <div class="s1-scroll-inner">
+      <div class="s1-part" id="s1-part-1">
+        <p class="s3-body">1. يخطط مكتب مهندسين معماريين لتصميم عنصر تظليل في شارع مشاة في المدينة. <br>صُممت واجهة العنصر على شكل مثلث متساوي الساقين (<span dir="ltr">AB = AC</span>). <br>وضعَ المهندس الرئيسي شرطًا هندسيًا: <br>النسبة بين زاوية الرأس ومجموع زاويتَيّ القاعدة هي 3 : 1‏‎.</p>
+        <p class="scq-qtext-em" style="font-weight:400">أ. احسبوا زوايا المثلث‎ ABC ‎الثلاث‎.</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row" dir="ltr">
+            <span class="viq-coord">∢A</span>
+            <span class="viq-answer-eq">=</span>
+            <span class="viq-answer-value">
+              <input class="viq-input viq-input--sm" id="s1-a" type="number" step="any" inputmode="decimal" dir="ltr" placeholder=" " aria-label="مقدار الزاوية A، بالدرجات" oninput="s1P1OnInput()">
+              <span class="viq-answer-unit">°</span>
+            </span>
+          </div>
+          <div class="viq-answer-row" dir="ltr">
+            <span class="viq-coord">∢B</span>
+            <span class="viq-answer-eq">=</span>
+            <span class="viq-answer-value">
+              <input class="viq-input viq-input--sm" id="s1-b" type="number" step="any" inputmode="decimal" dir="ltr" placeholder=" " aria-label="مقدار الزاوية B، بالدرجات" oninput="s1P1OnInput()">
+              <span class="viq-answer-unit">°</span>
+            </span>
+          </div>
+          <div class="viq-answer-row" dir="ltr">
+            <span class="viq-coord">∢C</span>
+            <span class="viq-answer-eq">=</span>
+            <span class="viq-answer-value">
+              <input class="viq-input viq-input--sm" id="s1-c" type="number" step="any" inputmode="decimal" dir="ltr" placeholder=" " aria-label="مقدار الزاوية C، بالدرجات" oninput="s1P1OnInput()">
+              <span class="viq-answer-unit">°</span>
+            </span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s1-p1-check" disabled onclick="s1P1Check()">هل إجابتي صحيحة؟</button>
+        <div id="s1-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s1-p1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s1p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s1-part" id="s1-part-2">
+        <p class="s1-p2-bold">ادّعى مهندس معماري شاب أنه لا يمكن إنشاء مثلث كهذا، لأن زاويتَيّ القاعدة ستكونان منفرجتين (أكبر من 90 درجة)، ممّا سيؤدي إلى عدم تكوُّن شكل مثلث‎.</p>
+        <p class="s1-p2-bold">ب. هل ادّعاء المهندس المعماري الشاب صحيح؟</p>
+        <div class="scq-answers scq-answers--fit" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s1P2Select('a')">
+            <span class="scq-opt-text">نعم</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s1P2Select('b')">
+            <span class="scq-opt-text">لا</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s1P2Select('c')">
+            <span class="scq-opt-text">لا يمكن المعرفة</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s1-p2-hint-btn" onclick="s1P2HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s1-p2-check" disabled onclick="s1P2Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s1-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="s1-p2-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">في المثلث متساوي الساقين، زاويتا القاعدة متساويتان.</p>
+        <button class="scq-hint-close" type="button" onclick="s1P2HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s1-back" onclick="goTo(0)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s1-continue" disabled onclick="goTo(2)">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       מסך 3 — מסך סטטי (לא מסך גלילה — "זה לא מסך גלילה", לפי התסריט
+       המפורש), שאלה 2 מתוך 3, data-screen="2", id="s2". דיאגרמת
+       ACD/ADB (860×345) במרכז, עם שתי תשובות-קלט הממוקמות כשכבת-overlay
+       ממוקמת-אבסולוטית מתחת לדיאגרמה עצמה (לא כרשימת viq-answer-row
+       רגילה) — לפי מיקום-המידה שנמדד ישירות מהשקף המעובד: 28%/67%
+       מרוחב-הדיאגרמה (מתאים למיקום הפיזי של הנקודות E ו-D על הבסיס).
+       ראו ARCHITECTURE.md § "מסך 3".
+       ========================================================= -->
+  <section class="screen" data-screen="2" id="s2">
+    <nav class="progress-question" id="s2-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <div class="s2-content">
+      <p class="s3-body s2-text">2. النقطة D تقع على الضلع‎ CB ‎في المثلث ABC. <br/> معطى: النسبة بين مساحة المثلث‎ ACD ‎ومساحة المثلث‎ ADB ‎هي 3:1. <br/> مساحة المثلث‎ ABC ‎هي 64 سم مربع. <br/> <span dir="ltr"> AE = <span dir="rtl">8 سم</span> </span> &nbsp;(ارتفاع المثلث). <br/></p>
+      <p class="scq-qtext-em" style="font-weight:400">أكملوا‎:</p>
+
+      <div class="s2-diagram-wrap">
+        <div class="s2-diagram-img-frame">
+          <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                  data-zoom-src="assets/images/triangle-acd-adb.png" data-zoom-alt="المثلث ABC: الرأس‎ A ‎في الأعلى، C في أسفل اليسار، B في أسفل اليمين، مع النقطتين‎ E ‎و-D ‎ على القاعدة، بالترتيب من اليسار إلى اليمين: C, E, D, B">
+            <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <img class="s2-diagram-img" src="assets/images/triangle-acd-adb.png" alt="المثلث ABC: الرأس‎ A ‎في الأعلى، C في أسفل اليسار، B في أسفل اليمين، مع النقطتين‎ E ‎و-D ‎ على القاعدة، بالترتيب من اليسار إلى اليمين: C, E, D, B">
+        </div>
+        <!-- 28% ≈ מיקומה האופקי של נקודה E (בתוך קטע CD); 67% ≈ מיקומה
+             האופקי של נקודה D (בתוך קטע DB) — נמדדו ישירות מהשקף
+             המעובד, לא נגזרו-מחדש כאן. -->
+        <div class="s2-input-overlay" style="left:28%;">
+          <span class="s2-overlay-label">طول الضلع‎ CD ‎هو‎:</span>
+          <input class="viq-input viq-input--sm" id="s2-cd" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="طول الضلع CD، بالسنتيمترات" oninput="s2OnInput()">
+        </div>
+        <div class="s2-input-overlay" style="left:67%;">
+          <span class="s2-overlay-label">طول الضلع‎ DB ‎هو‎:</span>
+          <input class="viq-input viq-input--sm" id="s2-db" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="طول الضلع DB، بالسنتيمترات" oninput="s2OnInput()">
+        </div>
+      </div>
+
+    </div>
+
+    <div id="s2-feedbox" class="scq-fb-box">
+      <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+      <p class="scq-fb-body"></p>
+      <button class="scq-fb-reveal-btn" id="s2-reveal-btn" type="button" hidden onclick="viqToggleReveal('s2')">الإجابة الصحيحة</button>
+    </div>
+
+    <!-- אין .btn-hint במסך הזה: לא נמצא טקסט-רמז מפורש בתסריט/במוקאפ
+         עבור השאלה הזו — לא הושמט בטעות. ראו ARCHITECTURE.md. -->
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s2-back" onclick="goTo(1)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s2-continue" disabled onclick="s2Check()">هل إجابتي صحيحة؟</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- מסך 4 — מסך גלילה, שאלה 3 מתוך 3, data-screen="3", id="s3". -->
+  <section class="screen" data-screen="3" id="s3">
+    <nav class="progress-question" id="s3-progress" aria-label="التنقُّل بين الأسئلة">
+      <div class="progress-question__item" data-question="1">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 1</span>
+      </div>
+      <div class="progress-question__connector" data-connector="1"></div>
+      <div class="progress-question__item" data-question="2">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 2</span>
+      </div>
+      <div class="progress-question__connector" data-connector="2"></div>
+      <div class="progress-question__item" data-question="3">
+        <div class="progress-question__icon"></div>
+        <span class="progress-question__label">سؤال 3</span>
+      </div>
+    </nav>
+
+    <!-- Gesture Hint (Cursor Scroll) — SELF-QA-lomda.md §7, גרסה
+         מתוקנת-מרוץ (s3ProgrammaticScroll, ראו script.js). -->
+    <div class="gesture-hint-scroll-wrap" id="s3-scroll-gesture" hidden>
+      <div class="gesture-hint">
+        <div class="gesture-hint-ring gesture-hint-ring--big"></div>
+        <div class="gesture-hint-ring gesture-hint-ring--small"></div>
+        <img class="gesture-hint-hand" src="../unit-assets/img/gesture-hand-cursor.svg" alt="">
+      </div>
+    </div>
+
+    <!-- תמונת פחיות-הצבע (צילום אמיתי, פורטרט 1387×2475 — יחס-רוחב-
+         גובה קיצוני) קבועה בצד שמאל, זהה בשני החלקים. הוצג ב-260px
+         רוחב (לא 300px כמו מסך 2) כדי להישאר בתוך תקציב-הגובה הפנוי
+         (139px..636px = 497px) בלי לחתוך את התמונה — ב-300px רוחב
+         הגובה-הטבעי (≈536px) היה חורג מעבר לפס התחתון. יחס-רוחב-גובה
+         נשמר במלואו (height:auto, בלי crop). -->
+    <div class="s3-fixed-images">
+      <div class="s3-img-frame">
+        <button class="img-zoom-btn" type="button" aria-label="تكبير الصورة"
+                data-zoom-src="assets/images/paint-factory-cans.jpg" data-zoom-alt="علب دهان في مصنع للدهان">
+          <svg class="img-zoom-btn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M13 13L17.5 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <img src="assets/images/paint-factory-cans.jpg" alt="علب دهان في مصنع للدهان">
+      </div>
+    </div>
+
+    <div class="s3-scroll-area" id="s3-scroll-area">
+    <div class="s3-scroll-inner">
+      <div class="s3-part" id="s3-part-1">
+        <p class="s3-body">3. يعمل أمجد ونسيم في مصنع للدهان. <br>لصُنع درجة مميزة من اللون "الأخضر الزيتوني"، يخلطان ثلاثة ألوان: <br><strong>أصفر، أزرق وأسود</strong> بنسبة 2 : 3 : 5 (بالتلاؤم). <br>يوم الأحد، حضّرا كمية كبيرة من الدهان واستخدما <strong>12 لترًا من الدهان الأسود‎</strong>.</p>
+        <p class="scq-qtext-em">أ. أكملوا الكميات‎:</p>
+        <div class="viq-answers">
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">ما هو عدد اللترات <strong>الإجمالي</strong> من الدهان "الأخضر الزيتوني" الناتج؟</span>
+            <input class="viq-input" id="s3-total" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="عدد لترات الدهان الأخضر الزيتوني" oninput="s3P1OnInput()">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">كم لترًا من الدهان <strong>الأصفر</strong> وضعا في الخليط؟</span>
+            <input class="viq-input" id="s3-yellow" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="لترات من الدهان الأصفر" oninput="s3P1OnInput()">
+          </div>
+          <div class="viq-answer-row">
+            <span class="viq-answer-label">كم لترًا من الدهان <strong>الأزرق</strong> وضعا في الخليط؟</span>
+            <input class="viq-input" id="s3-blue" type="number" inputmode="numeric" dir="ltr" placeholder=" " aria-label="لترات من الدهان الأزرق" oninput="s3P1OnInput()">
+          </div>
+        </div>
+        <div class="btn-hint-row">
+          <button class="btn-hint" id="s3-p1-hint-btn" onclick="s3P1HintOpen()">
+            <img class="scq-hint-icon" src="../unit-assets/img/icon-hint-purple.svg" alt="" aria-hidden="true">
+            هل يمكنني الحصول على تلميح؟
+          </button>
+          <button class="btn-continue" id="s3-p1-check" disabled onclick="s3P1Check()">هل إجابتي صحيحة؟</button>
+        </div>
+        <div id="s3-p1-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+          <button class="scq-fb-reveal-btn" id="s3-p1-reveal-btn" type="button" hidden onclick="viqToggleReveal('s3p1')">الإجابة الصحيحة</button>
+        </div>
+      </div>
+
+      <div class="s3-part" id="s3-part-2">
+        <p class="s3-body">أرادت روان، وهي عاملة أخرى في المصنع، أن تصنع درجة <strong>أغمق</strong> من نفس اللون. <br>للوصول إلى الدرجة المطلوبة، قررت مضاعفة كمية الدهان <strong>الأسود</strong> فقط بمرتين، <br>بينما بقيت كميتا الأصفر والأزرق كما كانتا يوم الأحد‎.</p>
+        <p class="scq-qtext-em">ب. أي من الجُمل التالية تصف النسبة الجديدة بين المكونات (الأصفر، الأزرق، الأسود) بالشكل الصحيح؟</p>
+        <div class="scq-answers" role="radiogroup" aria-label="خيارات الإجابة">
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="a" onclick="s3P2Select('a')">
+            <span class="scq-opt-text">النسبة الجديدة هي 4 : 6 : 10، ولذلك تبقى درجة اللون نفسها بالضبط.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="b" onclick="s3P2Select('b')">
+            <span class="scq-opt-text">النسبة الجديدة هي 4 : 3 : 5، ولذلك ازداد جزء اللون الأسود في الخليط‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="c" onclick="s3P2Select('c')">
+            <span class="scq-opt-text">النسبة الجديدة هي 4 : 5 : 7، لأننا أضفنا وحدتين إلى كل لون للحفاظ على التوازن‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+          <div class="scq-opt" role="radio" aria-checked="false" tabindex="0" data-id="d" onclick="s3P2Select('d')">
+            <span class="scq-opt-text">لا يمكن معرفة النسبة الجديدة بدون معرفة الكمية الدقيقة من اللترات التي أضيفت‎.</span>
+            <span class="scq-radio"></span>
+          </div>
+        </div>
+        <button class="btn-continue s3-inline-btn" id="s3-p2-check" disabled onclick="s3P2Check()">هل إجابتي صحيحة؟</button>
+        <div id="s3-p2-feedbox" class="scq-fb-box is-static">
+          <div class="scq-fb-title"><span class="scq-fb-title-text"></span></div>
+          <p class="scq-fb-body"></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div id="s3-p1-hint-overlay" class="scq-hint-overlay" hidden>
+      <div class="scq-hint-popup">
+        <div class="scq-hint-title-row">
+          <p class="scq-hint-title">تلميح</p>
+          <img class="scq-hint-bulb" src="../unit-assets/img/icon-bulb-outline-white.svg" alt="">
+        </div>
+        <p class="scq-hint-body">انتبهوا، يشكّل الأصفر جزأين من النسبة، <br>ويشكل الأزرق 3 أجزاء، ويشكل الأسود 5 أجزاء‎.</p>
+        <button class="scq-hint-close" type="button" onclick="s3P1HintClose()">فهِمْتُ</button>
+      </div>
+    </div>
+
+    <!-- אין .btn-hint לחלק ב' (s3-part-2): לא נמצא טקסט-רמז מפורש
+         בתסריט לחלק הזה — לא הושמט בטעות. ראו ARCHITECTURE.md. -->
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <div class="bar-back"><button class="btn-back" id="s3-back" onclick="goTo(2)">عودة</button></div>
+        <div class="bar-actions"><button class="btn-continue" id="s3-continue" disabled onclick="finishComponent('methodica-math-ratio-05-06')">متابعة</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL — Report/Issue button (.flag-btn) -->
+  <button class="flag-btn" aria-label="هل وجدتم مشكلة؟" title="هل وجدتم مشكلة؟">
+    <span class="flag-btn-icon" aria-hidden="true">
+      <img class="flag-btn-icon-default" src="../unit-assets/img/btn-flag-default.png" alt="">
+      <img class="flag-btn-icon-hover" src="../unit-assets/img/btn-flag-hover.png" alt="">
+    </span>
+    <span class="flag-btn-label">هل وجدتم مشكلة؟</span>
+  </button>
+
+  <!-- GLOBAL — Image zoom modal -->
+  <!-- Issue-report dialogs (unit-js/25-report.js, unit-css/25-report.css) -->
+  <div id="report-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="report-modal-title">
+      <div class="report-modal-box">
+        <button class="report-close-btn" onclick="tryCloseReportModal()" aria-label="סגור">&#10005;</button>
+        <h2 class="report-modal-title" id="report-modal-title">דיווח על בעיה</h2>
+        <p class="report-modal-body">משהו לא ברור או לא עובד כמו שצריך?<br>ספרו לנו מה קרה כדי שנטפל.</p>
+
+        <div class="report-field">
+          <label class="report-label" for="report-type"><span class="required-star">*</span> מה סוג הבעיה</label>
+                    <div class="report-custom-select" id="report-type-wrapper">
+            <button class="report-select-btn is-placeholder" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="report-select-value">בחרו סוג בעיה</span>
+            </button>
+            <ul class="report-select-list" role="listbox" hidden>
+              <li class="report-select-option" data-value="technical" role="option">תקלה טכנית או שמשהו לא עובד</li>
+              <li class="report-select-option" data-value="unclear" role="option">משהו לא ברור לי</li>
+              <li class="report-select-option" data-value="other" role="option">אחר</li>
+            </ul>
+            <input type="hidden" id="report-type" value="">
+          </div>
+          <span class="report-field-error" id="report-type-error" hidden>בחרו את סוג הבעיה</span>
+        </div>
+
+        <div class="report-field">
+          <label class="report-label" for="report-text"><span class="required-star">*</span> מה קרה?</label>
+          <textarea class="report-textarea" id="report-text" maxlength="250" rows="4" placeholder="פרטו מה קרה כדי שנוכל להבין את הבעיה" onblur="reportTextBlur()"></textarea>
+          <span class="report-field-error" id="report-text-error" hidden>כתבו מה קרה</span>
+          <span class="report-char-count" id="report-char-count">0 / 250</span>
+        </div>
+
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="tryCloseReportModal()">ביטול</button>
+          <button class="report-submit-btn" onclick="submitReport()" disabled>שליחת דיווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-confirm-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="confirm-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="confirm-modal-title">בטוח לסגור את החלון?</h2>
+        <p class="report-modal-body">בלחיצה על סגירה לא יישלח דיווח</p>
+        <div class="report-actions">
+          <button class="report-cancel-btn" onclick="forceCloseReportModal()">סגור חלון</button>
+          <button class="report-submit-btn" onclick="backToReportForm()">אני רוצה לדווח</button>
+        </div>
+      </div>
+    </div>
+  <div id="report-thanks-modal"
+         class="report-modal-overlay"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="thanks-modal-title">
+      <div class="report-modal-box report-confirm-box">
+        <h2 class="report-modal-title" id="thanks-modal-title">הדיווח נשלח, תודה!</h2>
+        <p class="report-modal-body">קיבלנו את הדיווח שלכם ונטפל בו בהקדם.</p>
+        <div class="report-actions">
+          <button class="report-submit-btn" onclick="closeReportThanks()">סגירה</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="a11y-announcer" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+
+  <div id="img-zoom-modal" class="img-zoom-modal hidden" aria-hidden="true" data-zoom-close="true">
+    <div class="img-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="تكبير الصورة">
+      <button class="img-zoom-close" type="button" data-zoom-close="true" aria-label="إغلاق تكبير الصورة">
+        <svg class="img-zoom-close__icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L14 14M14 1L1 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="img-zoom-modal__stage"></div>
+    </div>
+  </div>
+
+</div>
+<script src="../unit-js/10-identity.js?v=20261007a"></script>
+<script src="../unit-js/15-ui.js?v=20261007a"></script>
+<script src="../unit-js/20-xapi.js?v=20261007a"></script>
+<script src="../unit-js/22-scoring.js?v=20261007a"></script>
+<script src="../unit-js/25-report.js?v=20261007a"></script>
+<script src="../unit-js/28-feedback-drag.js?v=20261007a"></script>
+<script src="../unit-js/30-nav.js?v=20261007a"></script>
+<script src="../unit-js/32-progress.js?v=20261007a"></script>
+<script src="../unit-js/35-questions.js?v=20261007a"></script>
+<script src="../unit-js/40-resume.js?v=20261007a"></script>
+<script src="../unit-js/45-resume-part.js?v=20261007a"></script>
+<script src="../unit-js/50-loader.js?v=20261007a"></script>
+<script src="../unit-js/60-devbridge.js?v=20261007a"></script>
+<script src="script.js?v=20261007a"></script>
+<script src="../unit-js/90-boot.js?v=20261007a"></script>
+</body>
+</html>

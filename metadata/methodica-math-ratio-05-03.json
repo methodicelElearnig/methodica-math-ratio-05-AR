@@ -1,0 +1,215 @@
+{
+  "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/",
+  "title": "وقت التمرين 2",
+  "learningUnitId": "methodica-math-ratio-05",
+  "componentPurpose": "practice",
+  "isAssessment": false,
+  "recommendedAfterFail": [
+    "methodica-math-ratio-05-02"
+  ],
+  "isRequired": true,
+  "relativeDifficulty": 2,
+  "masteryLevel": null,
+  "order": 3,
+  "depthLevel": "core-curriculum-basic",
+  "cognitiveLevels": [
+    "algorithmic-thinking"
+  ],
+  "languages": [
+    "Hebrew"
+  ],
+  "skills": [],
+  "estimatedTimeInMinutes": 26,
+  "createdAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "subContent": [
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-001/",
+      "title": "زهور الشوكولاتة — النسبة بين نوعي الشوكولاتة في القالب",
+      "informationToBot": "מטרת הפריט: לתרגל חישוב מספרים בפועל מתוך יחס נתון ומגבלת כמות כוללת (50 שקעים), כולל זיהוי מקרה שבו החלוקה אינה מסתיימת בשלמות. מה התלמיד אמור להבין/לתרגל: פירוק יחס למספר חלקים, הכפלה בגורם משותף, ובדיקת שארית. כיווני חשיבה ואסטרטגיות: חישוב סכום חלקי היחס (למשל 9+1=10) וחלוקת 50 בסכום כדי למצוא את גודל 'החלק'; בסעיף ג יש לבדוק אם התוצאה שלמה. טעויות נפוצות: חלוקה לא נכונה של 50 לפי סדר היחס ההפוך; אי-זיהוי שבר (12.5) כמצביע על שקעים ריקים. מידע נוסף: כולל יישומון-עזר אינטראקטיבי מוטמע (iframe) לצביעה חזותית של היחס - לפי הערת קוד מפורשת הוא כלי-עזר בלי ולידציה עצמית, הבדיקה על השאלות עצמן, ולכן contentType נשאר practice ולא simulation. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-001/q1",
+          "questionType": "fill-in",
+          "questionText": "أ. قالب يحتوي على 50 تجويفًا، نسبة زهور الشوكولاتة البيضاء:الداكنة = 9:1. أكملوا: عدد زهور الشوكولاتة البيضاء، وعدد زهور الشوكولاتة الداكنة، وهل بقيت تجويفات فارغة.",
+          "answers": [],
+          "correctAnswers": [
+            "عدد زهور الشوكولاتة البيضاء: 5، عدد زهور الشوكولاتة الداكنة: 45، هل بقيت تجويفات فارغة: لا"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-001/q2",
+          "questionType": "fill-in",
+          "questionText": "ب. القالب نفسه، نسبة الأبيض:الداكن = 3:1. أكملوا: عدد زهور الشوكولاتة البيضاء، وعدد زهور الشوكولاتة الداكنة، وهل بقيت تجويفات فارغة.",
+          "answers": [],
+          "correctAnswers": [
+            "عدد زهور الشوكولاتة البيضاء: 12، عدد زهور الشوكولاتة الداكنة: 36، هل بقيت تجويفات فارغة: نعم"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-001/q3",
+          "questionType": "choice",
+          "questionText": "ت. هل رينا على صواب؟",
+          "answers": [
+            "نعم",
+            "لا",
+            "لا يمكن المعرفة"
+          ],
+          "correctAnswers": [
+            "نعم"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-002/",
+      "title": "الزاوية ACB المقسومة بواسطة CD بنسبة 7:2",
+      "informationToBot": "מטרת הפריט: לתרגל יישום יחס נתון (7:2) על זוויות צמודות כדי לגזור גדלים ומאפייני-זווית. מה התלמיד אמור להבין/לתרגל: זוויות צמודות סכומן 180°, פירוק לפי יחס וחישוב חלק יחסי. כיווני חשיבה ואסטרטגיות: 180°·(7/9) ו-180°·(2/9) לחישוב α ו-β; זיהוי זוויות קודקודיות כלא-רלוונטיות כאן. טעויות נפוצות: בלבול בין 'זוויות צמודות' ל'זוויות קודקודיות'; חלוקה הפוכה של סכום 180° לפי היחס. מידע נוסף: דיאגרמת הזווית היא איור-עזר בלבד, כל הנתונים (יחס 7:2) מופיעים כטקסט; 4 טענות נבדקות בבדיקה אחת (עד 2 ניסיונות). צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-002/q1",
+          "questionType": "true-false",
+          "questionText": "الزاويتان α وβ - متقابلتان بالرأس، ولذلك فهما متساويتان.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "غير صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-002/q2",
+          "questionType": "true-false",
+          "questionText": "مقدار الزاوية α هو °40.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-002/q3",
+          "questionType": "true-false",
+          "questionText": "مقدار الزاوية β هو 7/9 · 180° = 140°.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-002/q4",
+          "questionType": "true-false",
+          "questionText": "الزاويتان α و-β  متجاورتان، ولذلك مجموعهما هو °180.",
+          "answers": [
+            "صحيح",
+            "غير صحيح"
+          ],
+          "correctAnswers": [
+            "صحيح"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-003/",
+      "title": "البطاقة الذهبية — تقسيم جائزة بحسب نسبة الاستثمار",
+      "informationToBot": "מטרת הפריט: לתרגל גזירת יחס מתוך נתונים ריאליים, וישום היחס לחלוקת סכום פרס. מה התלמיד אמור להבין/לתרגל: קביעת יחס מכמויות נתונות, חלוקה יחסית של סכום כולל, זיהוי טענות שגויות על 'הוגנות' חלוקה שאינה יחסית. כיווני חשיבה ואסטרטגיות: יחס 5:7 (או 7:5) -> סכום חלקים 12 -> כל חלק=10 ש\"ח -> הכפלה בחלק היחסי. טעויות נפוצות: הנחה שחלוקה שווה (חצי-חצי) היא תמיד הוגנת; היפוך סדר היחס. מידע נוסף: סעיף ג הוא שאלת בחירה מרובה (2 מתוך 3 תשובות נכונות); תמונת הקשר בלבד ללא תלות תוכן. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-003/q1",
+          "questionType": "fill-in",
+          "questionText": "أ. اشترى تامر وعبير معًا بطاقة يانصيب وفازا. ما هي نسبة الاستثمار بين تامر وعبير؟",
+          "answers": [],
+          "correctAnswers": [
+            "5:7",
+            "5 : 7"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-003/q2",
+          "questionType": "choice",
+          "questionText": "ب. كيف ينبغي تقسيم الجائزة بحسب نسبة الاستثمار؟",
+          "answers": [
+            "سيحصل تامر على 50 شيكل وستحصل عبير على 70 شيكل",
+            "سيحصل تامر على 60 شيكل وستحصل عبير على 60 شيكل",
+            "سيحصل تامر على 70 شيكل وستحصل عبير على 50 شيكل",
+            "سيحصل تامر على 20 شيكل وستحصل عبير على 100 شيكل"
+          ],
+          "correctAnswers": [
+            "سيحصل تامر على 50 شيكل وستحصل عبير على 70 شيكل"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-003/q3",
+          "questionType": "choice",
+          "questionText": "ت. تقترح عبير تقسيم الجائزة بالتساوي (60/60). هل الاقتراح عادل؟ اختاروا جميع الادعاءات الصحيحة.",
+          "answers": [
+            "الاقتراح غير عادل لأن عبير دفعت مبلغًا أكبر عند الشراء، ولذلك يجب أن تحصل على حصة أكبر من مبلغ الجائزة.",
+            "الاقتراح عادل، لأنه بمجرد أن يكون هناك فوز مشترك، بغضّ النظر عن المبلغ الذي دفعه كل واحد في البداية – فالجائزة دائمًا تعود للشريكين بالتساوي تمامًا.",
+            "الاقتراح غير عادل، لأن النسبة بين المبالغ التي دفعاها هي 7 : 5، والمبلغان 60 و-60 يمثلان نسبة مختلفة وهي 1 : 1."
+          ],
+          "correctAnswers": [
+            "الاقتراح غير عادل لأن عبير دفعت مبلغًا أكبر عند الشراء، ولذلك يجب أن تحصل على حصة أكبر من مبلغ الجائزة.",
+            "الاقتراح غير عادل، لأن النسبة بين المبالغ التي دفعاها هي 7 : 5، والمبلغان 60 و-60 يمثلان نسبة مختلفة وهي 1 : 1."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-004/",
+      "title": "تقسيم الأرباح بحسب النسبة — منال وأمير، والشقيقان في بطاقة اليانصيب",
+      "informationToBot": "מטרת הפריט: להעלות רמת קושי - יישום יחס לחישוב חלוקה הפוכה (מהחלק אל השלם) בנוסף לחישוב ישיר, וזיהוי מקרה שבו חלוקה יחסית אינה יוצאת במספרים שלמים. מה התלמיד אמור להבין/לתרגל: חישוב חלק יחסי מתוך סכום נתון (סעיף א: 210 ש\"ח ביחס 2:5); שחזור הסכום הכולל מתוך חלק אחד ידוע (סעיף ב) - הכיוון ההפוך; זיהוי תוצאה לא-שלמה (שברי שקל) כמונעת חלוקה בשטרות בלבד (סעיף ג: 90 ש\"ח ביחס 5:2). כיווני חשיבה ואסטרטגיות: סעיף א: 2+5=7 חלקים, 210/7=30 לחלק; סעיף ב: 40 ₪=2/7 מהסכום -> סכום כולל=140; סעיף ג: 2/7·90≈25.71, 5/7·90≈64.29 - שניהם לא שלמים. טעויות נפוצות: החלת אותה נוסחה (חלק->סכום) כשצריך כיוון הפוך (סכום->חלק); בלבול איזה צד של היחס שייך למי; עיגול תוצאה לא-שלמה בהנחה שזה 'מספיק קרוב'. מידע נוסף: פותח ברמז מפורש על עלייה ברמת קושי ('עוד 2 תרגילים ברמת קושי גבוהה יותר'); הפריט מאחד שתי שאלות שנבנו בקוד כשני מסכי-התקדמות נפרדים (הערת-בנייה: 'practiceProgress2, 2 פריטים') - מוזגו כאן לפריט אחד לפי בקשת המשתמש. תמונות הקשר בלבד, אין תלות תוכן. צילום מסך: לא צורף.",
+      "contentType": "practice",
+      "mediaFormat": "interactive-content",
+      "questions": [
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-004/q1",
+          "questionType": "fill-in",
+          "questionText": "أ. غسلت منال وأمير سيارات في الشارع وقسما الربح (210 شيكل) بحسب نسبة ساعات عملهما (2:5). كم يحصل كل منهما؟",
+          "answers": [],
+          "correctAnswers": [
+            "منال تحصل على: 60 شيكل، أمير يحصل على: 150 شيكل"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-004/q2",
+          "questionType": "choice",
+          "questionText": "ب. في الأسبوع الذي يليه، حصلت منال على 40 شيكل من الربح بحسب نسبة ساعات العمل نفسها (2:5). ماذا يمكن القول عن ربحهما الإجمالي في ذلك الأسبوع؟",
+          "answers": [
+            "كسبت منال وأمير معًا 140 شيكل، وحصلت منال على 40 شيكل",
+            "حصلت منال على 50 شيكل، لأنها دائمًا تحصل على نصف مبلغ أمير",
+            "كسبت منال وأمير معًا 200 شيكل، وحصل أمير على 100 شيكل.",
+            "حصلت منال على 60 شيكل، والمبلغ الإجمالي الذي كسباه معًا كان 210 شيكل"
+          ],
+          "correctAnswers": [
+            "كسبت منال وأمير معًا 140 شيكل، وحصلت منال على 40 شيكل"
+          ]
+        },
+        {
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/ratio/05/methodica-math-ratio-05-03/methodica-math-ratio-05-03-004/q3",
+          "questionType": "true-false",
+          "questionText": "ت. اشترى شقيقان معًا بطاقة يانصيب وفازا بمبلغ 90 شيكل، ويجب أن يقسماه بنسبة 5:2 بحسب استثمارهما. هل يمكن تقسيم المبلغ بأوراق نقدية كاملة فقط (دون حاجة إلى فكّة)؟",
+          "answers": [
+            "نعم",
+            "لا"
+          ],
+          "correctAnswers": [
+            "لا"
+          ]
+        }
+      ]
+    }
+  ]
+}
